@@ -20,7 +20,7 @@ if (App.isAngularJsApp() === false) {
         UserTable.init();
     });
 }
-
+//时间控件初始化
 var ComponentsDateTimePickers = function () {
 
     var handleDatePickers = function () {
@@ -48,7 +48,7 @@ var ComponentsDateTimePickers = function () {
         }
     };
 }();
-
+////多选控件初始化
 var RoleSelect2 = function(){
     var intSelect2 = function (data){
         $.fn.select2.defaults.set("theme", "bootstrap");
@@ -73,7 +73,7 @@ var RoleSelect2 = function(){
         }
     }
 }();
-
+//获取用户信息
 var UserTable = function () {
     var initTable = function () {
         var table = $('#user_table');
@@ -114,14 +114,14 @@ var UserTable = function () {
             columns: [//返回的json数据在这里填充，注意一定要与上面的<th>数量对应，否则排版出现扭曲
                 { "data": null},
                 { "data": null},
-                { "data": "userid" },
-                { "data": "username" },
-                { "data": "sex" },
-                { "data": "mobile" },
-                { "data": "mail" },
-                { "data": "organname" },
-                { "data": "rolename" },
-                { "data": "userid" }
+                { "data": "projectname" },//项目名称
+                { "data": "principal" },//负责人
+                { "data": "introduction" },//描述
+                { "data": "expectedsttime" },//预期开始时间
+                { "data": "expectedentime" },//预期结束时间
+                { "data": "actualsttime" },//实际开始时间
+                { "data": "actualentime" },//实际结束时间
+                { "data": "projectid" }
             ],
             columnDefs: [
                 {
@@ -138,16 +138,43 @@ var UserTable = function () {
                     }
                 },
                 {
-                    //性别
-                    "targets": [4],
-                    "render": function (data, type, row, meta) {
-                        var sex = "女";
-                        if (data == "0") {
-                            sex = "男"
-                        }
-                        return sex;
+                    "targets":[5],
+                    "render": function(data, type, row, meta) {
+                        // console.log(dateTimeFormat("20190720164025"))
+                        // console.log(data);//202003171510
+                        return conferenceDateFormat(data);
                     }
-                },{
+                },
+                {
+                    "targets":[6],
+                    "render": function(data, type, row, meta) {
+                        return conferenceDateFormat(data);
+                    }
+                },
+                {
+                    "targets":[7],
+                    "render": function(data, type, row, meta) {
+                        return conferenceDateFormat(data);
+                    }
+                },
+                {
+                    "targets":[8],
+                    "render": function(data, type, row, meta) {
+                        return conferenceDateFormat(data);
+                    }
+                },
+                // {
+                //     //性别
+                //     "targets": [4],
+                //     "render": function (data, type, row, meta) {
+                //         var sex = "女";
+                //         if (data == "0") {
+                //             sex = "男"
+                //         }
+                //         return sex;
+                //     }
+                // },
+                {
                     "targets": [9],
                     "render": function (data, type, row, meta) {
                         var edit;
@@ -161,7 +188,7 @@ var UserTable = function () {
                 }
             ],
             fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                $('td:eq(1)', nRow).attr('style', 'text-align: center;');
+                $('td:eq(0),td:eq(1),td:eq(2),td:eq(3),td:eq(4),td:eq(5),td:eq(6),td:eq(7),td:eq(8)', nRow).attr('style', 'text-align: center;');//td内容居中显示
             }
         });
         //table.draw( false );
@@ -200,6 +227,8 @@ var UserTable = function () {
 
 }();
 
+
+//新增编辑用户控件初始化
 var UserEdit = function() {
     var handleRegister = function() {
         var validator = $('.register-form').validate({
@@ -405,7 +434,7 @@ var UserEdit = function() {
             //清空机构输入框
             clearSelectCheck($("#organtree"));
             //机构框赋值
-            $('#organtree').jstree(true).select_node(user.organid);
+          //  $('#organtree').jstree(true).select_node(user.organid);
             //用户代码不可以输入
             $(".register-form").find("input[name=userid]").attr("readonly", true);
             $("input[name=edittype]").val(USEREDIT);
@@ -474,13 +503,17 @@ var PasswordRest = function() {
 }();
 
 function getUserDataEnd(flg, result, callback){
+    console.log(flg)
+    console.log(result)
+    // console.log(callback)
     App.unblockUI('#lay-out');
-    if(flg){
+    if(flg){ //SUCCESS
         if (result && result.retcode == SUCCESS) {
-
             var res = result.response;
-            userList = res.userlist;
-            tableDataSet(res.draw, res.totalcount, res.totalcount, res.userlist, callback);
+            // userList = res.userlist;
+            // tableDataSet(res.draw, res.totalcount, res.totalcount, res.userlist, callback);
+            userList = res.projectlist;
+            tableDataSet(res.draw, res.totalcount, res.totalcount, res.projectlist, callback);
         }else{
             tableDataSet(0, 0, 0, [], callback);
             alertDialog("用户信息获取失败！");

@@ -35,7 +35,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>用户一览表</h5>
+                        <h5>项目一览表</h5>
                     </div>
                     <div class="ibox-content">
                         <form class="inquiry-form form-horizontal" role="form">
@@ -43,17 +43,17 @@
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">登录名</label>
+                                            <label class="col-md-3 control-label">项目名称</label>
                                             <div class="col-md-9">
-                                                <input type="text" class="form-control" placeholder="登录名" name="userid" id="userid"/>
+                                                <input type="text" class="form-control" placeholder="项目名称" name="userid" id="userid"/>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-5">
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">姓名</label>
+                                            <label class="col-md-3 control-label">负责人</label>
                                             <div class="col-md-9">
-                                                <input type="text" class="form-control" placeholder="姓名" name="username" id="username"/>
+                                                <input type="text" class="form-control" placeholder="负责人" name="username" id="username"/>
                                             </div>
                                         </div>
                                     </div>
@@ -123,13 +123,13 @@
                                 <th style="width: 30px">
                                     <input type="checkbox" class="group-checkable" data-set="#user_table .checkboxes" />
                                 </th>
-                                <th> 登录名 </th>
-                                <th> 姓名 </th>
-                                <th> 性别 </th>
-                                <th width="10%"> 手机 </th>
-                                <th width="10%"> 电子邮箱 </th>
-                                <th> 机构 </th>
-                                <th> 角色 </th>
+                                <th> 项目名称 </th>
+                                <th> 负责人 </th>
+                                <th> 项目简介 </th>
+                                <th width="10%"> 预期开始时间 </th>
+                                <th width="10%"> 预期结束时间 </th>
+                                <th> 实际开始时间 </th>
+                                <th> 实际结束时间 </th>
                                 <th> 操作 </th>
                             </tr>
                             </thead>
@@ -179,15 +179,15 @@
                             <input type="hidden" name="edittype">
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label class="col-md-4 control-label">登录名<span class="required"> * </span></label>
+                                    <label class="col-md-4 control-label">项目名称<span class="required"> * </span></label>
                                     <div class="col-md-8">
-                                        <input type="text" class="form-control" placeholder="登录名" name="userid">
+                                        <input type="text" class="form-control" placeholder="项目名称" name="userid">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="col-md-4 control-label">姓名<span class="required"> * </span></label>
+                                    <label class="col-md-4 control-label">负责人<span class="required"> * </span></label>
                                     <div class="col-md-8">
-                                        <input type="text" class="form-control" placeholder="姓名" name="username">
+                                        <input type="text" class="form-control" placeholder="负责人" name="username">
                                     </div>
                                 </div>
                             </div>
