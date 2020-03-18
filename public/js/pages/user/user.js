@@ -24,7 +24,6 @@ if (App.isAngularJsApp() === false) {
 var ComponentsDateTimePickers = function () {
 
     var handleDatePickers = function () {
-
         if (jQuery().datepicker) {
             $('.date-picker').datepicker({
                 rtl: App.isRTL(),
@@ -33,11 +32,14 @@ var ComponentsDateTimePickers = function () {
                 language:"zh-CN",
                 todayBtn:true,
                 format:"yyyy-mm-dd",
+                //format : 'yyyy-mm-dd hh:ii',
                 //showButtonPanel:true,
-                todayHighlight: true
+                todayHighlight: true,
+               // pickTime: true
             });
             var date = getNowFormatDate();
-            $("input[name='birthday']").datepicker("setDate","");
+            $("input[name='actualsttime']").datepicker("setDate","");
+           // $("input[name='actualentime']").datepicker("setDate","");
         }
     };
 
@@ -140,40 +142,37 @@ var UserTable = function () {
                 {
                     "targets":[5],
                     "render": function(data, type, row, meta) {
-                        // console.log(dateTimeFormat("20190720164025"))
-                        // console.log(data);//202003171510
-                        return conferenceDateFormat(data);
+                        return dateTimeFormat(data);
                     }
                 },
                 {
                     "targets":[6],
                     "render": function(data, type, row, meta) {
-                        return conferenceDateFormat(data);
+                        return dateTimeFormat(data);
                     }
                 },
                 {
                     "targets":[7],
                     "render": function(data, type, row, meta) {
-                        return conferenceDateFormat(data);
+                        return dateTimeFormat(data);
                     }
                 },
                 {
                     "targets":[8],
                     "render": function(data, type, row, meta) {
-                        return conferenceDateFormat(data);
+                        return dateTimeFormat(data);
                     }
                 },
-                // {
-                //     //性别
-                //     "targets": [4],
-                //     "render": function (data, type, row, meta) {
-                //         var sex = "女";
-                //         if (data == "0") {
-                //             sex = "男"
-                //         }
-                //         return sex;
-                //     }
-                // },
+                {
+                    "targets": [2],
+                    "render": function (data, type, row, meta) {
+                        // return meta.settings._iDisplayStart + meta.row + 1;  //行号
+                        var project_info;
+                        project_info = '<a href="/views/user/role.html" id="op_info">'+data+'</a>';
+                        return project_info;
+
+                    }
+                },
                 {
                     "targets": [9],
                     "render": function (data, type, row, meta) {
@@ -188,7 +187,7 @@ var UserTable = function () {
                 }
             ],
             fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                $('td:eq(0),td:eq(1),td:eq(2),td:eq(3),td:eq(4),td:eq(5),td:eq(6),td:eq(7),td:eq(8)', nRow).attr('style', 'text-align: center;');//td内容居中显示
+                $('td:eq(0),td:eq(1),td:eq(2),td:eq(3),td:eq(4),td:eq(5),td:eq(6),td:eq(7),td:eq(8),td:eq(9)', nRow).attr('style', 'text-align: center;');//td内容居中显示
             }
         });
         //table.draw( false );
@@ -237,72 +236,50 @@ var UserEdit = function() {
             focusInvalid: false, // do not focus the last invalid input
             ignore: "",
             rules: {
-                userid: {
+                projectname: {
                     required: true
                 },
-                username: {
+                principal: {
                     required: true
                 },
-                sex: {
+                actualsttime: {
                     required: true
                 },
-                mobile: {
-                    mobile: true
-                },
-                phone: {
-                    phone: true
-                },
-                organid: {
+                actualentime: {
                     required: true
                 },
-                mail: {
-                    email: true
-                },
-                rolelist: {
+                expectedsttime: {
                     required: true
                 },
-                image: {
+                expectedentime: {
                     required: true
                 },
-                evaluationneed: {
-                    required: true
-                },
-                storeyid: {
-                    required: true
-                },
-                areaid: {
+                introduction: {
                     required: true
                 }
             },
 
             messages: {
-                userid: {
-                    required: "登录名必须输入"
+                projectname: {
+                    required: "项目名称必须输入"
                 },
-
-                username: {
-                    required: "姓名必须输入"
+                principal: {
+                    required: "项目负责人必须输入"
                 },
-                sex: {
-                    required: "性别必须输入"
+                actualsttime: {
+                    required: "实际开始时间必须输入"
                 },
-                organid: {
-                    required: "所属机构必须输入"
+                actualentime: {
+                    required: "实际结束时间必须输入"
                 },
-                rolelist: {
-                    required: "角色必须输入"
+                expectedsttime: {
+                    required: "预期开始时间必须输入"
                 },
-                image: {
-                    required: "用户头像必须上传"
+                expectedentime: {
+                    required: "预期结束时间必须输入"
                 },
-                evaluationneed: {
-                    required: "是否需要评价必须选择"
-                },
-                storeyid: {
-                    required: "楼层必须输入"
-                },
-                areaid: {
-                    required: "分区必须输入"
+                introduction: {
+                    required: "项目简介必须输入"
                 }
             },
 
@@ -350,33 +327,46 @@ var UserEdit = function() {
         //点击确定按钮
         $('#register-btn').click(function() {
             btnDisable($('#register-btn'));
+           // console.log($('.register-form').validate().form());
             if ($('.register-form').validate().form()) {
                 var user = $('.register-form').getFormData();
-                user.rolelist = $('#rolename').val();
-                user.birthday = user.birthday.replace(/-/g, '');
-                user.organid = ($('#organtree').jstree(true).get_selected(true))[0].id;
+                console.log("user:"+JSON.stringify(user))
+                // user.rolelist = $('#rolename').val();
+                // user.birthday = user.birthday.replace(/-/g, '');
+                // user.organid = ($('#organtree').jstree(true).get_selected(true))[0].id;
             }
-            if($("input[name=edittype]").val() == USERADD){
+            if($("input[name=edittype]").val() == USERADD){//新增提交
                 $("#loading_edit").modal("show");
                 userAdd(user);
-            }else {
-
+            }else { //编辑完成提交
+                console.log("编辑完成提交")
                 var data;
                 for (var i = 0; i < userList.length; i++) {
-                    if (user.userid == userList[i].userid) {
+                    if (user.id == userList[i].id) {
                         data = userList[i];
                     }
                 }
-                if (equar(user.rolelist, (data.roleid || "").split(","))) {
-                    user.rolelist = [];
-                }
+
+                console.log("data:"+JSON.stringify(data))//原来的数据
+                // if (equar(user.rolelist, (data.roleid || "").split(","))) {
+                //     user.rolelist = [];
+                // }
                 var formData = new FormData();
-                formData.append("img_head",null);
+                //formData.append("img_head",null);
+                // var data1 = sendMessageEdit(DEFAULT, user);
                 var data1 = sendMessageEdit(DEFAULT, user);
+                console.log("data1:"+data1)//改变之后的数据
                 formData.append("body",new Blob([data1],{type:"application/json"}));
-                formData.append("rolelist",user.rolelist);
+
+                console.log("append后的:"+JSON.stringify(formData))
+               // formData.append("rolelist",user.rolelist);
                 $("#loading_edit").modal("show");
-                userEdit(formData);
+                  // userEdit(formData);
+                userEdit(data1);
+
+
+
+
             }
         });
         //新增用户
@@ -384,7 +374,7 @@ var UserEdit = function() {
             //清除校验错误信息
             validator.resetForm();
             $(".register-form").find(".has-error").removeClass("has-error");
-            $(".modal-title").text("新增用户");
+            $(".modal-title").text("新增项目");
             $(":input",".register-form").not(":button,:reset,:submit,:radio,#evaluationneed").val("")
                 .removeAttr("checked")
                 .removeAttr("selected");
@@ -399,44 +389,51 @@ var UserEdit = function() {
             clearSelect($("#organtree"));
             ComponentsDateTimePickers.init();
             //用户代码可以输入
-            $(".register-form").find("input[name=userid]").attr("readonly", false);
+            $(".register-form").find("input[name=id]").attr("readonly", true);
+            //用户代码不可以输入
             $("input[name=edittype]").val(USERADD);
             $('#edit_user').modal('show');
         });
-        //编辑用户
+        //编辑用户  点击编辑按钮
         $('#user_table').on('click', '#op_edit', function (e) {
             e.preventDefault();
             //清除校验错误信息
             validator.resetForm();
             $(".register-form").find(".has-error").removeClass("has-error");
-            $(".modal-title").text("编辑用户");
-            var exclude = ["rolename", "organid"];
-            //var userid = $(this).parents("td").siblings().eq(1).text();
+            $(".modal-title").text("编辑项目");
+            // var exclude = ["rolename", "organid"];
+            var exclude = [""];
+           // var userid = $(this).parents("td").siblings().eq(1).text();
             var row = $(this).parents('tr')[0];
-            var userid = $("#user_table").dataTable().fnGetData(row).userid;
+            var id = $("#user_table").dataTable().fnGetData(row).id;
             var user = new Object();
+           // console.log("userList:"+JSON.stringify(userList))
             for(var i=0; i < userList.length; i++){
-                if(userid == userList[i].userid){
+                if(id == userList[i].id){
                     user = userList[i];
                 }
             }
-            var options = { jsonValue: user, exclude:exclude,isDebug: false};
+          //  console.log(JSON.stringify(user))
+             var options = { jsonValue: user, exclude:exclude,isDebug: false};
+          //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".register-form").initForm(options);
             //角色赋值
-            $("#rolename").val((user.roleid||"").split(",")).select2(
-                {
-                    placeholder: "角色",
-                    width:null
-                }
-            );
-            //出生日期框
-            $("input[name=birthday]").datepicker("setDate",dateFormat(user.birthday, "-"));
+            // $("#rolename").val((user.roleid||"").split(",")).select2(
+            //     {
+            //         placeholder: "角色",
+            //         width:null
+            //     }
+            // );
+            //实际开始时间
+           // $("input[name=actualsttime]").datepicker("setDate",dateFormat(user.actualsttime, "-"));
+            //实际结束时间
+           // $("input[name=actualentime]").datepicker("setDate",dateFormat(user.actualentime, "-"));
             //清空机构输入框
-            clearSelectCheck($("#organtree"));
+            //clearSelectCheck($("#organtree"));
             //机构框赋值
           //  $('#organtree').jstree(true).select_node(user.organid);
             //用户代码不可以输入
-            $(".register-form").find("input[name=userid]").attr("readonly", true);
+            $(".register-form").find("input[name=id]").attr("readonly", true);
             $("input[name=edittype]").val(USEREDIT);
 
             $('#edit_user').modal('show');
@@ -449,10 +446,10 @@ var UserEdit = function() {
     };
 }();
 
-function equar(a,b){
+function equar(a,b){ //排序
     return (a.sort().toString() === b.sort().toString())
 }
-
+//删除项目
 var UserDelete = function() {
     $('#op_del').click(function() {
         var len = $(".checkboxes:checked").length;
@@ -464,12 +461,16 @@ var UserDelete = function() {
     });
     return{
         deleteUser: function(){
-            var userlist = {useridlist:[]};
+            var projectlist = {projectidlist:[]};
             $(".checkboxes:checked").parents("td").each(function () {
-                userlist.useridlist.push($(this).siblings().eq(1).text());
+                var row = $(this).parents('tr')[0];     //通过获取该td所在的tr，即td的父级元素，取出第一列序号元素
+                var id = $("#user_table").dataTable().fnGetData(row).id;
+                projectlist.projectidlist.push({projectid:id});
+
             });
             $("#loading_edit").modal("show");
-            userDelete(userlist);
+            userDelete(projectlist);
+
         }
     }
 }();
@@ -571,7 +572,7 @@ function userInfoEditEnd(flg, result, type){
             $('#edit_user').modal('hide');
         }
     }
-    if(alert == "") alert = text + "用户" + res + "！";
+    if(alert == "") alert = text + "项目" + res + "！";
     App.unblockUI('#lay-out');
     alertDialog(alert);
 }

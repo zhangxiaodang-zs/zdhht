@@ -62,6 +62,21 @@ router.get('/user',function(req,res,next){
         res.redirect('/');
     }
 });
+//需求
+router.get('/demand',function(req,res,next){
+    console.info(req.url);
+    var uname = req.query.username;
+    console.info("usersession" + JSON.stringify(req.session));
+    if(req.session["ywtUname" + uname]) {  //判断session 状态，如果有效，则返回主页，否则转到登录页面
+        res.render('demand/demand', {
+            menu: req.url.substr(1),
+            loginsucc: req.session["ywtLogin" + uname]
+        });
+    }else{
+        res.redirect('/');
+    }
+});
+
 
 
 router.get('/userpower',function(req,res,next){
@@ -98,6 +113,20 @@ router.get('/role',function(req,res,next){
     var uname = req.query.username;
     if(req.session["ywtUname" + uname]) {  //判断session 状态，如果有效，则返回主页，否则转到登录页面
         res.render('user/role', {
+            menu: req.url.substr(1),
+            loginsucc: req.session["ywtLogin" + uname]
+        });
+    }else{
+        res.redirect('/');
+    }
+});
+
+router.get('/project_info',function(req,res,next){
+    console.info(req.url);
+    var uname = req.query.username;
+    console.info("usersession" + JSON.stringify(req.session));
+    if(req.session["ywtUname" + uname]) {  //判断session 状态，如果有效，则返回主页，否则转到登录页面
+        res.render('user/project_info', {
             menu: req.url.substr(1),
             loginsucc: req.session["ywtLogin" + uname]
         });
