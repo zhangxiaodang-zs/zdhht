@@ -163,16 +163,15 @@ var UserTable = function () {
                         return dateTimeFormat(data);
                     }
                 },
-                {
-                    "targets": [2],
-                    "render": function (data, type, row, meta) {
-                        // return meta.settings._iDisplayStart + meta.row + 1;  //行号
-                        var project_info;
-                        project_info = '<a href="/views/user/role.html" id="op_info">'+data+'</a>';
-                        return project_info;
-
-                    }
-                },
+                // {
+                //     "targets": [2],
+                //     "render": function (data, type, row, meta) {
+                //         var project_info;
+                //         project_info = '<a href="/views/user/role.html" id="op_info">'+data+'</a>';
+                //         return project_info;
+                //
+                //     }
+                // },
                 {
                     "targets": [9],
                     "render": function (data, type, row, meta) {

@@ -3,33 +3,12 @@
  */
 var userRightUrl = regulateSucc.userHostUrl;
 var businessUrl = regulateSucc.businessUrl;
-// function userDataGet(data, callback){
-//     App.blockUI({target: '#lay-out',boxed: true});
-//     if(data == null){
-//         data = {userid: "", username: "", organid: "", mobile:"", currentpage: "", pagesize: "", startindex: "0", draw: 1}
-//     }
-//     $.ajax({
-//         type: "post",
-//         contentType: "application/json",
-//         async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-//         url: userRightUrl + "userquery",    //请求发送到TestServlet处
-//         data: sendMessageEdit(DEFAULT, data),
-//         dataType: "json",        //返回数据形式为json
-//         success: function (result) {
-//             console.info("userDataGet:" + JSON.stringify(result));
-//             getUserDataEnd(true, result, callback);
-//         },
-//         error: function (errorMsg) {
-//             console.info("userDataGet-error:" + JSON.stringify(errorMsg));
-//             getUserDataEnd(false, "", callback);
-//         }
-//     });
-// }
 
+//项目列表
 function userDataGet(data, callback){
     App.blockUI({target: '#lay-out',boxed: true});
     if(data == null){
-        data = { pagesize: "10", startindex: "0"}
+        data = { pagesize: "50", startindex: "0"}
     }
     $.ajax({
         type: "post",
@@ -48,7 +27,53 @@ function userDataGet(data, callback){
         }
     });
 }
-
+//需求列表
+function demandDataGet(data, callback){
+    App.blockUI({target: '#lay-out',boxed: true});
+    if(data == null){
+        data = { pagesize: "50", startindex: "0"}
+    }
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "demandquery",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.log("获取成功")
+            console.info("userDataGet:" + JSON.stringify(result));
+            getUserDataEnd(true, result, callback);
+        },
+        error: function (errorMsg) {
+            console.info("userDataGet-error:" + JSON.stringify(errorMsg));
+            getUserDataEnd(false, "", callback);
+        }
+    });
+}
+//任务列表
+function taskquery(data, callback){
+    App.blockUI({target: '#lay-out',boxed: true});
+    if(data == null){
+        data = { pagesize: "50", startindex: "0"}
+    }
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "taskquery",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("userDataGet:" + JSON.stringify(result));
+            getUserDataEnd(true, result, callback);
+        },
+        error: function (errorMsg) {
+            console.info("userDataGet-error:" + JSON.stringify(errorMsg));
+            getUserDataEnd(false, "", callback);
+        }
+    });
+}
 
 function userInformationGet(data, callback){
     App.blockUI({target: '#lay-out',boxed: true});
@@ -95,7 +120,7 @@ function organDataGet(data, callback){
         }
     });
 }
-
+//项目新增
 function userAdd(data){
     App.blockUI({target:'#lay-out',boxed: true});
     $.ajax({
@@ -115,7 +140,47 @@ function userAdd(data){
         }
     });
 }
-//删除
+//需求新增
+function demandadd(data){
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "demandadd",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("userAdd:" + JSON.stringify(result));
+            userInfoEditEnd(true, result, USERADD);
+        },
+        error: function (errorMsg) {
+            console.info("userAdd-error:" + JSON.stringify(errorMsg));
+            userInfoEditEnd(false, "", USERADD);
+        }
+    });
+}
+//任务新增
+function taskadd(data){
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "taskadd",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("userAdd:" + JSON.stringify(result));
+            userInfoEditEnd(true, result, USERADD);
+        },
+        error: function (errorMsg) {
+            console.info("userAdd-error:" + JSON.stringify(errorMsg));
+            userInfoEditEnd(false, "", USERADD);
+        }
+    });
+}
+//项目删除
 function userDelete(data){
     console.log(data);
     App.blockUI({target:'#lay-out',boxed: true});
@@ -136,7 +201,49 @@ function userDelete(data){
         }
     });
 }
-
+//任务删除
+function taskdelete(data){
+    console.log(data);
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "taskdelete",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("userDelete:" + JSON.stringify(result));
+            userInfoEditEnd(true, result, USERDELETE);
+        },
+        error: function (errorMsg) {
+            console.info("userDelete-error:" + JSON.stringify(errorMsg));
+            userInfoEditEnd(false, "", USERDELETE);
+        }
+    });
+}
+//需求删除
+function demanddelete(data){
+    console.log(data);
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "demanddelete",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("userDelete:" + JSON.stringify(result));
+            userInfoEditEnd(true, result, USERDELETE);
+        },
+        error: function (errorMsg) {
+            console.info("userDelete-error:" + JSON.stringify(errorMsg));
+            userInfoEditEnd(false, "", USERDELETE);
+        }
+    });
+}
+//项目编辑
 function userEdit(data){//编辑
     console.log(data);
     App.blockUI({target:'#lay-out',boxed: true});
@@ -159,7 +266,52 @@ function userEdit(data){//编辑
         }
     });
 }
-
+//需求编辑
+function demandedit(data){//编辑
+    console.log(data);
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: false,
+        processData:false,
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "demandedit",    //请求发送到TestServlet处
+        data: data,
+        // data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.log("userEdit:" + JSON.stringify(result));
+            userInfoEditEnd(true, result, USEREDIT);
+        },
+        error: function (errorMsg) {
+            console.log("userEdit-error:" + JSON.stringify(errorMsg));
+            userInfoEditEnd(false, "", USEREDIT);
+        }
+    });
+}
+//任务编辑
+function taskedit(data){//编辑
+    console.log(data);
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: false,
+        processData:false,
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "taskedit",    //请求发送到TestServlet处
+        data: data,
+        // data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.log("userEdit:" + JSON.stringify(result));
+            userInfoEditEnd(true, result, USEREDIT);
+        },
+        error: function (errorMsg) {
+            console.log("userEdit-error:" + JSON.stringify(errorMsg));
+            userInfoEditEnd(false, "", USEREDIT);
+        }
+    });
+}
 function passwordReset(data){
     App.blockUI({target:'#lay-out',boxed: true});
     $.ajax({
