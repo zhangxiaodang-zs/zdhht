@@ -16,6 +16,7 @@ if (App.isAngularJsApp() === false) {
        // organDataGet();
         //获取用户列表，用来做成负责人选择框
         userqueryDataGet();
+        projectqueryDataGet();
         //新增编辑用户控件初始化
         UserEdit.init();
         //获取用户信息
@@ -378,6 +379,8 @@ var UserEdit = function() {
             );
             //清空机构输入框
             clearSelect($("#organtree"));
+            //清空任务关联框
+            clearSelect($("#projecttree"));
             ComponentsDateTimePickers.init();
             //用户代码可以输入
             $(".register-form").find("input[name=id]").attr("readonly", true);
@@ -534,6 +537,17 @@ function getOrganDataEnd(flg, result, callback){
         }
     }
 }
+//获取任务列表
+function getProjectDataEnd(flg, result, callback){
+    App.unblockUI('#lay-out');
+    if(flg){
+        if (result && result.retcode == SUCCESS) {
+
+            var projectList = result.response.projectlist;
+            projectNameSelectBuild(projectList, $("#projecttree"));
+        }
+    }
+}
 
 function userInfoEditEnd(flg, result, type){
     $("#loading_edit").modal("hide");
@@ -592,14 +606,38 @@ $('#organtreequery, #organtree').on('select_node.jstree', function(e,data) {
         if (nd != data.node.id)
             ref.uncheck_node(nd);
     });
-    $(this).siblings("input").val(data.node.text);
+    $('#organ').val(data.node.text);
+    $('#userid').val(data.node.id);
     $(this).hide();
 });
 
 //取消选中所属机构
 $('#organtreequery, #organtree').on('deselect_node.jstree', function(e,data) {
     console.info("deselect_node");
-    $(this).siblings("input").val("");
+    $('#organ').val("");
+    $('#userid').val("");
+    $(this).hide();
+});
+
+//选中项目
+$('#projecttree').on('select_node.jstree', function(e,data) {
+    console.info("select_node");
+    var ref = $(this).jstree(true);
+    var nodes = ref.get_checked();  //使用get_checked方法
+    $.each(nodes, function(i, nd) {
+        if (nd != data.node.id)
+            ref.uncheck_node(nd);
+    });
+    $('#project').val(data.node.text);
+    $('#projectid').val(data.node.id);
+    $(this).hide();
+});
+
+//取消选中所属机构
+$('#projecttree').on('deselect_node.jstree', function(e,data) {
+    console.info("deselect_node");
+    $('#project').val("");
+    $('#projectid').val("");
     $(this).hide();
 });
 
@@ -610,6 +648,9 @@ $(document).click(function(e){
     }
     if ($(e.target)[0] != $("#organ")[0]){
         $("#organtree").hide();
+    }
+    if ($(e.target)[0] != $("#project")[0]){
+        $("#projecttree").hide();
     }
 });
 
