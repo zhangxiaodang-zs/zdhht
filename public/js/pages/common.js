@@ -324,8 +324,8 @@ function organNameSelectBuild(organList, id){
 function organListTreeDataMake(organList, data){
     for(var i=0; i < organList.length; i++){
         var el = {
-            text: organList[i].organname,
-            id: organList[i].organid,
+            text: organList[i].username,
+            id: organList[i].userid,
             "state": {
                 "selected": false,
                 "opened": true

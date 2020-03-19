@@ -13,7 +13,9 @@ if (App.isAngularJsApp() === false) {
         //获取角色列表，用来做成角色选择框
         roleDataGet();
         //获取机构列表，用来做成机构选择框
-        organDataGet();
+       // organDataGet();
+        //获取用户列表，用来做成负责人选择框
+        userqueryDataGet();
         //新增编辑用户控件初始化
         UserEdit.init();
         //获取用户信息
@@ -25,14 +27,6 @@ var ComponentsDateTimePickers = function () {
     var handleDatePickers = function () {
         if (jQuery().datetimepicker) {
             $('.date-picker').datetimepicker({
-               //  rtl: App.isRTL(),
-               //  orientation: "auto",
-               //  autoclose: true,
-               //  language:"zh-CN",
-               //  todayBtn:true,
-               // // format:"yyyy-mm-dd",
-               //  format: "yyyy-mm-dd hh:ii:ss",
-               //  //showButtonPanel:true,
                 todayHighlight: true,
                 language:"zh-CN",
                 showSecond: true, //显示秒
@@ -508,8 +502,6 @@ function getUserDataEnd(flg, result, callback){
     if(flg){ //SUCCESS
         if (result && result.retcode == SUCCESS) {
             var res = result.response;
-            // userList = res.userlist;
-            // tableDataSet(res.draw, res.totalcount, res.totalcount, res.userlist, callback);
             userList = res.demandlist;
             tableDataSet(res.draw, res.totalcount, res.totalcount, res.demandlist, callback);
         }else{
@@ -531,13 +523,13 @@ function getRoleDataEnd(flg, result, callback){
         }
     }
 }
-
+//获取完用户列表信息
 function getOrganDataEnd(flg, result, callback){
     App.unblockUI('#lay-out');
     if(flg){
         if (result && result.retcode == SUCCESS) {
 
-            var organList = result.response.list;
+            var organList = result.response.userlist;
             organNameSelectBuild(organList, $("#organtreequery, #organtree"));
         }
     }

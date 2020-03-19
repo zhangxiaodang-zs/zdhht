@@ -6,6 +6,7 @@ var userList = [];
 var responseComplete = [0, 0];   //用户信息和机构全部返回
 if (App.isAngularJsApp() === false) {
     jQuery(document).ready(function() {
+        //判断按钮权限
         fun_power();
         //时间控件初始化
         ComponentsDateTimePickers.init();
@@ -14,7 +15,9 @@ if (App.isAngularJsApp() === false) {
         //获取角色列表，用来做成角色选择框
         roleDataGet();
         //获取机构列表，用来做成机构选择框
-        organDataGet();
+       // organDataGet();
+        //获取用户列表，用来做成负责人选择框
+        userqueryDataGet();
         //新增编辑用户控件初始化
         UserEdit.init();
         //获取用户信息
@@ -563,13 +566,13 @@ function getRoleDataEnd(flg, result, callback){
     }
 }
 
+//获取完用户列表信息
 function getOrganDataEnd(flg, result, callback){
     App.unblockUI('#lay-out');
     if(flg){
         if (result && result.retcode == SUCCESS) {
-
-            var organList = result.response.list;
-            organNameSelectBuild(organList, $("#organtreequery, #organtree"));
+            var organList = result.response.userlist;
+            organNameSelectBuild(organList, $("#organtreequery, #organtree"));//common.js中生成
         }
     }
 }

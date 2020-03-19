@@ -65,7 +65,7 @@ function taskquery(data, callback){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-            console.info("userDataGet:" + JSON.stringify(result));
+           // console.info("userDataGet:" + JSON.stringify(result));
             getUserDataEnd(true, result, callback);
         },
         error: function (errorMsg) {
@@ -97,7 +97,7 @@ function userInformationGet(data, callback){
         }
     });
 }
-
+//获取机构列表
 function organDataGet(data, callback){
     App.blockUI({target: '#lay-out',boxed: true});
     if(data == null){
@@ -111,6 +111,28 @@ function organDataGet(data, callback){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
+            console.info("organDataGet:" + JSON.stringify(result));
+            getOrganDataEnd(true, result, callback);
+        },
+        error: function (errorMsg) {
+            console.info("organDataGet-error:" + JSON.stringify(errorMsg));
+            getOrganDataEnd(false, "", callback);
+        }
+    });
+}
+//获取用户列表
+function userqueryDataGet(data, callback){
+    App.blockUI({target: '#lay-out',boxed: true});
+    data = {}
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "userquery",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.log("获取成功")
             console.info("organDataGet:" + JSON.stringify(result));
             getOrganDataEnd(true, result, callback);
         },

@@ -14,7 +14,9 @@ if (App.isAngularJsApp() === false) {
         //获取角色列表，用来做成角色选择框
         roleDataGet();
         //获取机构列表，用来做成机构选择框
-        organDataGet();
+       // organDataGet();
+        //获取用户列表，用来做成负责人选择框
+        userqueryDataGet();
         //新增编辑用户控件初始化
         UserEdit.init();
         //获取用户信息
@@ -201,7 +203,6 @@ var UserTable = function () {
                 {
                     "targets": [2],
                     "render": function (data, type, row, meta) {
-                        console.log("id"+row.id)
                         var project_info;
                         project_info = '<a href="#" data-id="'+row.id+'" id="task_info">'+data+'</a>';
                         return project_info;
@@ -656,13 +657,13 @@ function getRoleDataEnd(flg, result, callback){
         }
     }
 }
-
+//获取完用户列表信息
 function getOrganDataEnd(flg, result, callback){
     App.unblockUI('#lay-out');
     if(flg){
         if (result && result.retcode == SUCCESS) {
 
-            var organList = result.response.list;
+            var organList = result.response.userlist;
             organNameSelectBuild(organList, $("#organtreequery, #organtree"));
         }
     }
