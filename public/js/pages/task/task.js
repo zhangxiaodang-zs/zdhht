@@ -19,6 +19,7 @@ if (App.isAngularJsApp() === false) {
         UserEdit.init();
         //获取用户信息
         UserTable.init();
+
     });
 }
 
@@ -40,6 +41,7 @@ var ComponentsDateTimePickers = function () {
             $("input[name='actualentime']").val(date);
             $("input[name='expectedsttime']").val(date);
             $("input[name='expectedentime']").val(date);
+            $("input[name='feedbacktime']").val(date);
 
         }
     };
@@ -196,26 +198,34 @@ var UserTable = function () {
 
                     }
                 },
-                // {
-                //     "targets": [2],
-                //     "render": function (data, type, row, meta) {
-                //         var project_info;
-                //         project_info = '<a href="/views/user/role.html" id="op_info">'+data+'</a>';
-                //         return project_info;
-                //
-                //     }
-                // },
+                {
+                    "targets": [2],
+                    "render": function (data, type, row, meta) {
+                        console.log("id"+row.id)
+                        var project_info;
+                        project_info = '<a href="#" data-id="'+row.id+'" id="task_info">'+data+'</a>';
+                        return project_info;
+
+                    }
+                },
                 {
                     "targets": [9],
                     "render": function (data, type, row, meta) {
-                        var edit;
-                       // edit = '<a href="javascript:;" id="op_edit">编辑</a>';
+                        var edit;//编辑
+                        var task_info;//反馈
 	                    if(!window.parent.makeEdit(menu,loginSucc.functionlist,"#op_edit")){
 	                        edit = '-';
 	                    }else{
 	                        edit = '<a href="javascript:;" id="op_edit">编辑</a>';
 	                    }
-                        return edit;
+                        if(!window.parent.makeEdit(menu,loginSucc.functionlist,"#feedback")){
+                            task_info = '-';
+                        }else{
+                            task_info = '<a href="javascript:;" id="feedback">反馈</a>';
+                        }
+
+                        return edit+"&nbsp;&nbsp;"+task_info;
+
                     }
                 }
             ],
@@ -260,9 +270,11 @@ var UserTable = function () {
 }();
 
 
+
 //新增编辑用户控件初始化
 var UserEdit = function() {
     var handleRegister = function() {
+        //任务新增
         var validator = $('.register-form').validate({
             errorElement: 'span', //default input error message container
             errorClass: 'help-block', // default input error message class
@@ -357,7 +369,8 @@ var UserEdit = function() {
             return this.optional(element) || (tel.test(value));
         }, "请正确填写您的固定电话");
 
-        //点击确定按钮
+
+        /*——————————任务新增、编辑 确定按钮————————————*/
         $('#register-btn').click(function() {
             btnDisable($('#register-btn'));
            // console.log($('.register-form').validate().form());
@@ -396,13 +409,51 @@ var UserEdit = function() {
                 $("#loading_edit").modal("show");
                   // userEdit(formData);
                 taskedit(data1);
-
-
-
-
             }
         });
-        //新增任务
+        /*——————————添加任务反馈确定按钮————————————*/
+        $('#feedback-btn').click(function() {
+            //判断是否必填
+            if(!$("#feedbackcontent").val()){
+                alert("请输入反馈内容!");
+                return;
+            }
+            if(!$("#feedschedule").val()||!isNumber($("#feedschedule").val())){
+                alert("请输入进度(100以内数字)!");
+                return;
+            }
+            if(!$("#workinghours").val()||!isNumber($("#workinghours").val())){
+                alert("请输入工时(100以内数字)!");
+                return;
+            }
+            if(!$("#feedbacktime").val()){
+                alert("请选择反馈时间!");
+                return;
+            }
+
+            //判断输入的是否是100以内的数字
+            function isNumber(oNum) {
+                if(!oNum) return false;
+                var strP=/^\d+(\.\d+)?$/;
+                if(!strP.test(oNum)) return false;
+                if(oNum<0||oNum>100) return false;
+                try{
+                    if(parseFloat(oNum)!=oNum) return false;
+                }
+                catch(ex)
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            btnDisable($('#feedback-btn'));
+            if ($('.feedback-form').validate().form()) {
+                var user = $('.feedback-form').getFormData();
+            }
+            feedbackadd(user);
+        });
+        /*——————————新增任务————————————*/
         $('#op_add').click(function() {
             //清除校验错误信息
             validator.resetForm();
@@ -427,7 +478,7 @@ var UserEdit = function() {
             $("input[name=edittype]").val(USERADD);
             $('#edit_user').modal('show');
         });
-        //编辑用户  点击编辑按钮
+        /*——————————点击编辑任务————————————*/
         $('#user_table').on('click', '#op_edit', function (e) {
             e.preventDefault();
             //清除校验错误信息
@@ -471,6 +522,44 @@ var UserEdit = function() {
 
             $('#edit_user').modal('show');
         });
+
+        /*——————————点击反馈按钮————————————*/
+        $('#user_table').on('click', '#feedback', function (e) {
+            e.preventDefault();
+            //清除校验错误信息
+            validator.resetForm();
+            $(".feedback-form").find(".has-error").removeClass("has-error");
+            $(".modal-title").text("添加反馈信息");
+            // var exclude = ["rolename", "organid"];
+            var exclude = [""];
+            // var userid = $(this).parents("td").siblings().eq(1).text();
+            var row = $(this).parents('tr')[0];
+            var id = $("#user_table").dataTable().fnGetData(row).id;
+            var user = new Object();
+            for(var i=0; i < userList.length; i++){
+                if(id == userList[i].id){
+                    user = userList[i];
+                    user.taskid = userList[i].id;
+                }
+            }
+            var options = { jsonValue: user, exclude:exclude,isDebug: false};
+            //  var options = { jsonValue: user, exclude:"", isDebug: false};
+            $(".feedback-form").initForm(options);
+
+            $(".feedback-form").find("input[name=id]").attr("readonly", true);
+            $("input[name=edittype]").val(USEREDIT);
+
+            $('#edit_feedback').modal('show');
+        });
+        /*——————————进去详情————————————*/
+        $('#user_table').on('click', '#task_info', function (e) {
+            e.preventDefault();
+            var task_id = localStorage.setItem('task_id',$(this).attr("data-id"));
+            var id = localStorage.getItem('task_id');
+            window.location.href = "/views/task/task_info.html";
+        });
+
+
     };
     return {
         init: function() {
@@ -594,9 +683,15 @@ function userInfoEditEnd(flg, result, type){
         case USERDELETE:
             text = "删除";
             break;
+        case feedbackadd:
+            text = "添加";
+            break;
     }
     if(flg){
         if(result && result.retcode != SUCCESS){
+            alert = result.retmsg;
+        }
+        if(result && result.retcode != feedbackadd){
             alert = result.retmsg;
         }
         if (result && result.retcode == SUCCESS) {

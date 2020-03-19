@@ -3050,7 +3050,8 @@ a.forum-item-title:hover {
     left: 0;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    line-height: 6px;
+    border-radius: 50% !important;
     font-size: 16px;
     border: 3px solid #f1f1f1;
     text-align: center;
@@ -3063,7 +3064,7 @@ a.forum-item-title:hover {
     position: relative;
     left: 50%;
     top: 50%;
-    margin-left: -12px;
+    margin-left: -32px;
     margin-top: -9px;
 }
 

@@ -180,6 +180,48 @@ function taskadd(data){
         }
     });
 }
+//反馈新增
+function feedbackadd(data){
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "taskFeedback",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("userAdd:" + JSON.stringify(result));
+            userInfoEditEnd(true, result, feedbackadd);
+            $('#edit_feedback').modal('hide');
+        },
+        error: function (errorMsg) {
+            console.info("userAdd-error:" + JSON.stringify(errorMsg));
+            userInfoEditEnd(false, "", feedbackadd);
+        }
+    });
+}
+//编辑反馈
+function feedbackedit(info_id,feedbackcontent){
+    data = { id: info_id, feedbackcontent: feedbackcontent}
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "feedbackedit",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("userAdd:" + JSON.stringify(result));
+            userInfoEditEnd(true, result, USERADD);
+        },
+        error: function (errorMsg) {
+            console.info("userAdd-error:" + JSON.stringify(errorMsg));
+            userInfoEditEnd(false, "", USERADD);
+        }
+    });
+}
 //项目删除
 function userDelete(data){
     console.log(data);
