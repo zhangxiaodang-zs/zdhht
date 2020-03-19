@@ -25,22 +25,18 @@ if (App.isAngularJsApp() === false) {
 var ComponentsDateTimePickers = function () {
 
     var handleDatePickers = function () {
-        if (jQuery().datepicker) {
-            $('.date-picker').datepicker({
-                rtl: App.isRTL(),
-                orientation: "auto",
-                autoclose: true,
-                language:"zh-CN",
-                todayBtn:true,
-                format:"yyyy-mm-dd",
-                //format : 'yyyy-mm-dd hh:ii',
-                //showButtonPanel:true,
+        if (jQuery().datetimepicker) {
+            $('.date-picker').datetimepicker({
                 todayHighlight: true,
-               // pickTime: true
+                language:"zh-CN",
+                showSecond: true, //显示秒
+                timeFormat: 'HH:mm:ss' //格式化时间
             });
-            var date = getNowFormatDate();
-            $("input[name='actualsttime']").datepicker("setDate","");
-           // $("input[name='actualentime']").datepicker("setDate","");
+            var date = getNowFormatDate()+" "+getNowFormatTime();
+           // $("input[name='expectedsttime']").datetimepicker("setStartDate",date);
+            $("input[name='expectedsttime']").val(date);
+            $("input[name='expectedentime']").val(date);
+
         }
     };
 
@@ -112,7 +108,7 @@ var UserTable = function () {
                     startindex: data.start,
                     draw: data.draw
                 };
-                userDataGet(da, callback);
+                userDataGet(da, callback);//获取需求列表
             },
             columns: [//返回的json数据在这里填充，注意一定要与上面的<th>数量对应，否则排版出现扭曲
                 { "data": null},
@@ -143,25 +139,59 @@ var UserTable = function () {
                 {
                     "targets":[5],
                     "render": function(data, type, row, meta) {
-                        return dateTimeFormat(data);
+                        if(data.length==14){
+                            return dateTimeFormat(data);
+                        }else if(data.length==12){
+                            return dateTimeFormat12(data);
+                        }else{
+                            return data+":00";
+                        }
+
+
                     }
                 },
                 {
                     "targets":[6],
                     "render": function(data, type, row, meta) {
-                        return dateTimeFormat(data);
+                        if(data.length==14){
+                            return dateTimeFormat(data);
+                        }else if(data.length==12){
+                            return dateTimeFormat12(data);
+                        }else{
+                            return data+":00";
+                        }
+
+
                     }
                 },
                 {
                     "targets":[7],
                     "render": function(data, type, row, meta) {
-                        return dateTimeFormat(data);
+                        if(data==undefined){
+                            return ' ';
+                        }else if(data.length==14){
+                            return dateTimeFormat(data);
+                        }else if(data.length==12){
+                            return dateTimeFormat12(data);
+                        }else{
+                            return data+":00";
+                        }
+
                     }
                 },
                 {
                     "targets":[8],
                     "render": function(data, type, row, meta) {
-                        return dateTimeFormat(data);
+                        if(data==undefined){
+                            return ' ';
+                        }else if(data.length==14){
+                            return dateTimeFormat(data);
+                        }else if(data.length==12){
+                            return dateTimeFormat12(data);
+                        }else{
+                            return data+":00";
+                        }
+
                     }
                 },
                 // {
@@ -177,18 +207,17 @@ var UserTable = function () {
                     "targets": [9],
                     "render": function (data, type, row, meta) {
                         var edit;
-                       // edit = '<a href="javascript:;" id="op_edit">编辑</a>';
-	                    if(!window.parent.makeEdit(menu,loginSucc.functionlist,"#op_edit")){
-	                        edit = '-';
-	                    }else{
-	                        edit = '<a href="javascript:;" id="op_edit">编辑</a>';
-	                    }
+                        if(!window.parent.makeEdit(menu,loginSucc.functionlist,"#op_edit")){
+                            edit = '-';
+                        }else{
+                            edit = '<a href="javascript:;" id="op_edit">编辑</a>';
+                        }
                         return edit;
                     }
                 }
             ],
             fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                $('td:eq(0),td:eq(1),td:eq(2),td:eq(3),td:eq(4),td:eq(5),td:eq(6),td:eq(7),td:eq(8),td:eq(9)', nRow).attr('style', 'text-align: center;');//td内容居中显示
+                $('td:eq(0),td:eq(1),td:eq(2),td:eq(3),td:eq(4),td:eq(5),td:eq(6),td:eq(7),td:eq(8)', nRow).attr('style', 'text-align: center;');//td内容居中显示
             }
         });
         //table.draw( false );
@@ -226,6 +255,8 @@ var UserTable = function () {
     };
 
 }();
+
+
 
 
 //新增编辑用户控件初始化

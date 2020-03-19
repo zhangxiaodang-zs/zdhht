@@ -48,7 +48,7 @@ router.get('/main',function(req,res,next){
         res.redirect('/');
     }
 });
-
+//用户管理路由
 router.get('/user',function(req,res,next){
     console.info(req.url);
     var uname = req.query.username;
@@ -62,7 +62,22 @@ router.get('/user',function(req,res,next){
         res.redirect('/');
     }
 });
-//需求
+
+//项目管理
+router.get('/project',function(req,res,next){
+    console.info(req.url);
+    var uname = req.query.username;
+    if(req.session["ywtUname" + uname]) {  //判断session 状态，如果有效，则返回主页，否则转到登录页面
+        res.render('project/project', {
+            menu: req.url.substr(1),
+            loginsucc: req.session["ywtLogin" + uname]
+        });
+    }else{
+        res.redirect('/');
+    }
+});
+
+//需求管理路由
 router.get('/demand',function(req,res,next){
     console.info(req.url);
     var uname = req.query.username;
@@ -76,7 +91,7 @@ router.get('/demand',function(req,res,next){
         res.redirect('/');
     }
 });
-//任务
+//任务管理路由
 router.get('/task',function(req,res,next){
     console.info(req.url);
     var uname = req.query.username;
@@ -133,13 +148,13 @@ router.get('/role',function(req,res,next){
         res.redirect('/');
     }
 });
-
-router.get('/project_info',function(req,res,next){
+//任务详情页面
+router.get('/task_info',function(req,res,next){
     console.info(req.url);
     var uname = req.query.username;
     console.info("usersession" + JSON.stringify(req.session));
     if(req.session["ywtUname" + uname]) {  //判断session 状态，如果有效，则返回主页，否则转到登录页面
-        res.render('user/project_info', {
+        res.render('task/task_info', {
             menu: req.url.substr(1),
             loginsucc: req.session["ywtLogin" + uname]
         });
@@ -174,19 +189,6 @@ router.get('/organ',function(req,res,next){
     }
 });
 
-//项目管理
-router.get('/project',function(req,res,next){
-    console.info(req.url);
-    var uname = req.query.username;
-    if(req.session["ywtUname" + uname]) {  //判断session 状态，如果有效，则返回主页，否则转到登录页面
-        res.render('project/project', {
-            menu: req.url.substr(1),
-            loginsucc: req.session["ywtLogin" + uname]
-        });
-    }else{
-        res.redirect('/');
-    }
-});
 
 
 //线路管理

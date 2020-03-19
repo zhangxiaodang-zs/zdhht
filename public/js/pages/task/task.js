@@ -21,26 +21,26 @@ if (App.isAngularJsApp() === false) {
         UserTable.init();
     });
 }
+
 //时间控件初始化
 var ComponentsDateTimePickers = function () {
 
     var handleDatePickers = function () {
-        if (jQuery().datepicker) {
-            $('.date-picker').datepicker({
-                rtl: App.isRTL(),
-                orientation: "auto",
-                autoclose: true,
-                language:"zh-CN",
-                todayBtn:true,
-                format:"yyyy-mm-dd",
-                //format : 'yyyy-mm-dd hh:ii',
-                //showButtonPanel:true,
+        if (jQuery().datetimepicker) {
+            $('.date-picker').datetimepicker({
                 todayHighlight: true,
-               // pickTime: true
+                language:"zh-CN",
+                showSecond: true, //显示秒
+                // format: "yyyy-mm-dd hh:ii:ss",
+                timeFormat: 'HH:mm:ss' //格式化时间
             });
-            var date = getNowFormatDate();
-            $("input[name='actualsttime']").datepicker("setDate","");
-           // $("input[name='actualentime']").datepicker("setDate","");
+            var date = getNowFormatDate()+" "+getNowFormatTime();
+            // $("input[name='actualentime']").datepicker("setDate","");
+            $("input[name='actualsttime']").val(date);
+            $("input[name='actualentime']").val(date);
+            $("input[name='expectedsttime']").val(date);
+            $("input[name='expectedentime']").val(date);
+
         }
     };
 
@@ -143,25 +143,57 @@ var UserTable = function () {
                 {
                     "targets":[5],
                     "render": function(data, type, row, meta) {
-                        return dateTimeFormat(data);
+                        if(data.length==14){
+                            return dateTimeFormat(data);
+                        }else if(data.length==12){
+                            return dateTimeFormat12(data);
+                        }else{
+                            return data+":00";
+                        }
+
+
                     }
                 },
                 {
                     "targets":[6],
                     "render": function(data, type, row, meta) {
-                        return dateTimeFormat(data);
+                        if(data.length==14){
+                            return dateTimeFormat(data);
+                        }else if(data.length==12){
+                            return dateTimeFormat12(data);
+                        }else{
+                            return data+":00";
+                        }
+
+
                     }
                 },
                 {
                     "targets":[7],
                     "render": function(data, type, row, meta) {
-                        return dateTimeFormat(data);
+                        if(data.length==14){
+                            return dateTimeFormat(data);
+                        }else if(data.length==12){
+                            return dateTimeFormat12(data);
+                        }else{
+                            return data+":00";
+                        }
+
+
                     }
                 },
                 {
                     "targets":[8],
                     "render": function(data, type, row, meta) {
-                        return dateTimeFormat(data);
+                        if(data.length==14){
+                            return dateTimeFormat(data);
+                        }else if(data.length==12){
+                            return dateTimeFormat12(data);
+                        }else{
+                            return data+":00";
+                        }
+
+
                     }
                 },
                 // {

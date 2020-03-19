@@ -33,19 +33,16 @@ var ComponentsDateTimePickers = function () {
                // // format:"yyyy-mm-dd",
                //  format: "yyyy-mm-dd hh:ii:ss",
                //  //showButtonPanel:true,
-               //  todayHighlight: true,
-                timeText: '时间',
-                hourText: '小时',
-                minuteText: '分钟',
-                secondText: '秒',
-                currentText: '现在',
-                closeText: '完成',
+                todayHighlight: true,
+                language:"zh-CN",
                 showSecond: true, //显示秒
+               // format: "yyyy-mm-dd hh:ii:ss",
                 timeFormat: 'HH:mm:ss' //格式化时间
             });
-            var date = getNowFormatDate();
-          //  console.log(date)
-            $("input[name='starttime']").datetimepicker("setStartDate",date);
+            var date = getNowFormatDate()+" "+getNowFormatTime();
+           // $("input[name='starttime']").datetimepicker("setStartDate",date);
+            $("input[name='starttime']").val(date);
+            $("input[name='endtime']").val(date);
 
         }
 
@@ -148,18 +145,34 @@ var UserTable = function () {
                         return meta.settings._iDisplayStart + meta.row + 1;  //行号
                     }
                 },
-                // {
-                //     "targets":[5],
-                //     "render": function(data, type, row, meta) {
-                //         return dateTimeFormat(data);
-                //     }
-                // },
-                // {
-                //     "targets":[6],
-                //     "render": function(data, type, row, meta) {
-                //         return dateTimeFormat(data);
-                //     }
-                // },
+                {
+                    "targets":[5],
+                    "render": function(data, type, row, meta) {
+                        if(data.length==14){
+                            return dateTimeFormat(data);
+                        }else if(data.length==12){
+                            return dateTimeFormat12(data);
+                        }else{
+                            return data+":00";
+                        }
+
+
+                    }
+                },
+                {
+                    "targets":[6],
+                    "render": function(data, type, row, meta) {
+                        if(data.length==14){
+                            return dateTimeFormat(data);
+                        }else if(data.length==12){
+                            return dateTimeFormat12(data);
+                        }else{
+                            return data+":00";
+                        }
+
+
+                    }
+                },
                 // {
                 //     "targets": [2],
                 //     "render": function (data, type, row, meta) {

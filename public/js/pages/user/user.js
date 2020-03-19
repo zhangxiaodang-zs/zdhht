@@ -20,10 +20,11 @@ if (App.isAngularJsApp() === false) {
         UserTable.init();
     });
 }
-//时间控件初始化
+
 var ComponentsDateTimePickers = function () {
 
     var handleDatePickers = function () {
+
         if (jQuery().datepicker) {
             $('.date-picker').datepicker({
                 rtl: App.isRTL(),
@@ -32,14 +33,11 @@ var ComponentsDateTimePickers = function () {
                 language:"zh-CN",
                 todayBtn:true,
                 format:"yyyy-mm-dd",
-                //format : 'yyyy-mm-dd hh:ii',
                 //showButtonPanel:true,
-                todayHighlight: true,
-               // pickTime: true
+                todayHighlight: true
             });
             var date = getNowFormatDate();
-            $("input[name='actualsttime']").datepicker("setDate","");
-           // $("input[name='actualentime']").datepicker("setDate","");
+            $("input[name='birthday']").datepicker("setDate","");
         }
     };
 
@@ -50,7 +48,7 @@ var ComponentsDateTimePickers = function () {
         }
     };
 }();
-////多选控件初始化
+
 var RoleSelect2 = function(){
     var intSelect2 = function (data){
         $.fn.select2.defaults.set("theme", "bootstrap");
@@ -75,7 +73,7 @@ var RoleSelect2 = function(){
         }
     }
 }();
-//获取用户信息
+
 var UserTable = function () {
     var initTable = function () {
         var table = $('#user_table');
@@ -116,14 +114,14 @@ var UserTable = function () {
             columns: [//返回的json数据在这里填充，注意一定要与上面的<th>数量对应，否则排版出现扭曲
                 { "data": null},
                 { "data": null},
-                { "data": "projectname" },//项目名称
-                { "data": "principal" },//负责人
-                { "data": "introduction" },//描述
-                { "data": "expectedsttime" },//预期开始时间
-                { "data": "expectedentime" },//预期结束时间
-                { "data": "actualsttime" },//实际开始时间
-                { "data": "actualentime" },//实际结束时间
-                { "data": "projectid" }
+                { "data": "userid" },
+                { "data": "username" },
+                { "data": "sex" },
+                { "data": "mobile" },
+                { "data": "mail" },
+                { "data": "organname" },
+                { "data": "rolename" },
+                { "data": "userid" }
             ],
             columnDefs: [
                 {
@@ -140,39 +138,16 @@ var UserTable = function () {
                     }
                 },
                 {
-                    "targets":[5],
-                    "render": function(data, type, row, meta) {
-                        return dateTimeFormat(data);
+                    //性别
+                    "targets": [4],
+                    "render": function (data, type, row, meta) {
+                        var sex = "女";
+                        if (data == "0") {
+                            sex = "男"
+                        }
+                        return sex;
                     }
-                },
-                {
-                    "targets":[6],
-                    "render": function(data, type, row, meta) {
-                        return dateTimeFormat(data);
-                    }
-                },
-                {
-                    "targets":[7],
-                    "render": function(data, type, row, meta) {
-                        return dateTimeFormat(data);
-                    }
-                },
-                {
-                    "targets":[8],
-                    "render": function(data, type, row, meta) {
-                        return dateTimeFormat(data);
-                    }
-                },
-                // {
-                //     "targets": [2],
-                //     "render": function (data, type, row, meta) {
-                //         var project_info;
-                //         project_info = '<a href="/views/user/role.html" id="op_info">'+data+'</a>';
-                //         return project_info;
-                //
-                //     }
-                // },
-                {
+                },{
                     "targets": [9],
                     "render": function (data, type, row, meta) {
                         var edit;
@@ -186,7 +161,7 @@ var UserTable = function () {
                 }
             ],
             fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                $('td:eq(0),td:eq(1),td:eq(2),td:eq(3),td:eq(4),td:eq(5),td:eq(6),td:eq(7),td:eq(8),td:eq(9)', nRow).attr('style', 'text-align: center;');//td内容居中显示
+                $('td:eq(1)', nRow).attr('style', 'text-align: center;');
             }
         });
         //table.draw( false );
@@ -225,8 +200,6 @@ var UserTable = function () {
 
 }();
 
-
-//新增编辑用户控件初始化
 var UserEdit = function() {
     var handleRegister = function() {
         var validator = $('.register-form').validate({
@@ -235,50 +208,72 @@ var UserEdit = function() {
             focusInvalid: false, // do not focus the last invalid input
             ignore: "",
             rules: {
-                projectname: {
+                userid: {
                     required: true
                 },
-                principal: {
+                username: {
                     required: true
                 },
-                actualsttime: {
+                sex: {
                     required: true
                 },
-                actualentime: {
+                mobile: {
+                    mobile: true
+                },
+                phone: {
+                    phone: true
+                },
+                organid: {
                     required: true
                 },
-                expectedsttime: {
+                mail: {
+                    email: true
+                },
+                rolelist: {
                     required: true
                 },
-                expectedentime: {
+                image: {
                     required: true
                 },
-                introduction: {
+                evaluationneed: {
+                    required: true
+                },
+                storeyid: {
+                    required: true
+                },
+                areaid: {
                     required: true
                 }
             },
 
             messages: {
-                projectname: {
-                    required: "项目名称必须输入"
+                userid: {
+                    required: "登录名必须输入"
                 },
-                principal: {
-                    required: "项目负责人必须输入"
+
+                username: {
+                    required: "姓名必须输入"
                 },
-                actualsttime: {
-                    required: "实际开始时间必须输入"
+                sex: {
+                    required: "性别必须输入"
                 },
-                actualentime: {
-                    required: "实际结束时间必须输入"
+                organid: {
+                    required: "所属机构必须输入"
                 },
-                expectedsttime: {
-                    required: "预期开始时间必须输入"
+                rolelist: {
+                    required: "角色必须输入"
                 },
-                expectedentime: {
-                    required: "预期结束时间必须输入"
+                image: {
+                    required: "用户头像必须上传"
                 },
-                introduction: {
-                    required: "项目简介必须输入"
+                evaluationneed: {
+                    required: "是否需要评价必须选择"
+                },
+                storeyid: {
+                    required: "楼层必须输入"
+                },
+                areaid: {
+                    required: "分区必须输入"
                 }
             },
 
@@ -326,46 +321,33 @@ var UserEdit = function() {
         //点击确定按钮
         $('#register-btn').click(function() {
             btnDisable($('#register-btn'));
-           // console.log($('.register-form').validate().form());
             if ($('.register-form').validate().form()) {
                 var user = $('.register-form').getFormData();
-                console.log("user:"+JSON.stringify(user))
-                // user.rolelist = $('#rolename').val();
-                // user.birthday = user.birthday.replace(/-/g, '');
-                // user.organid = ($('#organtree').jstree(true).get_selected(true))[0].id;
+                user.rolelist = $('#rolename').val();
+                user.birthday = user.birthday.replace(/-/g, '');
+                user.organid = ($('#organtree').jstree(true).get_selected(true))[0].id;
             }
-            if($("input[name=edittype]").val() == USERADD){//新增提交
+            if($("input[name=edittype]").val() == USERADD){
                 $("#loading_edit").modal("show");
                 userAdd(user);
-            }else { //编辑完成提交
-                console.log("编辑完成提交")
+            }else {
+
                 var data;
                 for (var i = 0; i < userList.length; i++) {
-                    if (user.id == userList[i].id) {
+                    if (user.userid == userList[i].userid) {
                         data = userList[i];
                     }
                 }
-
-                console.log("data:"+JSON.stringify(data))//原来的数据
-                // if (equar(user.rolelist, (data.roleid || "").split(","))) {
-                //     user.rolelist = [];
-                // }
+                if (equar(user.rolelist, (data.roleid || "").split(","))) {
+                    user.rolelist = [];
+                }
                 var formData = new FormData();
-                //formData.append("img_head",null);
-                // var data1 = sendMessageEdit(DEFAULT, user);
+                formData.append("img_head",null);
                 var data1 = sendMessageEdit(DEFAULT, user);
-                console.log("data1:"+data1)//改变之后的数据
                 formData.append("body",new Blob([data1],{type:"application/json"}));
-
-                console.log("append后的:"+JSON.stringify(formData))
-               // formData.append("rolelist",user.rolelist);
+                formData.append("rolelist",user.rolelist);
                 $("#loading_edit").modal("show");
-                  // userEdit(formData);
-                userEdit(data1);
-
-
-
-
+                userEdit(formData);
             }
         });
         //新增用户
@@ -373,7 +355,7 @@ var UserEdit = function() {
             //清除校验错误信息
             validator.resetForm();
             $(".register-form").find(".has-error").removeClass("has-error");
-            $(".modal-title").text("新增项目");
+            $(".modal-title").text("新增用户");
             $(":input",".register-form").not(":button,:reset,:submit,:radio,#evaluationneed").val("")
                 .removeAttr("checked")
                 .removeAttr("selected");
@@ -388,51 +370,44 @@ var UserEdit = function() {
             clearSelect($("#organtree"));
             ComponentsDateTimePickers.init();
             //用户代码可以输入
-            $(".register-form").find("input[name=id]").attr("readonly", true);
-            //用户代码不可以输入
+            $(".register-form").find("input[name=userid]").attr("readonly", false);
             $("input[name=edittype]").val(USERADD);
             $('#edit_user').modal('show');
         });
-        //编辑用户  点击编辑按钮
+        //编辑用户
         $('#user_table').on('click', '#op_edit', function (e) {
             e.preventDefault();
             //清除校验错误信息
             validator.resetForm();
             $(".register-form").find(".has-error").removeClass("has-error");
-            $(".modal-title").text("编辑项目");
-            // var exclude = ["rolename", "organid"];
-            var exclude = [""];
-           // var userid = $(this).parents("td").siblings().eq(1).text();
+            $(".modal-title").text("编辑用户");
+            var exclude = ["rolename", "organid"];
+            //var userid = $(this).parents("td").siblings().eq(1).text();
             var row = $(this).parents('tr')[0];
-            var id = $("#user_table").dataTable().fnGetData(row).id;
+            var userid = $("#user_table").dataTable().fnGetData(row).userid;
             var user = new Object();
-           // console.log("userList:"+JSON.stringify(userList))
             for(var i=0; i < userList.length; i++){
-                if(id == userList[i].id){
+                if(userid == userList[i].userid){
                     user = userList[i];
                 }
             }
-          //  console.log(JSON.stringify(user))
-             var options = { jsonValue: user, exclude:exclude,isDebug: false};
-          //  var options = { jsonValue: user, exclude:"", isDebug: false};
+            var options = { jsonValue: user, exclude:exclude,isDebug: false};
             $(".register-form").initForm(options);
             //角色赋值
-            // $("#rolename").val((user.roleid||"").split(",")).select2(
-            //     {
-            //         placeholder: "角色",
-            //         width:null
-            //     }
-            // );
-            //实际开始时间
-           // $("input[name=actualsttime]").datepicker("setDate",dateFormat(user.actualsttime, "-"));
-            //实际结束时间
-           // $("input[name=actualentime]").datepicker("setDate",dateFormat(user.actualentime, "-"));
+            $("#rolename").val((user.roleid||"").split(",")).select2(
+                {
+                    placeholder: "角色",
+                    width:null
+                }
+            );
+            //出生日期框
+            $("input[name=birthday]").datepicker("setDate",dateFormat(user.birthday, "-"));
             //清空机构输入框
-            //clearSelectCheck($("#organtree"));
+            clearSelectCheck($("#organtree"));
             //机构框赋值
-          //  $('#organtree').jstree(true).select_node(user.organid);
+            $('#organtree').jstree(true).select_node(user.organid);
             //用户代码不可以输入
-            $(".register-form").find("input[name=id]").attr("readonly", true);
+            $(".register-form").find("input[name=userid]").attr("readonly", true);
             $("input[name=edittype]").val(USEREDIT);
 
             $('#edit_user').modal('show');
@@ -445,10 +420,10 @@ var UserEdit = function() {
     };
 }();
 
-function equar(a,b){ //排序
+function equar(a,b){
     return (a.sort().toString() === b.sort().toString())
 }
-//删除项目
+
 var UserDelete = function() {
     $('#op_del').click(function() {
         var len = $(".checkboxes:checked").length;
@@ -460,16 +435,12 @@ var UserDelete = function() {
     });
     return{
         deleteUser: function(){
-            var projectlist = {projectidlist:[]};
+            var userlist = {useridlist:[]};
             $(".checkboxes:checked").parents("td").each(function () {
-                var row = $(this).parents('tr')[0];     //通过获取该td所在的tr，即td的父级元素，取出第一列序号元素
-                var id = $("#user_table").dataTable().fnGetData(row).id;
-                projectlist.projectidlist.push({projectid:id});
-
+                userlist.useridlist.push($(this).siblings().eq(1).text());
             });
             $("#loading_edit").modal("show");
-            userDelete(projectlist);
-
+            userDelete(userlist);
         }
     }
 }();
@@ -503,17 +474,13 @@ var PasswordRest = function() {
 }();
 
 function getUserDataEnd(flg, result, callback){
-    console.log(flg)
-    console.log(result)
-    // console.log(callback)
     App.unblockUI('#lay-out');
-    if(flg){ //SUCCESS
+    if(flg){
         if (result && result.retcode == SUCCESS) {
+
             var res = result.response;
-            // userList = res.userlist;
-            // tableDataSet(res.draw, res.totalcount, res.totalcount, res.userlist, callback);
-            userList = res.projectlist;
-            tableDataSet(res.draw, res.totalcount, res.totalcount, res.projectlist, callback);
+            userList = res.userlist;
+            tableDataSet(res.draw, res.totalcount, res.totalcount, res.userlist, callback);
         }else{
             tableDataSet(0, 0, 0, [], callback);
             alertDialog("用户信息获取失败！");
@@ -571,7 +538,7 @@ function userInfoEditEnd(flg, result, type){
             $('#edit_user').modal('hide');
         }
     }
-    if(alert == "") alert = text + "项目" + res + "！";
+    if(alert == "") alert = text + "用户" + res + "！";
     App.unblockUI('#lay-out');
     alertDialog(alert);
 }
