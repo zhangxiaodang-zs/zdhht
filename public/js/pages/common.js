@@ -96,7 +96,7 @@ function dateTimeFormat12(datetime){
     if(datetime == "" || datetime.length < 12) return datetime;
     return datetime.substr(0, 4) + "-" + datetime.substr(4, 2) + "-" +
         datetime.substr(6, 2) + " " + datetime.substr(8, 2) + ":" +
-        datetime.substr(10, 2) + ":00";
+        datetime.substr(10, 2);
 }
 
 
@@ -288,7 +288,7 @@ function treeGridDataMake(listNew, list, childrenKey, pid, idKey){
         }
     }
 }
-
+//生成项目负责人信息
 function organNameSelectBuild(organList, id){
     var data = [];
     organListTreeDataMake(organList, data);
@@ -299,17 +299,18 @@ function organNameSelectBuild(organList, id){
         id.jstree({
             "core": {
                 "themes": {
-                    "responsive": false
+                    "responsive": false,
+                    "icons" : false /*图标显示开关*/
                 },
                 "data": data
             },
 
             "types": {
                 "default": {
-                    "icon": "fa fa-folder icon-state-warning icon-lg"
+                   // "icon": "fa fa-folder icon-state-warning icon-lg" //默认图标
                 },
                 "file": {
-                    "icon": "fa fa-file icon-state-warning icon-lg"
+                    //"icon": "fa fa-file icon-state-warning icon-lg"
                 }
             },
             "plugins": ["wholerow", "checkbox", "types"],
@@ -351,6 +352,7 @@ function demandNameSelectBuild(demandList, id){
         })
     }
 }
+
 function projectNameSelectBuild(projectList, id){
     var data = [];
     projectListTreeDataMake(projectList, data);
@@ -367,7 +369,7 @@ function projectNameSelectBuild(projectList, id){
             },
 
             "types": {
-                "default": {
+                "default": {//默认图标
                     "icon": "fa fa-folder icon-state-warning icon-lg"
                 },
                 "file": {
@@ -382,7 +384,7 @@ function projectNameSelectBuild(projectList, id){
         })
     }
 }
-
+//生成项目负责人信息
 function organListTreeDataMake(organList, data){
     for(var i=0; i < organList.length; i++){
         var el = {
@@ -399,11 +401,13 @@ function organListTreeDataMake(organList, data){
             data.push(el);
             organListTreeDataMake(organList[i].organlist, el.children);
         }else{
-            el.icon = "fa fa-file-text-o icon-state-warning icon-lg";
+            // el.icon = "fa fa-file-text-o icon-state-warning icon-lg";
             data.push(el);
         }
     }
 }
+
+
 function demandListTreeDataMake(demandList, data){
     for(var i=0; i < demandList.length; i++){
         var el = {
@@ -446,7 +450,7 @@ function projectListTreeDataMake(projectList, data){
         }
     }
 }
-
+//情况输入框
 function clearSelect(id){
     var ref = id.jstree(true);
     try{

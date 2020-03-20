@@ -53,7 +53,7 @@
                                         <div class="form-group">
                                             <label class="col-md-3 control-label">负责人</label>
                                             <div class="col-md-9">
-                                                <input type="text" class="form-control" placeholder="请选择负责人" name="principal"  onclick="$('#organtreequery').toggle()" id="organquery"/>
+                                                <input type="text" class="form-control" placeholder="负责人" name="principal"  onclick="$('#organtreequery').toggle()" id="organquery"/>
                                                 <div id="organtreequery" class="tree-under-input" style="display: none; "></div>
                                             </div>
                                         </div>
@@ -123,8 +123,8 @@
                                 <th> 项目名称 </th>
                                 <th> 负责人 </th>
                                 <th> 项目简介 </th>
-                                <th width="10%"> 预期开始时间 </th>
-                                <th width="10%"> 预期结束时间 </th>
+                                <th> 预期开始时间 </th>
+                                <th> 预期结束时间 </th>
                                 <th> 实际开始时间 </th>
                                 <th> 实际结束时间 </th>
                                 <th> 操作 </th>
@@ -192,8 +192,8 @@
                                 <div class="form-group col-md-6">
                                     <label class="col-md-4 control-label">负责人<span class="required"> * </span></label>
                                     <div class="col-md-8">
-                                        <input type="text" class="form-control" placeholder="请选择负责人" name="username" onfocus="$('#organtree').show()" id="organ">
-                                        <div id="organtree" class="tree-under-input" style="display: none; "></div>
+                                        <input type="text" class="form-control" placeholder="负责人" name="username" onfocus="$('#organtree').show()" id="organ" autocomplete="off">
+                                        <div id="organtree" class="tree-under-input" style="display: none;"></div>
                                         <input id="userid" hidden name="principal" >
                                     </div>
                                 </div>
@@ -219,13 +219,13 @@
                                 <div class="form-group col-md-6">
                                     <label class="col-md-4 control-label">预期开始时间<span class="required"> * </span></label>
                                     <div class="col-md-8">
-                                        <input class="form-control date-picker" readonly size="20" type="text" value="" name="expectedsttime"   data-date-end-date="0d" />
+                                        <input class="form-control date-picker" size="20" type="text" value="" name="expectedsttime"   data-date-end-date="0d" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="col-md-4 control-label">预期结束时间<span class="required"> * </span></label>
                                     <div class="col-md-8">
-                                        <input class="form-control date-picker" readonly size="20" type="text" value="" name="expectedentime"   data-date-end-date="0d" />
+                                        <input class="form-control date-picker" size="20" type="text" value="" name="expectedentime"   data-date-end-date="0d" />
                                     </div>
                                 </div>
 

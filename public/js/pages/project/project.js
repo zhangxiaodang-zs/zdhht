@@ -143,11 +143,11 @@ var UserTable = function () {
                     "targets":[5],
                     "render": function(data, type, row, meta) {
                         if(data.length==14){
-                            return dateTimeFormat(data);
+                            return dateTimeFormat12(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
                         }else{
-                            return data+":00";
+                            return data;
                         }
 
 
@@ -157,11 +157,11 @@ var UserTable = function () {
                     "targets":[6],
                     "render": function(data, type, row, meta) {
                         if(data.length==14){
-                            return dateTimeFormat(data);
+                            return dateTimeFormat12(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
                         }else{
-                            return data+":00";
+                            return data;
                         }
 
 
@@ -173,11 +173,11 @@ var UserTable = function () {
                         if(data==undefined){
                             return ' ';
                         }else if(data.length==14){
-                            return dateTimeFormat(data);
+                            return dateTimeFormat12(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
                         }else{
-                            return data+":00";
+                            return data;
                         }
 
                     }
@@ -188,11 +188,11 @@ var UserTable = function () {
                         if(data==undefined){
                             return ' ';
                         }else if(data.length==14){
-                            return dateTimeFormat(data);
+                            return dateTimeFormat12(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
                         }else{
-                            return data+":00";
+                            return data;
                         }
 
                     }
@@ -220,7 +220,7 @@ var UserTable = function () {
                 }
             ],
             fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                $('td:eq(0),td:eq(1),td:eq(2),td:eq(3),td:eq(4),td:eq(5),td:eq(6),td:eq(7),td:eq(8)', nRow).attr('style', 'text-align: center;');//td内容居中显示
+                $('td:eq(1),td:eq(5),td:eq(6),td:eq(7),td:eq(8)', nRow).attr('style', 'text-align: center;');//td内容居中显示
             }
         });
         //table.draw( false );
@@ -572,7 +572,7 @@ function getOrganDataEnd(flg, result, callback){
     if(flg){
         if (result && result.retcode == SUCCESS) {
             var organList = result.response.userlist;
-            organNameSelectBuild(organList, $("#organtreequery, #organtree"));//common.js中生成
+            organNameSelectBuild(organList, $("#organtreequery, #organtree"));//common.js中生成tree
         }
     }
 }

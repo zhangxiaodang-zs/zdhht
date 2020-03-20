@@ -148,7 +148,7 @@ var UserTable = function () {
                 {
                     "targets":[5],
                     "render": function(data, type, row, meta) {
-                        if(data.length==14){
+                         if(data.length==14){
                             return dateTimeFormat(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
@@ -176,7 +176,9 @@ var UserTable = function () {
                 {
                     "targets":[7],
                     "render": function(data, type, row, meta) {
-                        if(data.length==14){
+                        if(data==undefined){
+                            return ' ';
+                        }else if(data.length==14){
                             return dateTimeFormat(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
@@ -190,7 +192,9 @@ var UserTable = function () {
                 {
                     "targets":[8],
                     "render": function(data, type, row, meta) {
-                        if(data.length==14){
+                        if(data==undefined){
+                            return ' ';
+                        }else if(data.length==14){
                             return dateTimeFormat(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
