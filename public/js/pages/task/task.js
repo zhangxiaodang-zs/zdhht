@@ -149,11 +149,11 @@ var UserTable = function () {
                     "targets":[5],
                     "render": function(data, type, row, meta) {
                          if(data.length==14){
-                            return dateTimeFormat(data);
+                            return dateTimeFormat12(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
                         }else{
-                            return data+":00";
+                            return data;
                         }
 
 
@@ -163,11 +163,11 @@ var UserTable = function () {
                     "targets":[6],
                     "render": function(data, type, row, meta) {
                         if(data.length==14){
-                            return dateTimeFormat(data);
+                            return dateTimeFormat12(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
                         }else{
-                            return data+":00";
+                            return data;
                         }
 
 
@@ -179,11 +179,11 @@ var UserTable = function () {
                         if(data==undefined){
                             return ' ';
                         }else if(data.length==14){
-                            return dateTimeFormat(data);
+                            return dateTimeFormat12(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
                         }else{
-                            return data+":00";
+                            return data;
                         }
 
 
@@ -195,11 +195,11 @@ var UserTable = function () {
                         if(data==undefined){
                             return ' ';
                         }else if(data.length==14){
-                            return dateTimeFormat(data);
+                            return dateTimeFormat12(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
                         }else{
-                            return data+":00";
+                            return data;
                         }
 
 
@@ -236,7 +236,7 @@ var UserTable = function () {
                 }
             ],
             fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                $('td:eq(0),td:eq(1),td:eq(2),td:eq(3),td:eq(4),td:eq(5),td:eq(6),td:eq(7),td:eq(8),td:eq(9)', nRow).attr('style', 'text-align: center;');//td内容居中显示
+                $('td:eq(1),td:eq(5),td:eq(6),td:eq(7),td:eq(8),td:eq(9)', nRow).attr('style', 'text-align: center;');//td内容居中显示
             }
         });
         //table.draw( false );
@@ -382,7 +382,6 @@ var UserEdit = function() {
            // console.log($('.register-form').validate().form());
             if ($('.register-form').validate().form()) {
                 var user = $('.register-form').getFormData();
-                console.log("user:"+JSON.stringify(user))
                 // user.rolelist = $('#rolename').val();
                 // user.birthday = user.birthday.replace(/-/g, '');
                 // user.organid = ($('#organtree').jstree(true).get_selected(true))[0].id;
@@ -399,18 +398,12 @@ var UserEdit = function() {
                     }
                 }
 
-                console.log("data:"+JSON.stringify(data))//原来的数据
-                // if (equar(user.rolelist, (data.roleid || "").split(","))) {
-                //     user.rolelist = [];
-                // }
+
                 var formData = new FormData();
                 //formData.append("img_head",null);
                 // var data1 = sendMessageEdit(DEFAULT, user);
                 var data1 = sendMessageEdit(DEFAULT, user);
-                console.log("data1:"+data1)//改变之后的数据
                 formData.append("body",new Blob([data1],{type:"application/json"}));
-
-                console.log("append后的:"+JSON.stringify(formData))
                // formData.append("rolelist",user.rolelist);
                 $("#loading_edit").modal("show");
                   // userEdit(formData);
@@ -632,8 +625,6 @@ var PasswordRest = function() {
 }();
 
 function getUserDataEnd(flg, result, callback){
-    console.log(flg)
-    console.log(result)
     // console.log(callback)
     App.unblockUI('#lay-out');
     if(flg){ //SUCCESS
@@ -678,7 +669,6 @@ function getDemandDataEnd(flg, result, callback){
     App.unblockUI('#lay-out');
     if(flg){
         if (result && result.retcode == SUCCESS) {
-
             var demandList = result.response.demandlist;
             demandNameSelectBuild(demandList, $("#demandtree"));
         }
@@ -741,7 +731,6 @@ function roleNameSelectBuild(roleList){
 
 //选中所属机构
 $('#organtreequery, #organtree').on('select_node.jstree', function(e,data) {
-    console.info("select_node");
     var ref = $(this).jstree(true);
     var nodes = ref.get_checked();  //使用get_checked方法
     $.each(nodes, function(i, nd) {

@@ -18,7 +18,7 @@ function userDataGet(data, callback){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-            console.info("userDataGet:" + JSON.stringify(result));
+           // console.info("userDataGet:" + JSON.stringify(result));
             getUserDataEnd(true, result, callback);
         },
         error: function (errorMsg) {
@@ -41,12 +41,12 @@ function demandDataGet(data, callback){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-            console.log("获取成功")
-            console.info("userDataGet:" + JSON.stringify(result));
+           // console.log("获取成功")
+           // console.info("userDataGet:" + JSON.stringify(result));
             getUserDataEnd(true, result, callback);
         },
         error: function (errorMsg) {
-            console.info("userDataGet-error:" + JSON.stringify(errorMsg));
+           // console.info("userDataGet-error:" + JSON.stringify(errorMsg));
             getUserDataEnd(false, "", callback);
         }
     });
@@ -132,12 +132,11 @@ function userqueryDataGet(data, callback){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-            console.log("获取成功")
-            console.info("organDataGet:" + JSON.stringify(result));
+           // console.info("organDataGet:" + JSON.stringify(result));
             getOrganDataEnd(true, result, callback);
         },
         error: function (errorMsg) {
-            console.info("organDataGet-error:" + JSON.stringify(errorMsg));
+            //console.info("organDataGet-error:" + JSON.stringify(errorMsg));
             getOrganDataEnd(false, "", callback);
         }
     });
@@ -154,12 +153,11 @@ function demandqueryDataGet(data, callback){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-            console.log("获取成功")
-            console.info("demandDataGet:" + JSON.stringify(result));
+           // console.info("demandDataGet:" + JSON.stringify(result));
             getDemandDataEnd(true, result, callback);
         },
         error: function (errorMsg) {
-            console.info("demandDataGet-error:" + JSON.stringify(errorMsg));
+           // console.info("demandDataGet-error:" + JSON.stringify(errorMsg));
             getDemandDataEnd(false, "", callback);
         }
     });
@@ -176,12 +174,11 @@ function projectqueryDataGet(data, callback){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-            console.log("获取成功")
-            console.info("projectDataGet:" + JSON.stringify(result));
+            //console.info("projectDataGet:" + JSON.stringify(result));
             getProjectDataEnd(true, result, callback);
         },
         error: function (errorMsg) {
-            console.info("projectDataGet-error:" + JSON.stringify(errorMsg));
+            //console.info("projectDataGet-error:" + JSON.stringify(errorMsg));
             getProjectDataEnd(false, "", callback);
         }
     });
@@ -237,11 +234,11 @@ function taskadd(data){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-            console.info("userAdd:" + JSON.stringify(result));
+           // console.info("userAdd:" + JSON.stringify(result));
             userInfoEditEnd(true, result, USERADD);
         },
         error: function (errorMsg) {
-            console.info("userAdd-error:" + JSON.stringify(errorMsg));
+          //  console.info("userAdd-error:" + JSON.stringify(errorMsg));
             userInfoEditEnd(false, "", USERADD);
         }
     });
@@ -257,11 +254,11 @@ function taskadd_fj(data){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-            console.info("userAdd:" + JSON.stringify(result));
+           // console.info("userAdd:" + JSON.stringify(result));
             userInfoEditEnd(true, result, taskadd_fj);
         },
         error: function (errorMsg) {
-            console.info("userAdd-error:" + JSON.stringify(errorMsg));
+           // console.info("userAdd-error:" + JSON.stringify(errorMsg));
             userInfoEditEnd(false, "", taskadd_fj);
         }
     });
@@ -299,11 +296,11 @@ function feedbackedit(info_id,feedbackcontent){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-            console.info("userAdd:" + JSON.stringify(result));
+           // console.info("userAdd:" + JSON.stringify(result));
             userInfoEditEnd(true, result, USERADD);
         },
         error: function (errorMsg) {
-            console.info("userAdd-error:" + JSON.stringify(errorMsg));
+           // console.info("userAdd-error:" + JSON.stringify(errorMsg));
             userInfoEditEnd(false, "", USERADD);
         }
     });

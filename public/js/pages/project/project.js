@@ -13,7 +13,7 @@ if (App.isAngularJsApp() === false) {
         //多选控件初始化
         RoleSelect2.init();
         //获取角色列表，用来做成角色选择框
-        roleDataGet();
+       // roleDataGet();
         //获取机构列表，用来做成机构选择框
        // organDataGet();
         //获取用户列表，用来做成负责人选择框
@@ -36,9 +36,9 @@ var ComponentsDateTimePickers = function () {
                 timeFormat: 'HH:mm:ss' //格式化时间
             });
             var date = getNowFormatDate()+" "+getNowFormatTime();
-           // $("input[name='expectedsttime']").datetimepicker("setStartDate",date);
             $("input[name='expectedsttime']").val(date);
             $("input[name='expectedentime']").val(date);
+
 
         }
     };
@@ -137,6 +137,12 @@ var UserTable = function () {
                     "data": null,
                     "render": function (data, type, row, meta) {
                         return meta.settings._iDisplayStart + meta.row + 1;  //行号
+                    }
+                },
+                {
+                    "targets": [4],
+                    "render": function (data, type, row, meta) {
+                        return InterceptField(data,"无",20);
                     }
                 },
                 {
@@ -566,14 +572,14 @@ function getRoleDataEnd(flg, result, callback){
     }
 }
 
-//获取完用户列表信息
+//获取用户列表信息
 function getOrganDataEnd(flg, result, callback){
     App.unblockUI('#lay-out');
     if(flg){
         if (result && result.retcode == SUCCESS) {
             var organList = result.response.userlist;
             organNameSelectBuild(organList, $("#organtreequery, #organtree"));//common.js中生成
-            organNameSelectBuild(organList, $("#principaltreequery"));//common.js中生成
+            organNameSelectBuild(organList, $("#principaltreequery"));
         }
     }
 }

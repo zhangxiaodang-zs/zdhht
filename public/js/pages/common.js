@@ -21,7 +21,7 @@ function sendMessageEdit(type, data){
     };
     request = $.extend({},request,head);
     var oJson = request;
-    console.info(oJson);
+   // console.info(oJson);
     return JSON.stringify(oJson);
 }
 
@@ -805,4 +805,17 @@ function get_thousand_num(num) {
             return n.slice(0, len % 3) + n.slice(len % 3).replace(/(\d{3})/g, ',$1');
         }
     });
+}
+//标题或者内容截取
+function InterceptField(field,contnet,num){
+    if(field&&field!='null'){
+        if(field.length>num){
+            field = field.substring(0,(num-1))+'...';
+            return field
+        }else{
+            return field
+        }
+    }else{
+        return contnet
+    }
 }

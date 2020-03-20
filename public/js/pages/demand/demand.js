@@ -38,7 +38,10 @@ var ComponentsDateTimePickers = function () {
            // $("input[name='starttime']").datetimepicker("setStartDate",date);
             $("input[name='starttime']").val(date);
             $("input[name='endtime']").val(date);
-
+            $("input[name='actualsttime']").val(date);
+            $("input[name='actualentime']").val(date);
+            $("input[name='expectedsttime']").val(date);
+            $("input[name='expectedentime']").val(date);
         }
 
     };
@@ -138,6 +141,12 @@ var UserTable = function () {
                     "data": null,
                     "render": function (data, type, row, meta) {
                         return meta.settings._iDisplayStart + meta.row + 1;  //行号
+                    }
+                },
+                {
+                    "targets": [4],
+                    "render": function (data, type, row, meta) {
+                        return InterceptField(data,"无",20);
                     }
                 },
                 {
@@ -318,7 +327,7 @@ var UserEdit = function() {
             // console.log($('.register-form').validate().form());
             if ($('.register-form').validate().form()) {
                 var user = $('.register-form').getFormData();
-                console.log("user:"+JSON.stringify(user))
+               // console.log("user:"+JSON.stringify(user))
                 // user.rolelist = $('#rolename').val();
                 // user.birthday = user.birthday.replace(/-/g, '');
                 // user.organid = ($('#organtree').jstree(true).get_selected(true))[0].id;
@@ -335,18 +344,12 @@ var UserEdit = function() {
                     }
                 }
 
-                console.log("data:"+JSON.stringify(data))//原来的数据
-                // if (equar(user.rolelist, (data.roleid || "").split(","))) {
-                //     user.rolelist = [];
-                // }
                 var formData = new FormData();
                 //formData.append("img_head",null);
                 // var data1 = sendMessageEdit(DEFAULT, user);
                 var data1 = sendMessageEdit(DEFAULT, user);
-                console.log("data1:"+data1)//改变之后的数据
                 formData.append("body",new Blob([data1],{type:"application/json"}));
 
-                console.log("append后的:"+JSON.stringify(formData))
                 // formData.append("rolelist",user.rolelist);
                 $("#loading_edit").modal("show");
                 // userEdit(formData);
@@ -365,7 +368,7 @@ var UserEdit = function() {
             if ($('.addtask-form').validate().form()) {
                 var user = $('.addtask-form').getFormData();
                 user.demandid=task_id_fj
-                console.log("user:"+JSON.stringify(user))
+
             }
             $("#loading_edit").modal("show");
             taskadd_fj(user);
@@ -554,9 +557,6 @@ var PasswordRest = function() {
 }();
 
 function getUserDataEnd(flg, result, callback){
-    console.log(flg)
-    console.log(result)
-    // console.log(callback)
     App.unblockUI('#lay-out');
     if(flg){ //SUCCESS
         if (result && result.retcode == SUCCESS) {
@@ -627,7 +627,6 @@ function userInfoEditEnd(flg, result, type){
             break;
     }
     if(flg){
-        console.log(result.retcode)
         if(result && result.retcode != SUCCESS){
             alert = result.retmsg;
         }
@@ -666,7 +665,6 @@ function roleNameSelectBuild(roleList){
 
 //选中所属机构
 $('#organtreequery, #organtree').on('select_node.jstree', function(e,data) {
-    console.info("select_node");
     var ref = $(this).jstree(true);
     var nodes = ref.get_checked();  //使用get_checked方法
     $.each(nodes, function(i, nd) {
@@ -680,7 +678,6 @@ $('#organtreequery, #organtree').on('select_node.jstree', function(e,data) {
 
 //取消选中所属机构
 $('#organtreequery, #organtree').on('deselect_node.jstree', function(e,data) {
-    console.info("deselect_node");
     $('#organ').val("");
     $('#userid').val("");
     $(this).hide();
