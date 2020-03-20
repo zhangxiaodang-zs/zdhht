@@ -745,7 +745,7 @@ $('#organtreequery, #organtree').on('select_node.jstree', function(e,data) {
             ref.uncheck_node(nd);
     });
     $('#organ').val(data.node.text);
-    $('#userid').val(data.node.id);
+    $('#principal').val(data.node.id);
     $(this).hide();
 });
 
@@ -753,7 +753,7 @@ $('#organtreequery, #organtree').on('select_node.jstree', function(e,data) {
 $('#organtreequery, #organtree').on('deselect_node.jstree', function(e,data) {
     console.info("deselect_node");
     $('#organ').val("");
-    $('#userid').val("");
+    $('#principal').val("");
     $(this).hide();
 });
 
