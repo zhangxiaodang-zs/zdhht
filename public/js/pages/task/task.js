@@ -787,6 +787,9 @@ $(document).click(function(e){
     if ($(e.target)[0] != $("#organ")[0]){
         $("#organtree").hide();
     }
+    if ($(e.target)[0] != $("#demand")[0]){
+        $("#demandtree").hide();
+    }
 });
 
 $("#photo").change(function(){
