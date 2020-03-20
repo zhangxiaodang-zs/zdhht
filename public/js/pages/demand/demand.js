@@ -168,25 +168,21 @@ var UserTable = function () {
 
                     }
                 },
-                // {
-                //     "targets": [2],
-                //     "render": function (data, type, row, meta) {
-                //         var project_info;
-                //         project_info = '<a href="/views/user/role.html" id="op_info">'+data+'</a>';
-                //         return project_info;
-                //
-                //     }
-                // },
                 {
                     "targets": [7],
                     "render": function (data, type, row, meta) {
                         var edit;
+                        var addtask;//分解
                         if(!window.parent.makeEdit(menu,loginSucc.functionlist,"#op_edit")){
                             edit = '-';
                         }else{
                             edit = '<a href="javascript:;" id="op_edit">编辑</a>';
                         }
-                        return edit;
+
+                        addtask = '<a href="javascript:;" data-did="'+row.id+'" id="addtask">分解</a>';
+
+                        return edit+"&nbsp;&nbsp;"+addtask;
+
                     }
                 }
             ],
@@ -316,7 +312,7 @@ var UserEdit = function() {
             return this.optional(element) || (tel.test(value));
         }, "请正确填写您的固定电话");
 
-        //点击确定按钮
+        //新增、编辑确定按钮
         $('#register-btn').click(function() {
             btnDisable($('#register-btn'));
             // console.log($('.register-form').validate().form());
@@ -361,6 +357,22 @@ var UserEdit = function() {
 
             }
         });
+        /*——————————分解需求确定按钮————————————*/
+        $('#addtask-btn').click(function() {
+            var task_id_fj = localStorage.getItem('task_id_fj');
+            btnDisable($('#addtask-form'));
+            // console.log($('.register-form').validate().form());
+            if ($('.addtask-form').validate().form()) {
+                var user = $('.addtask-form').getFormData();
+                user.demandid=task_id_fj
+                console.log("user:"+JSON.stringify(user))
+            }
+            $("#loading_edit").modal("show");
+            taskadd_fj(user);
+        });
+
+
+
         //新增需求
         $('#op_add').click(function() {
             //清除校验错误信息
@@ -431,6 +443,50 @@ var UserEdit = function() {
             $("input[name=edittype]").val(USEREDIT);
 
             $('#edit_user').modal('show');
+        });
+        //分解需求 (添加任务)
+        $('#user_table').on('click', '#addtask', function (e) {
+            localStorage.setItem('task_id_fj',$(this).attr("data-did"));
+            e.preventDefault();
+            //清除校验错误信息
+            validator.resetForm();
+            $(".addtask-form").find(".has-error").removeClass("has-error");
+            $(".modal-title").text("分解需求");
+            // var exclude = ["rolename", "organid"];
+            var exclude = [""];
+            // var userid = $(this).parents("td").siblings().eq(1).text();
+            var row = $(this).parents('tr')[0];
+            var id = $("#user_table").dataTable().fnGetData(row).id;
+            var user = new Object();
+            // console.log("userList:"+JSON.stringify(userList))
+            for(var i=0; i < userList.length; i++){
+                if(id == userList[i].id){
+                    user = userList[i];
+                }
+            }
+            var options = { jsonValue: user, exclude:exclude,isDebug: false};
+            //  var options = { jsonValue: user, exclude:"", isDebug: false};
+            $(".register-form").initForm(options);
+            //角色赋值
+            // $("#rolename").val((user.roleid||"").split(",")).select2(
+            //     {
+            //         placeholder: "角色",
+            //         width:null
+            //     }
+            // );
+            //实际开始时间
+            // $("input[name=actualsttime]").datepicker("setDate",dateFormat(user.actualsttime, "-"));
+            //实际结束时间
+            // $("input[name=actualentime]").datepicker("setDate",dateFormat(user.actualentime, "-"));
+            //清空机构输入框
+            //clearSelectCheck($("#organtree"));
+            //机构框赋值
+            //  $('#organtree').jstree(true).select_node(user.organid);
+            //用户代码不可以输入
+            $(".register-form").find("input[name=id]").attr("readonly", true);
+            $("input[name=edittype]").val(USEREDIT);
+
+            $('#edit_addtask').modal('show');
         });
     };
     return {
@@ -564,8 +620,13 @@ function userInfoEditEnd(flg, result, type){
         case USERDELETE:
             text = "删除";
             break;
+        case taskadd_fj:
+            text = "分解";
+            alert = "分解";
+            break;
     }
     if(flg){
+        console.log(result.retcode)
         if(result && result.retcode != SUCCESS){
             alert = result.retmsg;
         }
@@ -574,8 +635,13 @@ function userInfoEditEnd(flg, result, type){
             UserTable.init();
             $('#edit_user').modal('hide');
         }
+
     }
     if(alert == "") alert = text + "项目" + res + "！";
+    if(alert == "分解"){
+        alert = text + "需求" + res + "！";
+        $('#edit_addtask').modal('hide');
+    }
     App.unblockUI('#lay-out');
     alertDialog(alert);
 }

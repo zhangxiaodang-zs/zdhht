@@ -153,7 +153,7 @@
             </div>
         </div>
     </div>
-    <!--新增及编辑用户弹框-->
+    <!--新增及编辑需求弹框-->
     <div id="edit_user" class="modal fade" tabindex="-1" data-width="400" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -233,6 +233,93 @@
             </div>
         </div>
     </div>
+    <!--分解需求弹框-->
+    <div id="edit_addtask" class="modal fade" tabindex="-1" data-width="400" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">分解需求</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="addtask-form form-horizontal" role="form">
+                        <div class="form-body">
+                            <!-- 操作类型隐藏（用来区分新增还是编辑） -->
+                            <input type="hidden" name="edittype">
+                            <div class="row" style="display: none">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-4 control-label">任务id<span class="required"> * </span></label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" placeholder="任务id不可编辑" name="demandid">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-4 control-label">任务名称<span class="required"> * </span></label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" placeholder="任务名称" name="taskname">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-4 control-label">负责人<span class="required"> * </span></label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" placeholder="请选择负责人" name="principal" onfocus="$('#organtree').show()" id="organ">
+                                        <div id="organtree" class="tree-under-input" style="display: none; "></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-4 control-label">实际开始时间<span class="required"> * </span></label>
+                                    <div class="col-md-8">
+                                        <input class="form-control date-picker" size="20" type="text"  value="" name="actualsttime" data-date-end-date="0d"  />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-4 control-label">实际结束时间<span class="required"> * </span></label>
+                                    <div class="col-md-8">
+                                        <input class="form-control date-picker" size="20" type="text" value="" name="actualentime" data-date-end-date="0d"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-4 control-label">预期开始时间<span class="required"> * </span></label>
+                                    <div class="col-md-8">
+                                        <input class="form-control date-picker" size="20" type="text" value="" name="expectedsttime"   data-date-end-date="0d" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-4 control-label">预期结束时间<span class="required"> * </span></label>
+                                    <div class="col-md-8">
+                                        <input class="form-control date-picker" size="20" type="text" value="" name="expectedentime"   data-date-end-date="0d" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-2 control-label">任务简介<span class="required"> * </span></label>
+                                    <div class="col-md-10" style="padding-left: 10px;width: 80%">
+                                        <textarea rows="5" class="form-control" placeholder="任务简介" name="taskcontent"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-danger btn-outline">取消</button>
+                    <button type="submit" id="addtask-btn" class="btn btn-success">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
     <!-- 处理遮罩 -->
     <div class="modal fade" id="loading_edit" role="basic" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
