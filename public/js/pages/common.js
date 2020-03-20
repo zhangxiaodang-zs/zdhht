@@ -412,7 +412,7 @@ function demandListTreeDataMake(demandList, data){
     for(var i=0; i < demandList.length; i++){
         var el = {
             text: demandList[i].demandname,
-            id: demandList[i].demandid,
+            id: demandList[i].id,
             "state": {
                 "selected": false,
                 "opened": true

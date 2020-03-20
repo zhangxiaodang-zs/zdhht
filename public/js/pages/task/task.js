@@ -761,7 +761,7 @@ $('#organtreequery, #organtree').on('deselect_node.jstree', function(e,data) {
     $(this).hide();
 });
 
-//选中所属机构
+//选中关联需求
 $('#demandtree').on('select_node.jstree', function(e,data) {
     console.info("select_node");
     var ref = $(this).jstree(true);
@@ -775,7 +775,7 @@ $('#demandtree').on('select_node.jstree', function(e,data) {
     $(this).hide();
 });
 
-//取消选中所属机构
+//取消选中关联需求
 $('#demandtree').on('deselect_node.jstree', function(e,data) {
     console.info("deselect_node");
     $('#demand').val("");

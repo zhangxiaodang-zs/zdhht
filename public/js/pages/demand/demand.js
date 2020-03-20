@@ -118,7 +118,7 @@ var UserTable = function () {
                 { "data": null},
                 { "data": null},
                 { "data": "demandname" },//需求名称
-                { "data": "principal" },//需求负责人
+                { "data": "username" },//需求负责人
                 { "data": "demandcontent" },//需求描述
                 { "data": "starttime" },//开始时间
                 { "data": "endtime" },//结束时间
@@ -589,7 +589,8 @@ function getOrganDataEnd(flg, result, callback){
         if (result && result.retcode == SUCCESS) {
 
             var organList = result.response.userlist;
-            organNameSelectBuild(organList, $("#organtreequery, #organtree"));
+            organNameSelectBuild(organList, $("#organtreequery, #organtree,#principaltree"));
+            organNameSelectBuild(organList, $("#principaltree"));
         }
     }
 }
@@ -707,6 +708,28 @@ $('#projecttree').on('deselect_node.jstree', function(e,data) {
     $(this).hide();
 });
 
+//选中负责人（分解任务）
+$('#principaltree').on('select_node.jstree', function(e,data) {
+    console.info("select_node");
+    var ref = $(this).jstree(true);
+    var nodes = ref.get_checked();  //使用get_checked方法
+    $.each(nodes, function(i, nd) {
+        if (nd != data.node.id)
+            ref.uncheck_node(nd);
+    });
+    $('#principal').val(data.node.text);
+    $('#principalid').val(data.node.id);
+    $(this).hide();
+});
+
+//取消选中负责人（分解任务）
+$('#principaltree').on('deselect_node.jstree', function(e,data) {
+    console.info("deselect_node");
+    $('#principal').val("");
+    $('#principalid').val("");
+    $(this).hide();
+});
+
 //按下input之外的地方，所属机构输入框不显示
 $(document).click(function(e){
     if ($(e.target)[0] != $("#organquery")[0]){
@@ -717,6 +740,9 @@ $(document).click(function(e){
     }
     if ($(e.target)[0] != $("#project")[0]){
         $("#projecttree").hide();
+    }
+    if ($(e.target)[0] != $("#principal")[0]){
+        $("#principaltree").hide();
     }
 });
 
