@@ -649,6 +649,7 @@ function getRoleDataEnd(flg, result, callback){
     if(flg){
         if (result && result.retcode == SUCCESS) {
             var roleList = result.response.rolelist;
+            //console.log(roleList)
             roleNameSelectBuild(roleList);
         }
     }
@@ -660,20 +661,23 @@ function getOrganDataEnd(flg, result, callback){
         if (result && result.retcode == SUCCESS) {
 
             var organList = result.response.userlist;
-            organNameSelectBuild(organList, $("#organtreequery, #organtree"));
+           // console.log(organList)
+            taskSelectBuild(organList, $("#organtreequery, #organtree"));
         }
     }
 }
-//获取完需求列表信息
+//任务关联需求
 function getDemandDataEnd(flg, result, callback){
     App.unblockUI('#lay-out');
     if(flg){
         if (result && result.retcode == SUCCESS) {
             var demandList = result.response.demandlist;
-            demandNameSelectBuild(demandList, $("#demandtree"));
+            console.log(demandList)
+            projectNameSelectBuild(demandList, $("#demandtree"));
         }
     }
 }
+
 
 function userInfoEditEnd(flg, result, type){
     $("#loading_edit").modal("hide");
@@ -703,6 +707,7 @@ function userInfoEditEnd(flg, result, type){
         }
         if (result && result.retcode == SUCCESS) {
             res = "成功";
+            $(".group-checkable").prop("checked",false);
             UserTable.init();
             $('#edit_user').modal('hide');
         }

@@ -15,7 +15,7 @@ if (App.isAngularJsApp() === false) {
         //获取角色列表，用来做成角色选择框
        // roleDataGet();
         //获取机构列表，用来做成机构选择框
-       // organDataGet();
+        organDataGet();
         //获取用户列表，用来做成负责人选择框
         userqueryDataGet();
         //新增编辑用户控件初始化
@@ -111,7 +111,7 @@ var UserTable = function () {
                     startindex: data.start,
                     draw: data.draw
                 };
-                userDataGet(da, callback);//获取需求列表
+                project_DataGet(da, callback);//获取需求列表
             },
             columns: [//返回的json数据在这里填充，注意一定要与上面的<th>数量对应，否则排版出现扭曲
                 { "data": null},
@@ -578,8 +578,8 @@ function getOrganDataEnd(flg, result, callback){
     if(flg){
         if (result && result.retcode == SUCCESS) {
             var organList = result.response.userlist;
-            organNameSelectBuild(organList, $("#organtreequery, #organtree"));//common.js中生成
-            organNameSelectBuild(organList, $("#principaltreequery"));
+            ProjectSelectBuild(organList, $("#organtreequery, #organtree"));//common.js中生成
+            ProjectSelectBuild(organList, $("#principaltreequery"));
         }
     }
 }
@@ -606,6 +606,7 @@ function userInfoEditEnd(flg, result, type){
         }
         if (result && result.retcode == SUCCESS) {
             res = "成功";
+            $(".group-checkable").prop("checked",false);
             UserTable.init();
             $('#edit_user').modal('hide');
         }

@@ -505,8 +505,9 @@ function getOrganDataEnd(flg, result, callback){
     App.unblockUI('#lay-out');
     if(flg){
         if (result && result.retcode == SUCCESS) {
-
-            var organList = result.response.list;
+            console.log(JSON.stringify(result))  //organlist
+            // var organList = result.response.list;
+            var organList = result.response.organlist;
             organNameSelectBuild(organList, $("#organtreequery, #organtree"));
         }
     }

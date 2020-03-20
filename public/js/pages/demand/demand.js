@@ -572,7 +572,7 @@ function getUserDataEnd(flg, result, callback){
         alertDialog("用户信息获取失败！");
     }
 }
-
+//角色
 function getRoleDataEnd(flg, result, callback){
     App.unblockUI('#lay-out');
     if(flg){
@@ -582,6 +582,8 @@ function getRoleDataEnd(flg, result, callback){
         }
     }
 }
+
+//分解(principaltree) 新增和编辑(organtree)
 //获取完用户列表信息
 function getOrganDataEnd(flg, result, callback){
     App.unblockUI('#lay-out');
@@ -589,19 +591,19 @@ function getOrganDataEnd(flg, result, callback){
         if (result && result.retcode == SUCCESS) {
 
             var organList = result.response.userlist;
-            organNameSelectBuild(organList, $("#organtreequery, #organtree,#principaltree"));
-            organNameSelectBuild(organList, $("#principaltree"));
+            demandSelectBuild(organList, $("#organtreequery, #organtree,#principaltree"));
+           // organNameSelectBuild(organList, $("#principaltree"));
         }
     }
 }
-//获取任务列表
+//需求关联项目
 function getProjectDataEnd(flg, result, callback){
     App.unblockUI('#lay-out');
     if(flg){
         if (result && result.retcode == SUCCESS) {
 
             var projectList = result.response.projectlist;
-            projectNameSelectBuild(projectList, $("#projecttree"));
+             projectNameSelectBuild(projectList, $("#projecttree"));
         }
     }
 }
@@ -632,6 +634,7 @@ function userInfoEditEnd(flg, result, type){
         }
         if (result && result.retcode == SUCCESS) {
             res = "成功";
+            $(".group-checkable").prop("checked",false);
             UserTable.init();
             $('#edit_user').modal('hide');
         }

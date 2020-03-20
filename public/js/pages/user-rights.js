@@ -3,9 +3,31 @@
  */
 var userRightUrl = regulateSucc.userHostUrl;
 var businessUrl = regulateSucc.businessUrl;
-
-//项目列表
+//用户列表
 function userDataGet(data, callback){
+    App.blockUI({target: '#lay-out',boxed: true});
+    if(data == null){
+        data = {userid: "", username: "", organid: "", mobile:"", currentpage: "", pagesize: "", startindex: "0", draw: 1}
+    }
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "userquery",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("userDataGet:" + JSON.stringify(result));
+            getUserDataEnd(true, result, callback);
+        },
+        error: function (errorMsg) {
+            console.info("userDataGet-error:" + JSON.stringify(errorMsg));
+            getUserDataEnd(false, "", callback);
+        }
+    });
+}
+//项目列表
+function project_DataGet(data, callback){
     App.blockUI({target: '#lay-out',boxed: true});
     if(data == null){
         data = { pagesize: "50", startindex: "0"}
