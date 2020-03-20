@@ -117,7 +117,7 @@ var UserTable = function () {
                 { "data": null},
                 { "data": null},
                 { "data": "projectname" },//项目名称
-                { "data": "principal" },//负责人
+                { "data": "username" },//负责人
                 { "data": "introduction" },//描述
                 { "data": "expectedsttime" },//预期开始时间
                 { "data": "expectedentime" },//预期结束时间
@@ -634,14 +634,16 @@ $('#organtreequery, #organtree').on('select_node.jstree', function(e,data) {
         if (nd != data.node.id)
             ref.uncheck_node(nd);
     });
-    $(this).siblings("input").val(data.node.text);
+    $('#organ').val(data.node.text);
+    $('#principal').val(data.node.id);
     $(this).hide();
 });
 
 //取消选中所属机构
 $('#organtreequery, #organtree').on('deselect_node.jstree', function(e,data) {
     console.info("deselect_node");
-    $(this).siblings("input").val("");
+    $('#organ').val("");
+    $('#principal').val("");
     $(this).hide();
 });
 

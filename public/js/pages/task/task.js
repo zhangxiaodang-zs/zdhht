@@ -17,6 +17,7 @@ if (App.isAngularJsApp() === false) {
        // organDataGet();
         //获取用户列表，用来做成负责人选择框
         userqueryDataGet();
+        demandqueryDataGet();
         //新增编辑用户控件初始化
         UserEdit.init();
         //获取用户信息
@@ -122,7 +123,7 @@ var UserTable = function () {
                 { "data": null},
                 { "data": null},
                 { "data": "taskname" },//项目名称
-                { "data": "principal" },//负责人
+                { "data": "username" },//负责人
                 { "data": "taskcontent" },//描述
                 { "data": "expectedsttime" },//预期开始时间
                 { "data": "expectedentime" },//预期结束时间
@@ -668,6 +669,17 @@ function getOrganDataEnd(flg, result, callback){
         }
     }
 }
+//获取完需求列表信息
+function getDemandDataEnd(flg, result, callback){
+    App.unblockUI('#lay-out');
+    if(flg){
+        if (result && result.retcode == SUCCESS) {
+
+            var demandList = result.response.demandlist;
+            demandNameSelectBuild(demandList, $("#demandtree"));
+        }
+    }
+}
 
 function userInfoEditEnd(flg, result, type){
     $("#loading_edit").modal("hide");
@@ -732,14 +744,38 @@ $('#organtreequery, #organtree').on('select_node.jstree', function(e,data) {
         if (nd != data.node.id)
             ref.uncheck_node(nd);
     });
-    $(this).siblings("input").val(data.node.text);
+    $('#organ').val(data.node.text);
+    $('#userid').val(data.node.id);
     $(this).hide();
 });
 
 //取消选中所属机构
 $('#organtreequery, #organtree').on('deselect_node.jstree', function(e,data) {
     console.info("deselect_node");
-    $(this).siblings("input").val("");
+    $('#organ').val("");
+    $('#userid').val("");
+    $(this).hide();
+});
+
+//选中所属机构
+$('#demandtree').on('select_node.jstree', function(e,data) {
+    console.info("select_node");
+    var ref = $(this).jstree(true);
+    var nodes = ref.get_checked();  //使用get_checked方法
+    $.each(nodes, function(i, nd) {
+        if (nd != data.node.id)
+            ref.uncheck_node(nd);
+    });
+    $('#demand').val(data.node.text);
+    $('#demandid').val(data.node.id);
+    $(this).hide();
+});
+
+//取消选中所属机构
+$('#demandtree').on('deselect_node.jstree', function(e,data) {
+    console.info("deselect_node");
+    $('#demand').val("");
+    $('#demandid').val("");
     $(this).hide();
 });
 
@@ -750,6 +786,9 @@ $(document).click(function(e){
     }
     if ($(e.target)[0] != $("#organ")[0]){
         $("#organtree").hide();
+    }
+    if ($(e.target)[0] != $("#demand")[0]){
+        $("#demandtree").hide();
     }
 });
 

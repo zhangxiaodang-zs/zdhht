@@ -142,6 +142,28 @@ function userqueryDataGet(data, callback){
         }
     });
 }
+//获取需求列表
+function demandqueryDataGet(data, callback){
+    App.blockUI({target: '#lay-out',boxed: true});
+    data = {}
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "demandquery",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.log("获取成功")
+            console.info("demandDataGet:" + JSON.stringify(result));
+            getDemandDataEnd(true, result, callback);
+        },
+        error: function (errorMsg) {
+            console.info("demandDataGet-error:" + JSON.stringify(errorMsg));
+            getDemandDataEnd(false, "", callback);
+        }
+    });
+}
 //获取项目列表
 function projectqueryDataGet(data, callback){
     App.blockUI({target: '#lay-out',boxed: true});
