@@ -377,7 +377,8 @@ var UserEdit = function() {
             }
             if($("input[name=edittype]").val() == USERADD){//新增提交
                 $("#loading_edit").modal("show");
-                userAdd(user);
+                // userAdd(user);
+                project_Add(user);
             }else { //编辑完成提交
                 console.log("编辑完成提交")
                 var data;
@@ -402,7 +403,7 @@ var UserEdit = function() {
                // formData.append("rolelist",user.rolelist);
                 $("#loading_edit").modal("show");
                   // userEdit(formData);
-                userEdit(data1);
+                project_Edit(data1);
 
 
 
@@ -509,7 +510,7 @@ var UserDelete = function() {
 
             });
             $("#loading_edit").modal("show");
-            userDelete(projectlist);
+            project_Delete(projectlist);
 
         }
     }

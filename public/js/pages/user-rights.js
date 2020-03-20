@@ -206,13 +206,33 @@ function projectqueryDataGet(data, callback){
     });
 }
 //项目新增
-function userAdd(data){
+function project_Add(data){
     App.blockUI({target:'#lay-out',boxed: true});
     $.ajax({
         type: "post",
         contentType: "application/json",
         async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
         url: userRightUrl + "projectadd",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("userAdd:" + JSON.stringify(result));
+            userInfoEditEnd(true, result, USERADD);
+        },
+        error: function (errorMsg) {
+            console.info("userAdd-error:" + JSON.stringify(errorMsg));
+            userInfoEditEnd(false, "", USERADD);
+        }
+    });
+}
+//新增用户
+function userAdd(data){
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "useradd",    //请求发送到TestServlet处
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
@@ -328,7 +348,7 @@ function feedbackedit(info_id,feedbackcontent){
     });
 }
 //项目删除
-function userDelete(data){
+function project_Delete(data){
     console.log(data);
     App.blockUI({target:'#lay-out',boxed: true});
     $.ajax({
@@ -336,6 +356,26 @@ function userDelete(data){
         contentType: "application/json",
         async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
         url: userRightUrl + "projectdelete",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("userDelete:" + JSON.stringify(result));
+            userInfoEditEnd(true, result, USERDELETE);
+        },
+        error: function (errorMsg) {
+            console.info("userDelete-error:" + JSON.stringify(errorMsg));
+            userInfoEditEnd(false, "", USERDELETE);
+        }
+    });
+}
+//用户删除
+function userDelete(data){
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "userdelete",    //请求发送到TestServlet处
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
@@ -391,7 +431,7 @@ function demanddelete(data){
     });
 }
 //项目编辑
-function userEdit(data){//编辑
+function project_Edit(data){//编辑
     console.log(data);
     App.blockUI({target:'#lay-out',boxed: true});
     $.ajax({
@@ -401,14 +441,36 @@ function userEdit(data){//编辑
         async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
         url: userRightUrl + "projectedit",    //请求发送到TestServlet处
         data: data,
-       // data: sendMessageEdit(DEFAULT, data),
+        // data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-            console.log("userEdit:" + JSON.stringify(result));
+            console.log(JSON.stringify(result));
             userInfoEditEnd(true, result, USEREDIT);
         },
         error: function (errorMsg) {
-            console.log("userEdit-error:" + JSON.stringify(errorMsg));
+            console.log(JSON.stringify(errorMsg));
+            userInfoEditEnd(false, "", USEREDIT);
+        }
+    });
+}
+//用户编辑
+function userEdit(data){
+    console.log("用户编辑:"+JSON.stringify(data))
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: false,
+        processData:false,
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "useredit",    //请求发送到TestServlet处
+        data: data,
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("userEdit:" + JSON.stringify(result));
+            userInfoEditEnd(true, result, USEREDIT);
+        },
+        error: function (errorMsg) {
+            console.info("userEdit-error:" + JSON.stringify(errorMsg));
             userInfoEditEnd(false, "", USEREDIT);
         }
     });

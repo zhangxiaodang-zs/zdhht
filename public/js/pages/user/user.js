@@ -338,16 +338,19 @@ var UserEdit = function() {
                         data = userList[i];
                     }
                 }
+
                 if (equar(user.rolelist, (data.roleid || "").split(","))) {
                     user.rolelist = [];
                 }
                 var formData = new FormData();
                 formData.append("img_head",null);
                 var data1 = sendMessageEdit(DEFAULT, user);
+                console.log("data1:"+JSON.stringify(data1))
                 formData.append("body",new Blob([data1],{type:"application/json"}));
                 formData.append("rolelist",user.rolelist);
                 $("#loading_edit").modal("show");
-                userEdit(formData);
+               // userEdit(formData);
+                userEdit(data1);
             }
         });
         //新增用户
