@@ -118,7 +118,7 @@ var UserTable = function () {
                 { "data": null},
                 { "data": null},
                 { "data": "demandname" },//需求名称
-                { "data": "principal" },//需求负责人
+                { "data": "username" },//需求负责人
                 { "data": "demandcontent" },//需求描述
                 { "data": "starttime" },//开始时间
                 { "data": "endtime" },//结束时间
@@ -575,7 +575,7 @@ function userInfoEditEnd(flg, result, type){
             $('#edit_user').modal('hide');
         }
     }
-    if(alert == "") alert = text + "项目" + res + "！";
+    if(alert == "") alert = text + "需求" + res + "！";
     App.unblockUI('#lay-out');
     alertDialog(alert);
 }

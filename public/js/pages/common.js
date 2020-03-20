@@ -320,6 +320,37 @@ function organNameSelectBuild(organList, id){
         })
     }
 }
+function demandNameSelectBuild(demandList, id){
+    var data = [];
+    demandListTreeDataMake(demandList, data);
+    if(id.jstree(true)) {
+        id.jstree(true).settings.core.data = data;
+        id.jstree(true).refresh();
+    }else {
+        id.jstree({
+            "core": {
+                "themes": {
+                    "responsive": false
+                },
+                "data": data
+            },
+
+            "types": {
+                "default": {
+                    "icon": "fa fa-folder icon-state-warning icon-lg"
+                },
+                "file": {
+                    "icon": "fa fa-file icon-state-warning icon-lg"
+                }
+            },
+            "plugins": ["wholerow", "checkbox", "types"],
+            "checkbox": {
+                "keep_selected_style": false,//是否默认选中
+                "three_state": false//父子级别级联选择
+            }
+        })
+    }
+}
 function projectNameSelectBuild(projectList, id){
     var data = [];
     projectListTreeDataMake(projectList, data);
@@ -367,6 +398,27 @@ function organListTreeDataMake(organList, data){
             el.children = [];
             data.push(el);
             organListTreeDataMake(organList[i].organlist, el.children);
+        }else{
+            el.icon = "fa fa-file-text-o icon-state-warning icon-lg";
+            data.push(el);
+        }
+    }
+}
+function demandListTreeDataMake(demandList, data){
+    for(var i=0; i < demandList.length; i++){
+        var el = {
+            text: demandList[i].demandname,
+            id: demandList[i].demandid,
+            "state": {
+                "selected": false,
+                "opened": true
+            }
+        };
+        if(demandList[i].hasOwnProperty("demandlist") && demandList[i].demandlist != ""){
+            el.icon = "fa fa-folder icon-state-warning icon-lg";
+            el.children = [];
+            data.push(el);
+            organListTreeDataMake(demandList[i].demandlist, el.children);
         }else{
             el.icon = "fa fa-file-text-o icon-state-warning icon-lg";
             data.push(el);
