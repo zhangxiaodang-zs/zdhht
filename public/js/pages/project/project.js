@@ -573,6 +573,7 @@ function getOrganDataEnd(flg, result, callback){
         if (result && result.retcode == SUCCESS) {
             var organList = result.response.userlist;
             organNameSelectBuild(organList, $("#organtreequery, #organtree"));//common.js中生成
+            organNameSelectBuild(organList, $("#principaltreequery"));//common.js中生成
         }
     }
 }
@@ -647,6 +648,28 @@ $('#organtreequery, #organtree').on('deselect_node.jstree', function(e,data) {
     $(this).hide();
 });
 
+//选中所属负责人查询
+$('#principaltreequery').on('select_node.jstree', function(e,data) {
+    console.info("select_node");
+    var ref = $(this).jstree(true);
+    var nodes = ref.get_checked();  //使用get_checked方法
+    $.each(nodes, function(i, nd) {
+        if (nd != data.node.id)
+            ref.uncheck_node(nd);
+    });
+    $('#principalquery').val(data.node.text);
+    $('#userids').val(data.node.id);
+    $(this).hide();
+});
+
+//取消选中负责人查询
+$('#principaltreequery').on('deselect_node.jstree', function(e,data) {
+    console.info("deselect_node");
+    $('#principalquery').val("");
+    $('#userids').val("");
+    $(this).hide();
+});
+
 //按下input之外的地方，所属机构输入框不显示
 $(document).click(function(e){
     if ($(e.target)[0] != $("#organquery")[0]){
@@ -654,6 +677,9 @@ $(document).click(function(e){
     }
     if ($(e.target)[0] != $("#organ")[0]){
         $("#organtree").hide();
+    }
+    if ($(e.target)[0] != $("#principalquery")[0]){
+        $("#principaltreequery").hide();
     }
 });
 
