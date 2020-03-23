@@ -726,7 +726,7 @@ $(function() {
     var state = 'pending'; // 上传文件初始化
     var uploader = WebUploader.create({
         swf : 'webuploader/Uploader.swf',
-        server : 'http://localhost:8001/zsdev/ac/web/front/upload',
+        server : hostIp+'/zsdev/ac/web/front/upload',
         pick : '#picker',
         resize : false
     });
