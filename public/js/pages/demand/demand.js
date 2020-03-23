@@ -323,11 +323,13 @@ var UserEdit = function() {
 
         //新增、编辑确定按钮
         $('#register-btn').click(function() {
+            var projectUpload1=localStorage.getItem('projectUpload');
             btnDisable($('#register-btn'));
             // console.log($('.register-form').validate().form());
             if ($('.register-form').validate().form()) {
                 var user = $('.register-form').getFormData();
-               // console.log("user:"+JSON.stringify(user))
+                user.projectUpload = JSON.parse(projectUpload1);
+                console.log("user:"+JSON.stringify(user))
                 // user.rolelist = $('#rolename').val();
                 // user.birthday = user.birthday.replace(/-/g, '');
                 // user.organid = ($('#organtree').jstree(true).get_selected(true))[0].id;
@@ -426,6 +428,11 @@ var UserEdit = function() {
             var options = { jsonValue: user, exclude:exclude,isDebug: false};
             //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".register-form").initForm(options);
+
+            //查询附件信息
+            console.log("id="+id)
+            demandfilequery({id:id});
+
             //角色赋值
             // $("#rolename").val((user.roleid||"").split(",")).select2(
             //     {
@@ -647,6 +654,7 @@ function userInfoEditEnd(flg, result, type){
     }
     App.unblockUI('#lay-out');
     alertDialog(alert);
+    $("#thelist div").remove();
 }
 
 function passwordResetEnd(flg, result){
@@ -774,3 +782,90 @@ function changeButtonStatus(){
         $("#op_edit").trigger('click');
     }
 }
+$(function() {
+    var $list = $("#thelist");
+    var $btn = $("#ctlBtn");
+    var state = 'pending'; // 上传文件初始化
+    var uploader = WebUploader.create({
+        swf : 'webuploader/Uploader.swf',
+        server : 'http://192.168.10.14:8001/zsdev/ac/web/front/upload',
+        pick : '#picker',
+        resize : false,
+        duplicate :true //开启重复上传
+    });
+    uploader.on('fileQueued', function(file) {
+        $list.append(
+            // '<div id="' + file.id + '" class="item">'
+            // + '<h4 class="info">' + file.name + '</h4>'
+            // + '<p class="state">等待上传...</p>' + '</div>'
+            '<div id="' + file.id + '" class="item clearfix">'+
+            '<div class="pull-left">'+
+            '<h4 class="info">' + file.name + '</h4>'+
+            '<p class="state">等待上传...</p>' +
+            '</div>'+
+            '<div class="pull-right fileoperat"></div>'+
+            '</div>'
+        );
+    });
+
+    uploader.on('uploadProgress',
+        function(file, percentage) {
+            var $li = $('#' + file.id), $percent = $li
+                .find('.progress .progress-bar');
+
+            // 避免重复创建
+            if (!$percent.length) {
+                $percent = $(
+                    '<div class="progress progress-striped active">'
+                    + '<div class="progress-bar" role="progressbar" style="width: 0%">'
+                    + '</div>' + '</div>')
+                    .appendTo($li).find('.progress-bar');
+            }
+
+            $li.find('p.state').text('上传中');
+
+            $percent.css('width', percentage * 100 + '%');
+        });
+
+
+    var projectUpload=[];
+    uploader.on('uploadSuccess', function(file,response) {
+        projectUpload.push(response.response)
+        localStorage.setItem('projectUpload',JSON.stringify(projectUpload));
+        $('#' + file.id).find('p.state').text('已上传');
+        $('#' + file.id).find('.fileoperat').append(
+            '<a class="filedown" href="'+response.response.filepath+'">下载</a>'+
+            '<a class="filedel" data-id="'+response.response.fileid+'" data-number="'+file.id+'">删除</a>'
+        );
+    });
+
+    uploader.on('uploadError', function(file) {
+        $('#' + file.id).find('p.state').text('上传出错');
+    });
+
+    uploader.on('uploadComplete', function(file) {
+        $('#' + file.id).find('.progress').fadeOut();
+    });
+    $btn.on('click', function() {
+        if (state === 'uploading') {
+            uploader.stop();
+        } else {
+            uploader.upload();
+        }
+    });
+    //删除附件
+    $('#thelist').on('click', '.filedel', function (e) {
+        e.preventDefault();
+        if($("input[name=edittype]").val()=="1"){//新增进入
+            $('#' + $(this).attr("data-number")).remove();
+        }else{//编辑进入
+            var projectUpload={};
+            projectUpload={fileid:$(this).attr("data-id")}
+            filedelete(projectUpload);
+            $('#' + $(this).attr("data-number")).remove();
+        }
+    });
+
+
+
+});

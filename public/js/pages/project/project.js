@@ -372,8 +372,9 @@ var UserEdit = function() {
             if ($('.register-form').validate().form()) {
                 var user = $('.register-form').getFormData();
                 user.projectUpload = JSON.parse(projectUpload1);
-              //  user.annexmark = 1;//项目1  需求2
-                console.log("user:"+JSON.stringify(user))
+
+                console.log("user.projectUpload :"+JSON.stringify(user.projectUpload ))
+               // console.log("user:"+JSON.stringify(user))
                 // user.rolelist = $('#rolename').val();
                 // user.birthday = user.birthday.replace(/-/g, '');
                 // user.organid = ($('#organtree').jstree(true).get_selected(true))[0].id;
@@ -384,14 +385,16 @@ var UserEdit = function() {
                 project_Add(user);
             }else { //编辑完成提交
                 console.log("编辑完成提交")
+                console.log("userList:"+JSON.stringify(userList))
                 var data;
                 for (var i = 0; i < userList.length; i++) {
                     if (user.id == userList[i].id) {
                         data = userList[i];
+                        user.projectid=userList[i].projectid;
                     }
                 }
 
-
+                console.log("user:"+JSON.stringify(user))
                 // if (equar(user.rolelist, (data.roleid || "").split(","))) {
                 //     user.rolelist = [];
                 // }
@@ -464,6 +467,7 @@ var UserEdit = function() {
 
             //查询附件信息
             var projectid = $("#user_table").dataTable().fnGetData(row).projectid;
+            console.log("projectid:"+projectid)
             filequery({projectid:projectid});
 
             //角色赋值
