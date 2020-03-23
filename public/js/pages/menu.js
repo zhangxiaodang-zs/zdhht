@@ -1,8 +1,8 @@
 /**
  * Created by Administrator on 2019/2/19.
  */
-var img_head = "/public/img/user.png";
-if(loginSucc.img_head != ""){
+var img_head = "/public/img/timg.jpg";
+if(loginSucc.img_head != "" && loginSucc.img_head != undefined){
     img_head = loginSucc.img_head;
 }
 var menuMake = '<ul class="nav" id="side-menu"><li class="nav-header">' +
