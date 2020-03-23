@@ -368,6 +368,69 @@ function project_Delete(data){
         }
     });
 }
+//附件删除
+function filedelete(data){
+    console.log(data);
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "filedelete",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("userDelete:" + JSON.stringify(result));
+            //userInfoEditEnd(true, result, USERDELETE);
+            $('#edit_user').modal('hide');
+            var alert = "附件删除成功";
+            App.unblockUI('#lay-out');
+            alertDialog(alert);
+
+        },
+        error: function (errorMsg) {
+            console.info("userDelete-error:" + JSON.stringify(errorMsg));
+           // userInfoEditEnd(false, "", USERDELETE);
+        }
+    });
+}
+//查询附件
+function filequery(data){
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "filequery",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            $("#thelist div").remove();
+            console.info("查询结果:" + JSON.stringify(result.response.projectUpload));
+           // userInfoEditEnd(true, result, USERDELETE);
+            var projectUpload_list=result.response.projectUpload;
+            for (var i = 0; i < projectUpload_list.length; i++){
+                $("#thelist").append(
+                    '<div id="' + projectUpload_list[i].id + '" class="item clearfix">'+
+                    '<div class="pull-left">'+
+                    '<h4 class="info">' + projectUpload_list[i].filename + '</h4>'+
+                     '<p class="state">上传成功</p>' +
+                    '</div>'+
+                    '<div class="pull-right fileoperat">' +
+                        '<a class="filedown" href="'+projectUpload_list[i].filepath+'">下载</a>'+
+                        '<a class="filedel" data-id="' + projectUpload_list[i].fileid + '" data-number="' + projectUpload_list[i].fileid + '">删除</a>'+
+                    '</div>'+
+                    '</div>'
+                );
+            }
+
+        },
+        error: function (errorMsg) {
+            console.info("userDelete-error:" + JSON.stringify(errorMsg));
+            // userInfoEditEnd(false, "", USERDELETE);
+        }
+    });
+}
 //用户删除
 function userDelete(data){
     App.blockUI({target:'#lay-out',boxed: true});
