@@ -23,6 +23,23 @@
     <link href="/public/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/public/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
     <link href="/public/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        #picker div:nth-child(2){
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100% !important;
+            height: 100% !important;
+            overflow: hidden;
+            bottom: auto;
+            right: auto ;
+        }
+        #thelist{
+            width: 80%;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+    </style>
     <script>
         //获取nodejs session中和localStorage中保存的菜单信息、权限信息。配置信息
         var menu = '{{ menu }}';
@@ -266,12 +283,12 @@
                         <!--上传-->
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label class="col-md-2 control-label">上传附件<span class="required"> * </span></label>
+                                    <label class="col-md-2 control-label">上传附件</label>
                                     <div id="uploader" class="wu-example">
 
                                         <div class="btns">
-                                            <div id="picker" style="float: left; margin-right: 20px">选择文件</div>
-                                            <button id="ctlBtn" class="btn btn-default">开始上传</button>
+                                            <div id="picker" style="float: left; margin-right: 20px" name="files">选择文件</div>
+                                            <div id="ctlBtn" class="btn btn-default" style="padding: 8px; border-radius: 0px !important;" >开始上传</div>
                                         </div>
                                         <!--用来存放文件信息-->
                                         <div id="thelist" class="uploader-list"></div>
