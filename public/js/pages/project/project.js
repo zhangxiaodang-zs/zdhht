@@ -103,7 +103,7 @@ var UserTable = function () {
                 organ = organ.length > 0 ? organ[0].id : "";
                 var da = {
                     projectname: formData.projectname,
-                    principal: formData.principal,
+                    username: formData.username,
                     organid: organ,
                     mobile:formData.mobile,
                     currentpage: (data.start / data.length) + 1,
@@ -280,7 +280,7 @@ var UserEdit = function() {
                 projectname: {
                     required: true
                 },
-                principal: {
+                username: {
                     required: true
                 },
                 actualsttime: {
@@ -304,7 +304,7 @@ var UserEdit = function() {
                 projectname: {
                     required: "项目名称必须输入"
                 },
-                principal: {
+                username: {
                     required: "项目负责人必须输入"
                 },
                 actualsttime: {
@@ -367,10 +367,14 @@ var UserEdit = function() {
 
         //点击确定按钮
         $('#register-btn').click(function() {
+            var projectUpload1=localStorage.getItem('projectUpload');
             btnDisable($('#register-btn'));
             if ($('.register-form').validate().form()) {
                 var user = $('.register-form').getFormData();
-                console.log("user:"+JSON.stringify(user))
+                user.projectUpload = JSON.parse(projectUpload1);
+
+                console.log("user.projectUpload :"+JSON.stringify(user.projectUpload ))
+               // console.log("user:"+JSON.stringify(user))
                 // user.rolelist = $('#rolename').val();
                 // user.birthday = user.birthday.replace(/-/g, '');
                 // user.organid = ($('#organtree').jstree(true).get_selected(true))[0].id;
@@ -381,14 +385,16 @@ var UserEdit = function() {
                 project_Add(user);
             }else { //编辑完成提交
                 console.log("编辑完成提交")
+                console.log("userList:"+JSON.stringify(userList))
                 var data;
                 for (var i = 0; i < userList.length; i++) {
                     if (user.id == userList[i].id) {
                         data = userList[i];
+                        user.projectid=userList[i].projectid;
                     }
                 }
 
-                console.log("data:"+JSON.stringify(data))//原来的数据
+                console.log("user:"+JSON.stringify(user))
                 // if (equar(user.rolelist, (data.roleid || "").split(","))) {
                 //     user.rolelist = [];
                 // }
@@ -410,7 +416,7 @@ var UserEdit = function() {
 
             }
         });
-        //新增用户
+        //新增项目  edittype=2
         $('#op_add').click(function() {
             //清除校验错误信息
             validator.resetForm();
@@ -435,20 +441,20 @@ var UserEdit = function() {
             $("input[name=edittype]").val(USERADD);
             $('#edit_user').modal('show');
         });
-        //编辑用户  点击编辑按钮
+        //编辑用户  点击编辑按钮   edittype=1
         $('#user_table').on('click', '#op_edit', function (e) {
             e.preventDefault();
             //清除校验错误信息
             validator.resetForm();
             $(".register-form").find(".has-error").removeClass("has-error");
             $(".modal-title").text("编辑项目");
+
             // var exclude = ["rolename", "organid"];
             var exclude = [""];
            // var userid = $(this).parents("td").siblings().eq(1).text();
             var row = $(this).parents('tr')[0];
             var id = $("#user_table").dataTable().fnGetData(row).id;
             var user = new Object();
-           // console.log("userList:"+JSON.stringify(userList))
             for(var i=0; i < userList.length; i++){
                 if(id == userList[i].id){
                     user = userList[i];
@@ -458,6 +464,12 @@ var UserEdit = function() {
              var options = { jsonValue: user, exclude:exclude,isDebug: false};
           //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".register-form").initForm(options);
+
+            //查询附件信息
+            var projectid = $("#user_table").dataTable().fnGetData(row).projectid;
+            console.log("projectid:"+projectid)
+            filequery({projectid:projectid});
+
             //角色赋值
             // $("#rolename").val((user.roleid||"").split(",")).select2(
             //     {
@@ -600,6 +612,7 @@ function userInfoEditEnd(flg, result, type){
         case USERDELETE:
             text = "删除";
             break;
+
     }
     if(flg){
         if(result && result.retcode != SUCCESS){
@@ -612,9 +625,11 @@ function userInfoEditEnd(flg, result, type){
             $('#edit_user').modal('hide');
         }
     }
+
     if(alert == "") alert = text + "项目" + res + "！";
     App.unblockUI('#lay-out');
     alertDialog(alert);
+    $("#thelist div").remove();
 }
 
 function passwordResetEnd(flg, result){
@@ -726,14 +741,24 @@ $(function() {
     var state = 'pending'; // 上传文件初始化
     var uploader = WebUploader.create({
         swf : 'webuploader/Uploader.swf',
-        server : hostIp+'/zsdev/ac/web/front/upload',
+        server : 'http://192.168.10.14:8001/zsdev/ac/web/front/upload',
         pick : '#picker',
-        resize : false
+        resize : false,
+        duplicate :true //开启重复上传
     });
     uploader.on('fileQueued', function(file) {
-        $list.append('<div id="' + file.id + '" class="item">'
-            + '<h4 class="info">' + file.name + '</h4>'
-            + '<p class="state">等待上传...</p>' + '</div>');
+        $list.append(
+            // '<div id="' + file.id + '" class="item">'
+            // + '<h4 class="info">' + file.name + '</h4>'
+            // + '<p class="state">等待上传...</p>' + '</div>'
+            '<div id="' + file.id + '" class="item clearfix">'+
+                '<div class="pull-left">'+
+                     '<h4 class="info">' + file.name + '</h4>'+
+                    '<p class="state">等待上传...</p>' +
+                '</div>'+
+                '<div class="pull-right fileoperat"></div>'+
+            '</div>'
+        );
     });
 
     uploader.on('uploadProgress',
@@ -756,8 +781,15 @@ $(function() {
         });
 
 
-    uploader.on('uploadSuccess', function(file) {
+     var projectUpload=[];
+    uploader.on('uploadSuccess', function(file,response) {
+        projectUpload.push(response.response)
+        localStorage.setItem('projectUpload',JSON.stringify(projectUpload));
         $('#' + file.id).find('p.state').text('已上传');
+        $('#' + file.id).find('.fileoperat').append(
+            '<a class="filedown" href="'+response.response.filepath+'">下载</a>'+
+            '<a class="filedel" data-id="'+response.response.fileid+'" data-number="'+file.id+'">删除</a>'
+        );
     });
 
     uploader.on('uploadError', function(file) {
@@ -774,6 +806,20 @@ $(function() {
             uploader.upload();
         }
     });
+    //删除附件
+    $('#thelist').on('click', '.filedel', function (e) {
+        e.preventDefault();
+        if($("input[name=edittype]").val()=="1"){//新增进入
+            $('#' + $(this).attr("data-number")).remove();
+        }else{//编辑进入
+            var projectUpload={};
+            projectUpload={fileid:$(this).attr("data-id")}
+            filedelete(projectUpload);
+            $('#' + $(this).attr("data-number")).remove();
+        }
+    });
+
+
 
 });
 
