@@ -356,14 +356,14 @@ function ProjectSelectBuild(organList, id){
             "core": {
                 "themes": {
                     "responsive": false,
-                    "icons" : false /*图标显示开关*/
+                   // "icons" : false /*图标显示开关*/
                 },
                 "data": data
             },
 
             "types": {
                 "default": {
-                    // "icon": "fa fa-folder icon-state-warning icon-lg" //默认图标
+                     "icon": "fa fa-user icon-state-warning icon-lg" //默认图标
                 },
                 "file": {
                     //"icon": "fa fa-file icon-state-warning icon-lg"
@@ -379,6 +379,9 @@ function ProjectSelectBuild(organList, id){
 }
 //生成项目负责人信息
 function projectTreeDataMake(organList, data){
+    if(organList==undefined){
+       return;
+    }
     for(var i=0; i < organList.length; i++){
         var el = {
             text: organList[i].username,
@@ -412,14 +415,14 @@ function demandSelectBuild(organList, id){
             "core": {
                 "themes": {
                     "responsive": false,
-                    "icons" : false /*图标显示开关*/
+                    //"icons" : false /*图标显示开关*/
                 },
                 "data": data
             },
 
             "types": {
                 "default": {
-                    // "icon": "fa fa-folder icon-state-warning icon-lg" //默认图标
+                     "icon": "fa fa-user icon-state-warning icon-lg" //默认图标
                 },
                 "file": {
                     //"icon": "fa fa-file icon-state-warning icon-lg"
@@ -468,14 +471,14 @@ function taskSelectBuild(organList, id){
             "core": {
                 "themes": {
                     "responsive": false,
-                    "icons" : false /*图标显示开关*/
+                    //"icons" : false /*图标显示开关*/
                 },
                 "data": data
             },
 
             "types": {
                 "default": {
-                    // "icon": "fa fa-folder icon-state-warning icon-lg" //默认图标
+                     "icon": "fa fa-user icon-state-warning icon-lg" //默认图标
                 },
                 "file": {
                     //"icon": "fa fa-file icon-state-warning icon-lg"

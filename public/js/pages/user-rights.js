@@ -133,7 +133,7 @@ function organDataGet(data, callback){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-            console.info("organDataGet:" + JSON.stringify(result));
+          //  console.info("organDataGet:" + JSON.stringify(result));
             getOrganDataEnd(true, result, callback);
         },
         error: function (errorMsg) {
@@ -407,7 +407,7 @@ function filequery(data){
         success: function (result) {
             $("#thelist div").remove();
             console.info("查询结果:" + JSON.stringify(result.response.projectUpload));
-           // userInfoEditEnd(true, result, USERDELETE);
+            //userInfoEditEnd(true, result, USERDELETE);
             var projectUpload_list=result.response.projectUpload;
             for (var i = 0; i < projectUpload_list.length; i++){
                 $("#thelist").append(
@@ -417,7 +417,7 @@ function filequery(data){
                      '<p class="state">上传成功</p>' +
                     '</div>'+
                     '<div class="pull-right fileoperat">' +
-                        '<a class="filedown" href="'+projectUpload_list[i].filepath+'">下载</a>'+
+                        '<a class="filedown" data-name="' + projectUpload_list[i].filename + '" data-url="' + projectUpload_list[i].filepath + '">下载</a>'+
                         '<a class="filedel" data-id="' + projectUpload_list[i].fileid + '" data-number="' + projectUpload_list[i].fileid + '">删除</a>'+
                     '</div>'+
                     '</div>'
@@ -431,6 +431,34 @@ function filequery(data){
         }
     });
 }
+//点击下载附件
+$('#thelist').on('click', '.filedown', function (e) {
+    e.preventDefault();
+    var filename=$(this).attr("data-name");
+    var filepath=$(this).attr("data-url");
+    data = {filepath: filepath, filename: filename}
+    console.log(data)
+    console.log(userRightUrl)
+    $.ajax({
+        type: "get",
+        contentType: "application/x-www-form-urlencoded",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: userRightUrl + "doPosts",    //请求发送到TestServlet处
+        // data: sendMessageEdit(DEFAULT, data),
+        data: data,
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.log("下载成功")
+            console.log(result)
+        },
+        error: function (errorMsg) {
+
+        }
+    });
+});
+
+
+
 //需求编辑查询附件
 function demandfilequery(data){
     App.blockUI({target:'#lay-out',boxed: true});

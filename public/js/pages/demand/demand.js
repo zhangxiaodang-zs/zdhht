@@ -362,6 +362,11 @@ var UserEdit = function() {
 
             }
         });
+        //取消
+        $("#btn_cancel").click(function () {
+           // console.log("点击了取消")
+            $("#thelist").html(' ');
+        })
         /*——————————分解需求确定按钮————————————*/
         $('#addtask-btn').click(function() {
             var task_id_fj = localStorage.getItem('task_id_fj');
@@ -380,6 +385,7 @@ var UserEdit = function() {
 
         //新增需求
         $('#op_add').click(function() {
+            console.log("点击")
             //清除校验错误信息
             validator.resetForm();
             $(".register-form").find(".has-error").removeClass("has-error");
@@ -847,6 +853,11 @@ $(function() {
         $('#' + file.id).find('.progress').fadeOut();
     });
     $btn.on('click', function() {
+        if (uploader.getFiles().length == 0) {
+            alert = "上传队列中无文件";
+            alertDialog(alert);
+            return;
+        }
         if (state === 'uploading') {
             uploader.stop();
         } else {

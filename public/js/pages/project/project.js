@@ -416,6 +416,11 @@ var UserEdit = function() {
 
             }
         });
+        //取消
+        $("#btn_cancel").click(function () {
+            // console.log("点击了取消")
+            $("#thelist").html(' ');
+        })
         //新增项目  edittype=2
         $('#op_add').click(function() {
             //清除校验错误信息
@@ -734,7 +739,7 @@ function changeButtonStatus(){
         $("#op_edit").trigger('click');
     }
 }
-
+/*————————附件上传开始——————————*/
 $(function() {
     var $list = $("#thelist");
     var $btn = $("#ctlBtn");
@@ -800,6 +805,11 @@ $(function() {
         $('#' + file.id).find('.progress').fadeOut();
     });
     $btn.on('click', function() {
+        if (uploader.getFiles().length == 0) {
+            alert = "上传队列中无文件";
+            alertDialog(alert);
+            return;
+        }
         if (state === 'uploading') {
             uploader.stop();
         } else {
@@ -819,9 +829,8 @@ $(function() {
         }
     });
 
-
-
 });
+/*————————附件上传结束——————————*/
 
 
 

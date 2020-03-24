@@ -86,7 +86,7 @@
                                         <div class="form-group">
                                             <label class="col-md-3 control-label">负责人</label>
                                             <div class="col-md-9">
-                                                <input type="text" class="form-control" placeholder="负责人" name="username"  onclick="$('#principaltreequery').toggle()" id="principalquery"/>
+                                                <input type="text" class="form-control" placeholder="负责人" name="username"  onclick="$('#principaltreequery').toggle()" id="principalquery" autocomplete="off"/>
                                                 <div id="principaltreequery" class="tree-under-input" style="display: none; "></div>
                                                 <input id="userids" hidden name="principal" >
                                             </div>
@@ -278,7 +278,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-danger btn-outline">取消</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-danger btn-outline" id="btn_cancel">取消</button>
                     <button type="submit" id="register-btn" class="btn btn-success">确认</button>
                 </div>
             </div>

@@ -672,7 +672,6 @@ function getDemandDataEnd(flg, result, callback){
     if(flg){
         if (result && result.retcode == SUCCESS) {
             var demandList = result.response.demandlist;
-            console.log(demandList)
             projectNameSelectBuild(demandList, $("#demandtree"));
         }
     }
