@@ -470,11 +470,6 @@ function download(filename,filepath) {
 
 
 
-
-
-
-
-
 //需求编辑查询附件
 function demandfilequery(data){
     App.blockUI({target:'#lay-out',boxed: true});
@@ -498,7 +493,7 @@ function demandfilequery(data){
                     '<p class="state">上传成功</p>' +
                     '</div>'+
                     '<div class="pull-right fileoperat">' +
-                    '<a class="filedown" href="'+projectUpload_list[i].filepath+'">下载</a>'+
+                    '<a class="filedown" target="_blank" data-name="' + projectUpload_list[i].filename + '" data-url="' + projectUpload_list[i].filepath + '">下载</a>'+
                     '<a class="filedel" data-id="' + projectUpload_list[i].fileid + '" data-number="' + projectUpload_list[i].fileid + '">删除</a>'+
                     '</div>'+
                     '</div>'
