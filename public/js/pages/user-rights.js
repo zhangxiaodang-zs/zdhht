@@ -417,7 +417,7 @@ function filequery(data){
                      '<p class="state">上传成功</p>' +
                     '</div>'+
                     '<div class="pull-right fileoperat">' +
-                        '<a class="filedown" data-name="' + projectUpload_list[i].filename + '" data-url="' + projectUpload_list[i].filepath + '">下载</a>'+
+                        '<a class="filedown" target="_blank" data-name="' + projectUpload_list[i].filename + '" data-url="' + projectUpload_list[i].filepath + '">下载</a>'+
                         '<a class="filedel" data-id="' + projectUpload_list[i].fileid + '" data-number="' + projectUpload_list[i].fileid + '">删除</a>'+
                     '</div>'+
                     '</div>'
@@ -435,35 +435,16 @@ function filequery(data){
 $('#thelist').on('click', '.filedown', function (e) {
      var filename=$(this).attr("data-name");
      var filepath=$(this).attr("data-url");
-      data =JSON.stringify({filepath: filepath, filename: filename});
-    download(filename,data)
+     data =JSON.stringify({filepath: filepath, filename: filename});
+   // download(filename,filepath)
+    window.location.href= userRightUrl +"doPosts?filename="+filename+"&filepath="+filepath;
     // e.preventDefault();
-    // var filename=$(this).attr("data-name");
-    // var filepath=$(this).attr("data-url");
-    // data = {filepath: filepath, filename: filename}
-    // console.log(data)
-    // $.ajax({
-    //     type: "get",
-    //     contentType: "application/x-www-form-urlencoded",
-    //     async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-    //     url: userRightUrl + "doPosts",    //请求发送到TestServlet处
-    //     // data: sendMessageEdit(DEFAULT, data),
-    //     data: data,
-    //     dataType: "json",        //返回数据形式为json
-    //     success: function (result) {
-    //         console.log("下载成功")
-    //         console.log(result)
-    //     },
-    //     error: function (errorMsg) {
-    //
-    //     }
-    // });
 
 
 });
 
 
-function download(filename,data) {
+function download(filename,filepath) {
     var xmlResquest = new XMLHttpRequest();
     xmlResquest.open("GET", userRightUrl + "doPosts", true);
     xmlResquest.setRequestHeader("Content-type", "application/json");
@@ -481,8 +462,15 @@ function download(filename,data) {
         document.body.removeChild(elink);
     };
     console.log(data)
-    xmlResquest.send(data);
+     xmlResquest.send();
+
+   // xmlResquest.send("filename="+filename+"&filepath"+filepath);
 }
+
+
+
+
+
 
 
 
