@@ -433,29 +433,57 @@ function filequery(data){
 }
 //点击下载附件
 $('#thelist').on('click', '.filedown', function (e) {
-    e.preventDefault();
-    var filename=$(this).attr("data-name");
-    var filepath=$(this).attr("data-url");
-    data = {filepath: filepath, filename: filename}
-    console.log(data)
-    console.log(userRightUrl)
-    $.ajax({
-        type: "get",
-        contentType: "application/x-www-form-urlencoded",
-        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-        url: userRightUrl + "doPosts",    //请求发送到TestServlet处
-        // data: sendMessageEdit(DEFAULT, data),
-        data: data,
-        dataType: "json",        //返回数据形式为json
-        success: function (result) {
-            console.log("下载成功")
-            console.log(result)
-        },
-        error: function (errorMsg) {
+     var filename=$(this).attr("data-name");
+     var filepath=$(this).attr("data-url");
+      data =JSON.stringify({filepath: filepath, filename: filename});
+    download(filename,data)
+    // e.preventDefault();
+    // var filename=$(this).attr("data-name");
+    // var filepath=$(this).attr("data-url");
+    // data = {filepath: filepath, filename: filename}
+    // console.log(data)
+    // $.ajax({
+    //     type: "get",
+    //     contentType: "application/x-www-form-urlencoded",
+    //     async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+    //     url: userRightUrl + "doPosts",    //请求发送到TestServlet处
+    //     // data: sendMessageEdit(DEFAULT, data),
+    //     data: data,
+    //     dataType: "json",        //返回数据形式为json
+    //     success: function (result) {
+    //         console.log("下载成功")
+    //         console.log(result)
+    //     },
+    //     error: function (errorMsg) {
+    //
+    //     }
+    // });
 
-        }
-    });
+
 });
+
+
+function download(filename,data) {
+    var xmlResquest = new XMLHttpRequest();
+    xmlResquest.open("GET", userRightUrl + "doPosts", true);
+    xmlResquest.setRequestHeader("Content-type", "application/json");
+    xmlResquest.setRequestHeader("Authorization", "Bearer 6cda86e3-ba1c-4737-972c-f815304932ee");
+    xmlResquest.responseType = "blob";
+    xmlResquest.onload = function (oEvent) {
+        var content = xmlResquest.response;
+        var elink = document.createElement('a');
+        elink.download = filename;
+        elink.style.display = 'none';
+        var blob = new Blob([content]);
+        elink.href = URL.createObjectURL(blob);
+        document.body.appendChild(elink);
+        elink.click();
+        document.body.removeChild(elink);
+    };
+    console.log(data)
+    xmlResquest.send(data);
+}
+
 
 
 
