@@ -2,9 +2,28 @@ var loginSucc = new Object();
 
 jQuery(document).ready(function() {
     $('#username').focus();
-    localStorage.clear();
+   // localStorage.clear();
+    var username = document.getElementById('username');
+    var password = document.getElementById('password');
+    var oRemember = document.getElementById('remember');
+    //页面初始化时，如果帐号密码cookie存在则填充
+    if(getCookie('username') && getCookie('password')){
+        console.log("存在")
+        username.value = getCookie('username');
+        password.value = getCookie('password');
+        oRemember.checked = true;
+    }
+    //复选框勾选状态发生改变时，如果未勾选则清除cookie
+    oRemember.onchange = function(){
+        if(!this.checked){
+            delCookie('username');
+            delCookie('password');
+        }
+    };
     Login.init();
+
 });
+
 
 var Login = function() {
 
@@ -74,6 +93,10 @@ var Login = function() {
         });
 
         $('#login-btn').click(function(){
+            if(remember.checked){
+                setCookie('username',username.value,7); //保存帐号到cookie，有效期7天
+                setCookie('password',password.value,7); //保存密码到cookie，有效期7天
+            }
             if ($('.login-form').validate().form()) {
                 //校验用户名和密码
                 var logData = $('.login-form').getFormData();
@@ -215,3 +238,28 @@ function powerMenuGet(menuList, powerMenu){
         }
     }
 }
+
+/*—————————记住密码———————————*/
+//设置cookie
+function setCookie(name,value,day){
+    var date = new Date();
+    date.setDate(date.getDate() + day);
+    document.cookie = name + '=' + value + ';expires='+ date;
+};
+//获取cookie
+function getCookie(name){
+    var reg = RegExp(name+'=([^;]+)');
+    var arr = document.cookie.match(reg);
+    if(arr){
+        return arr[1];
+    }else{
+        return '';
+    }
+};
+//删除cookie
+function delCookie(name){
+    setCookie(name,null,-1);
+};
+
+
+
