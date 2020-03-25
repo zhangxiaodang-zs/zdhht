@@ -145,6 +145,12 @@ var UserTable = function () {
                         return meta.settings._iDisplayStart + meta.row + 1;  //行号
                     }
                 },
+                // {
+                //     "targets": [4],
+                //     "render": function (data, type, row, meta) {
+                //         return InterceptField(data,"无",40);
+                //     }
+                // },
                 {
                     "targets":[5],
                     "render": function(data, type, row, meta) {
@@ -230,7 +236,7 @@ var UserTable = function () {
                             task_info = '<a href="javascript:;" id="feedback">反馈</a>';
                         }
 
-                        return edit+"&nbsp;&nbsp;"+task_info;
+                        return edit+"</br>"+task_info;
 
                     }
                 }
