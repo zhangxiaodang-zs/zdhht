@@ -746,7 +746,7 @@ $(function() {
     var state = 'pending'; // 上传文件初始化
     var uploader = WebUploader.create({
         swf : 'webuploader/Uploader.swf',
-        server : 'http://192.168.10.14:8001/zsdev/ac/web/front/upload',
+        server : 'http://47.75.53.10/zsdev/ac/web/front/upload',
         pick : '#picker',
         resize : false,
         duplicate :true //开启重复上传
