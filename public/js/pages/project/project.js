@@ -117,6 +117,7 @@ var UserTable = function () {
                 { "data": null},
                 { "data": null},
                 { "data": "projectname" },//项目名称
+                { "data": "operatorname" },//发布人
                 { "data": "username" },//负责人
                 { "data": "introduction" },//描述
                 { "data": "expectedsttime" },//预期开始时间
@@ -127,12 +128,6 @@ var UserTable = function () {
             ],
             columnDefs: [
                 {
-                    "targets": [1],
-                    "render": function (data, type, row, meta) {
-                        return '<input type="checkbox" class="checkboxes" value="1" />';
-                    }
-                },
-                {
                     "targets": [0],
                     "data": null,
                     "render": function (data, type, row, meta) {
@@ -140,23 +135,15 @@ var UserTable = function () {
                     }
                 },
                 {
-                    "targets": [4],
+                    "targets": [1],
                     "render": function (data, type, row, meta) {
-                        return InterceptField(data,"无",20);
+                        return '<input type="checkbox" class="checkboxes" value="1" />';
                     }
                 },
                 {
-                    "targets":[5],
-                    "render": function(data, type, row, meta) {
-                        if(data.length==14){
-                            return dateTimeFormat12(data);
-                        }else if(data.length==12){
-                            return dateTimeFormat12(data);
-                        }else{
-                            return data;
-                        }
-
-
+                    "targets": [5],
+                    "render": function (data, type, row, meta) {
+                        return InterceptField(data,"无",20);
                     }
                 },
                 {
@@ -176,6 +163,20 @@ var UserTable = function () {
                 {
                     "targets":[7],
                     "render": function(data, type, row, meta) {
+                        if(data.length==14){
+                            return dateTimeFormat12(data);
+                        }else if(data.length==12){
+                            return dateTimeFormat12(data);
+                        }else{
+                            return data;
+                        }
+
+
+                    }
+                },
+                {
+                    "targets":[8],
+                    "render": function(data, type, row, meta) {
                         if(data==undefined){
                             return ' ';
                         }else if(data.length==14){
@@ -189,7 +190,7 @@ var UserTable = function () {
                     }
                 },
                 {
-                    "targets":[8],
+                    "targets":[9],
                     "render": function(data, type, row, meta) {
                         if(data==undefined){
                             return ' ';
@@ -213,7 +214,7 @@ var UserTable = function () {
                 //     }
                 // },
                 {
-                    "targets": [9],
+                    "targets": [10],
                     "render": function (data, type, row, meta) {
                         var edit;
                         if(!window.parent.makeEdit(menu,loginSucc.functionlist,"#op_edit")){

@@ -121,6 +121,7 @@ var UserTable = function () {
                 { "data": null},
                 { "data": null},
                 { "data": "demandname" },//需求名称
+                { "data": "operatorname" },//需求分配人
                 { "data": "username" },//需求负责人
                 { "data": "demandcontent" },//需求描述
                 { "data": "starttime" },//开始时间
@@ -131,12 +132,6 @@ var UserTable = function () {
             ],
             columnDefs: [
                 {
-                    "targets": [1],
-                    "render": function (data, type, row, meta) {
-                        return '<input type="checkbox" class="checkboxes" value="1" />';
-                    }
-                },
-                {
                     "targets": [0],
                     "data": null,
                     "render": function (data, type, row, meta) {
@@ -144,23 +139,15 @@ var UserTable = function () {
                     }
                 },
                 {
-                    "targets": [4],
+                    "targets": [1],
                     "render": function (data, type, row, meta) {
-                        return InterceptField(data,"无",20);
+                        return '<input type="checkbox" class="checkboxes" value="1" />';
                     }
                 },
                 {
-                    "targets":[5],
-                    "render": function(data, type, row, meta) {
-                        if(data.length==14){
-                            return dateTimeFormat12(data);
-                        }else if(data.length==12){
-                            return dateTimeFormat12(data);
-                        }else{
-                            return data;
-                        }
-
-
+                    "targets": [5],
+                    "render": function (data, type, row, meta) {
+                        return InterceptField(data,"无",20);
                     }
                 },
                 {
@@ -178,7 +165,21 @@ var UserTable = function () {
                     }
                 },
                 {
-                    "targets": [7],
+                    "targets":[7],
+                    "render": function(data, type, row, meta) {
+                        if(data.length==14){
+                            return dateTimeFormat12(data);
+                        }else if(data.length==12){
+                            return dateTimeFormat12(data);
+                        }else{
+                            return data;
+                        }
+
+
+                    }
+                },
+                {
+                    "targets": [8],
                     "render": function (data, type, row, meta) {
                         var edit;
                         var addtask;//分解
