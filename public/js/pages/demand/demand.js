@@ -118,10 +118,11 @@ var UserTable = function () {
             columns: [//返回的json数据在这里填充，注意一定要与上面的<th>数量对应，否则排版出现扭曲
                 { "data": null},
                 { "data": null},
+                { "data": "projectname"},//项目名
                 { "data": "demandname" },//需求名称
                 { "data": "operatorname" },//需求分配人
                 { "data": "username" },//需求负责人
-                { "data": "demandcontent" },//需求描述
+                // { "data": "demandcontent" },//需求描述
                 { "data": "starttime" },//开始时间
                 { "data": "endtime" },//结束时间
                 { "data": "status" },//状态
