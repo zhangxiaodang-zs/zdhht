@@ -84,6 +84,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">状态</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" placeholder="状态" name="status" id="status"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 <!--                                <div class="row">-->
 <!--                                    <div class="col-md-5">-->
 <!--                                        <div class="form-group">-->
@@ -151,15 +161,17 @@
                                 </th>
                                 <th> 需求名称 </th>
                                 <th> 分配人 </th>
-                                <th> 负责人 </th>
+                                <th> 需求负责人 </th>
                                 <th> 需求简介 </th>
                                 <th> 开始时间 </th>
                                 <th> 结束时间 </th>
+                                <th> 状态 </th>
                                 <th> 操作 </th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr class="odd gradeX">
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -238,15 +250,29 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label class="col-md-4 control-label">开始时间<span class="required"> * </span></label>
+                                    <label class="col-md-4 control-label">预计开始时间<span class="required"> * </span></label>
                                     <div class="col-md-8">
-                                        <input class="form-control date-picker" size="20" type="text"  value="" name="starttime" />
+                                        <input class="form-control date-picker" size="20" type="text"  value="" name="starttime" autocomplete="off"/>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="col-md-4 control-label">结束时间<span class="required"> * </span></label>
+                                    <label class="col-md-4 control-label">预计结束时间<span class="required"> * </span></label>
                                     <div class="col-md-8">
-                                        <input class="form-control date-picker" size="20" type="text" value="" name="endtime" data-date-end-date="0d"  />
+                                        <input class="form-control date-picker" size="20" type="text" value="" name="endtime" data-date-end-date="0d"  autocomplete="off"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-4 control-label">实际开始时间</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control date-picker" size="20" type="text" value="" name="actualsttime"   data-date-end-date="0d" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-4 control-label">实际结束时间</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control date-picker" size="20" type="text" value="" name="actualentime"   data-date-end-date="0d" autocomplete="off"/>
                                     </div>
                                 </div>
                             </div>

@@ -44,7 +44,7 @@ var  feedback_info = function () {
                             '  <i class="fa fa-briefcase"></i>'+
                             ' </div>'+
                             '<div class="vertical-timeline-content">'+
-                            ' <h2>'+feedbacklist[i].feedbacktime+'</h2>'+
+                            ' <h2>'+dateTimeFormat12(feedbacklist[i].feedbacktime)+'</h2>'+
                             ' <p>'+feedbacklist[i].feedbackcontent+'</p>'+
                             '<a href="#" class="btn btn-sm btn-primary" id="feedbackedit" data-content="'+feedbacklist[i].feedbackcontent+'" data-id="'+feedbacklist[i].id+'"> 编辑</a>'+
                             ' <span class="vertical-date">'+

@@ -105,7 +105,7 @@ var UserTable = function () {
                     projectname: formData.projectname,
                     username: formData.username,
                     organid: organ,
-                    mobile:formData.mobile,
+                    status:formData.status,
                     currentpage: (data.start / data.length) + 1,
                     pagesize: data.length == -1 ? "": data.length,
                     startindex: data.start,
@@ -124,6 +124,7 @@ var UserTable = function () {
                 { "data": "expectedentime" },//预期结束时间
                 { "data": "actualsttime" },//实际开始时间
                 { "data": "actualentime" },//实际结束时间
+                { "data": "status" },//状态
                 { "data": "projectid" }
             ],
             columnDefs: [
@@ -204,17 +205,14 @@ var UserTable = function () {
 
                     }
                 },
-                // {
-                //     "targets": [2],
-                //     "render": function (data, type, row, meta) {
-                //         var project_info;
-                //         project_info = '<a href="/views/user/role.html" id="op_info">'+data+'</a>';
-                //         return project_info;
-                //
-                //     }
-                // },
                 {
                     "targets": [10],
+                    "render": function (data, type, row, meta) {
+                        return data;
+                    }
+                },
+                {
+                    "targets": [11],
                     "render": function (data, type, row, meta) {
                         var edit;
                         if(!window.parent.makeEdit(menu,loginSucc.functionlist,"#op_edit")){
@@ -227,7 +225,16 @@ var UserTable = function () {
                 }
             ],
             fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                $('td:eq(1),td:eq(5),td:eq(6),td:eq(7),td:eq(8)', nRow).attr('style', 'text-align: center;');//td内容居中显示
+                var status = aData.status;
+                if(status=="未开始"){
+                    //$(nRow).css("color", "green");
+                    $('td:eq(10)',nRow).css("color", "green");
+                }else if(status=="进行中"){
+                    $('td:eq(10)',nRow).css("color", "blue");
+                }else if(status=="已结束"){
+
+                }
+                $('td:eq(1),td:eq(6),td:eq(7),td:eq(8)', nRow).attr('style', 'text-align: center;');//td内容居中显示
             }
         });
         //table.draw( false );
@@ -284,12 +291,6 @@ var UserEdit = function() {
                 username: {
                     required: true
                 },
-                actualsttime: {
-                    required: true
-                },
-                actualentime: {
-                    required: true
-                },
                 expectedsttime: {
                     required: true
                 },
@@ -307,12 +308,6 @@ var UserEdit = function() {
                 },
                 username: {
                     required: "项目负责人必须输入"
-                },
-                actualsttime: {
-                    required: "实际开始时间必须输入"
-                },
-                actualentime: {
-                    required: "实际结束时间必须输入"
                 },
                 expectedsttime: {
                     required: "预期开始时间必须输入"
@@ -373,16 +368,24 @@ var UserEdit = function() {
             if ($('.register-form').validate().form()) {
                 var user = $('.register-form').getFormData();
                 user.projectUpload = JSON.parse(projectUpload1);
-
-                console.log("user.projectUpload :"+JSON.stringify(user.projectUpload ))
-               // console.log("user:"+JSON.stringify(user))
-                // user.rolelist = $('#rolename').val();
-                // user.birthday = user.birthday.replace(/-/g, '');
-                // user.organid = ($('#organtree').jstree(true).get_selected(true))[0].id;
+                //时间替换
+                user.expectedsttime = (user.expectedsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计开始时间
+                user.expectedentime = (user.expectedentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计结束时间
+                user.actualsttime = (user.actualsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际开始时间
+                user.actualentime = (user.actualentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际结束
             }
+            //判断时间
+            if(!user.actualentime==""){
+                if(user.actualsttime==""){
+                    alert("请选择实际开始时间");
+                }
+                if(user.actualsttime>=user.actualentime){
+                    alert("实际开始时间不能大于实际结束时间");
+                }
+            }
+
             if($("input[name=edittype]").val() == USERADD){//新增提交
                 $("#loading_edit").modal("show");
-                // userAdd(user);
                 project_Add(user);
             }else { //编辑完成提交
                 console.log("编辑完成提交")
@@ -396,16 +399,12 @@ var UserEdit = function() {
                 }
 
                 console.log("user:"+JSON.stringify(user))
-                // if (equar(user.rolelist, (data.roleid || "").split(","))) {
-                //     user.rolelist = [];
-                // }
                 var formData = new FormData();
                 //formData.append("img_head",null);
                 // var data1 = sendMessageEdit(DEFAULT, user);
                 var data1 = sendMessageEdit(DEFAULT, user);
                 console.log("data1:"+data1)//改变之后的数据
                 formData.append("body",new Blob([data1],{type:"application/json"}));
-
                 console.log("append后的:"+JSON.stringify(formData))
                // formData.append("rolelist",user.rolelist);
                 $("#loading_edit").modal("show");

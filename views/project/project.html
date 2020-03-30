@@ -93,6 +93,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">状态</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" placeholder="状态" name="status" id="status"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
 
                                 <!-- <div class="row">-->
@@ -156,17 +166,19 @@
                                 </th>
                                 <th> 项目名称 </th>
                                 <th> 发布人 </th>
-                                <th> 负责人 </th>
+                                <th> 项目负责人 </th>
                                 <th> 项目简介 </th>
                                 <th> 预期开始时间 </th>
                                 <th> 预期结束时间 </th>
                                 <th> 实际开始时间 </th>
                                 <th> 实际结束时间 </th>
+                                <th> 状态 </th>
                                 <th> 操作 </th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr class="odd gradeX">
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -197,13 +209,13 @@
             </div>
         </div>
     </div>
-    <!--新增及编辑用户弹框-->
+    <!--新增及编辑项目弹框-->
     <div id="edit_user" class="modal fade" tabindex="-1" data-width="400" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title">新增用户</h4>
+                    <h4 class="modal-title">新增项目</h4>
                 </div>
                 <div class="modal-body">
                     <form class="register-form form-horizontal" role="form">
@@ -226,7 +238,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="col-md-4 control-label">负责人<span class="required"> * </span></label>
+                                    <label class="col-md-4 control-label">项目负责人<span class="required"> * </span></label>
                                     <div class="col-md-8">
                                         <input type="text" class="form-control" placeholder="负责人" name="username" onfocus="$('#organtree').show()" id="organ" autocomplete="off">
                                         <div id="organtree" class="tree-under-input" style="display: none;"></div>
@@ -247,7 +259,20 @@
                                         <input class="form-control date-picker" size="20" type="text" value="" name="expectedentime"   data-date-end-date="0d" />
                                     </div>
                                 </div>
-
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-4 control-label">实际开始时间</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control date-picker" size="20" type="text" value="" name="actualsttime"   data-date-end-date="0d" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-md-4 control-label">实际结束时间</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control date-picker" size="20" type="text" value="" name="actualentime"   data-date-end-date="0d" />
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-12">

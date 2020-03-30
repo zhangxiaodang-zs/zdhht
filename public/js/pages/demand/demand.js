@@ -38,8 +38,6 @@ var ComponentsDateTimePickers = function () {
            // $("input[name='starttime']").datetimepicker("setStartDate",date);
             $("input[name='starttime']").val(date);
             $("input[name='endtime']").val(date);
-            $("input[name='actualsttime']").val(date);
-            $("input[name='actualentime']").val(date);
             $("input[name='expectedsttime']").val(date);
             $("input[name='expectedentime']").val(date);
         }
@@ -109,7 +107,7 @@ var UserTable = function () {
                     demandname: formData.demandname,
                     principal: formData.principal,
                     organid: organ,
-                    mobile:formData.mobile,
+                    status:formData.status,
                     currentpage: (data.start / data.length) + 1,
                     pagesize: data.length == -1 ? "": data.length,
                     startindex: data.start,
@@ -126,6 +124,7 @@ var UserTable = function () {
                 { "data": "demandcontent" },//需求描述
                 { "data": "starttime" },//开始时间
                 { "data": "endtime" },//结束时间
+                { "data": "status" },//状态
                 // { "data": "actualsttime" },//实际开始时间
                 // { "data": "actualentime" },//实际结束时间
               //  { "data": "id" }
@@ -179,7 +178,7 @@ var UserTable = function () {
                     }
                 },
                 {
-                    "targets": [8],
+                    "targets": [9],
                     "render": function (data, type, row, meta) {
                         var edit;
                         var addtask;//分解
@@ -330,10 +329,22 @@ var UserEdit = function() {
             if ($('.register-form').validate().form()) {
                 var user = $('.register-form').getFormData();
                 user.projectUpload = JSON.parse(projectUpload1);
-                console.log("user:"+JSON.stringify(user))
-                // user.rolelist = $('#rolename').val();
-                // user.birthday = user.birthday.replace(/-/g, '');
-                // user.organid = ($('#organtree').jstree(true).get_selected(true))[0].id;
+                console.log(JSON.stringify(user))
+                //时间替换
+                user.starttime = (user.starttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计开始时间
+                user.endtime = (user.endtime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计结束时间
+                user.actualsttime = (user.actualsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际开始时间
+                user.actualentime = (user.actualentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际结束
+
+            }
+            //判断时间
+            if(!user.actualentime==""){
+                if(user.actualsttime==""){
+                    alert("请选择实际开始时间");
+                }
+                if(user.actualsttime>=user.actualentime){
+                    alert("实际开始时间不能大于实际结束时间");
+                }
             }
             if($("input[name=edittype]").val() == USERADD){//新增提交
                 $("#loading_edit").modal("show");

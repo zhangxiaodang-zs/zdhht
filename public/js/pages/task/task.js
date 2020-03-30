@@ -299,12 +299,6 @@ var UserEdit = function() {
                 principal: {
                     required: true
                 },
-                actualsttime: {
-                    required: true
-                },
-                actualentime: {
-                    required: true
-                },
                 expectedsttime: {
                     required: true
                 },
@@ -322,12 +316,6 @@ var UserEdit = function() {
                 },
                 principal: {
                     required: "任务负责人必须输入"
-                },
-                actualsttime: {
-                    required: "实际开始时间必须输入"
-                },
-                actualentime: {
-                    required: "实际结束时间必须输入"
                 },
                 expectedsttime: {
                     required: "预期开始时间必须输入"
@@ -388,9 +376,18 @@ var UserEdit = function() {
            // console.log($('.register-form').validate().form());
             if ($('.register-form').validate().form()) {
                 var user = $('.register-form').getFormData();
-                // user.rolelist = $('#rolename').val();
-                // user.birthday = user.birthday.replace(/-/g, '');
-                // user.organid = ($('#organtree').jstree(true).get_selected(true))[0].id;
+                //时间替换
+                user.expectedsttime = (user.expectedsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计开始时间
+                user.expectedentime = (user.expectedentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计结束时间
+            }
+            //判断时间
+            if(!user.expectedentime==""){
+                if(user.expectedsttime==""){
+                    alert("请选择预期开始时间");
+                }
+                if(user.expectedsttime>=user.expectedentime){
+                    alert("预期开始时间不能大于预期结束时间");
+                }
             }
             if($("input[name=edittype]").val() == USERADD){//新增提交
                 $("#loading_edit").modal("show");
@@ -403,8 +400,6 @@ var UserEdit = function() {
                         data = userList[i];
                     }
                 }
-
-
                 var formData = new FormData();
                 //formData.append("img_head",null);
                 // var data1 = sendMessageEdit(DEFAULT, user);
@@ -455,7 +450,23 @@ var UserEdit = function() {
             btnDisable($('#feedback-btn'));
             if ($('.feedback-form').validate().form()) {
                 var user = $('.feedback-form').getFormData();
+                //时间替换
+                user.actualsttime = (user.actualsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际开始时间
+                user.actualentime = (user.actualentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际结束
+                user.feedbacktime = (user.feedbacktime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //添加时间
             }
+            //判断时间
+            if(!user.actualentime==""){
+                if(user.actualsttime==""){
+                    alert("请选择实际开始时间");
+                    return false;
+                }
+                if(user.actualsttime>=user.actualentime){
+                    alert("实际开始时间不能大于实际结束时间");
+                    return false;
+                }
+            }
+            console.log(JSON.stringify(user))
             feedbackadd(user);
         });
         /*——————————新增任务————————————*/
