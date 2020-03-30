@@ -369,10 +369,10 @@ var UserEdit = function() {
                 var user = $('.register-form').getFormData();
                 user.projectUpload = JSON.parse(projectUpload1);
                 //时间替换
-                user.expectedsttime = (user.expectedsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计开始时间
-                user.expectedentime = (user.expectedentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计结束时间
-                user.actualsttime = (user.actualsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际开始时间
-                user.actualentime = (user.actualentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际结束
+                user.expectedsttime = dateTimeFormatstring(user.expectedsttime); //预计开始时间
+                user.expectedentime = dateTimeFormatstring(user.expectedentime); //预计结束时间
+                user.actualsttime = dateTimeFormatstring(user.actualsttime); //实际开始时间
+                user.actualentime = dateTimeFormatstring(user.actualentime); //实际结束
             }
             //判断时间
             if(user.expectedsttime>=user.expectedentime){
@@ -389,9 +389,6 @@ var UserEdit = function() {
                     return false;
                 }
             }
-
-            console.log("user:"+JSON.stringify(user))
-            return false;
             if($("input[name=edittype]").val() == USERADD){//新增提交
                 $("#loading_edit").modal("show");
                 project_Add(user);
@@ -455,6 +452,7 @@ var UserEdit = function() {
             $('#edit_user').modal('show');
         });
         //编辑用户  点击编辑按钮   edittype=1
+        var flag=1;
         $('#user_table').on('click', '#op_edit', function (e) {
             e.preventDefault();
             //清除校验错误信息
@@ -473,14 +471,21 @@ var UserEdit = function() {
                     user = userList[i];
                 }
             }
-          //  console.log(JSON.stringify(user))
+            if(flag==1){
+                user.expectedsttime=dateTimeFormat12(user.expectedsttime);
+                user.expectedentime=dateTimeFormat12(user.expectedentime);
+                user.actualsttime=dateTimeFormat12(user.actualsttime);
+                user.actualentime=dateTimeFormat12(user.actualentime);
+                flag=2;
+            }
+
+            console.log(JSON.stringify(user))
              var options = { jsonValue: user, exclude:exclude,isDebug: false};
           //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".register-form").initForm(options);
 
             //查询附件信息
             var projectid = $("#user_table").dataTable().fnGetData(row).projectid;
-            console.log("projectid:"+projectid)
             filequery({projectid:projectid});
 
             //角色赋值
@@ -604,7 +609,7 @@ function getOrganDataEnd(flg, result, callback){
     if(flg){
         if (result && result.retcode == SUCCESS) {
             var organList = result.response.userlist;
-            console.log(organList)
+           // console.log(organList)
             ProjectSelectBuild(organList, $("#organtreequery, #organtree"));//common.js中生成
             ProjectSelectBuild(organList, $("#principaltreequery"));
         }

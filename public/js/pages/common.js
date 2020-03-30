@@ -98,6 +98,11 @@ function dateTimeFormat12(datetime){
         datetime.substr(6, 2) + " " + datetime.substr(8, 2) + ":" +
         datetime.substr(10, 2);
 }
+//格式化时间
+function dateTimeFormatstring(datetime){
+    return datetime.replace(/-/g,'').replace(/:/g,'').replace(/ /g,'');
+}
+
 
 
 function conferenceDateFormat(dateRange){

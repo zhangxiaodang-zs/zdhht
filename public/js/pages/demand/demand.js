@@ -340,10 +340,10 @@ var UserEdit = function() {
                 user.projectUpload = JSON.parse(projectUpload1);
                 console.log(JSON.stringify(user))
                 //时间替换
-                user.starttime = (user.starttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计开始时间
-                user.endtime = (user.endtime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计结束时间
-                user.actualsttime = (user.actualsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际开始时间
-                user.actualentime = (user.actualentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际结束
+                user.starttime = dateTimeFormatstring(user.starttime); //预计开始时间
+                user.endtime = dateTimeFormatstring(user.endtime); //预计结束时间
+                user.actualsttime = dateTimeFormatstring(user.actualsttime); //实际开始时间
+                user.actualentime = dateTimeFormatstring(user.actualentime); //实际结束
 
             }
             //判断时间
@@ -405,10 +405,10 @@ var UserEdit = function() {
 
             }
             //时间替换
-            user.expectedsttime = (user.expectedsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计开始时间
-            user.expectedentime = (user.expectedentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计结束时间
-            user.actualsttime = (user.actualsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际开始时间
-            user.actualentime = (user.actualentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际结束
+            user.expectedsttime = dateTimeFormatstring(user.expectedsttime); //预计开始时间
+            user.expectedentime = dateTimeFormatstring(user.expectedentime); //预计结束时间
+            user.actualsttime = dateTimeFormatstring(user.actualsttime); //实际开始时间
+            user.actualentime = dateTimeFormatstring(user.actualentime); //实际结束
             //判断时间
             if(user.expectedsttime>=user.expectedentime){
                 alert("预期开始时间不能大于预期结束时间");
@@ -459,12 +459,13 @@ var UserEdit = function() {
             $('#edit_user').modal('show');
         });
         //编辑用户  点击编辑按钮
+        var flag=1;
         $('#user_table').on('click', '#op_edit', function (e) {
             e.preventDefault();
             //清除校验错误信息
             validator.resetForm();
             $(".register-form").find(".has-error").removeClass("has-error");
-            $(".modal-title").text("编辑项目");
+            $(".modal-title").text("编辑需求");
             // var exclude = ["rolename", "organid"];
             var exclude = [""];
             // var userid = $(this).parents("td").siblings().eq(1).text();
@@ -477,13 +478,17 @@ var UserEdit = function() {
                     user = userList[i];
                 }
             }
-            //  console.log(JSON.stringify(user))
+            if(flag==1){
+                user.starttime=dateTimeFormat12(user.starttime);
+                user.endtime=dateTimeFormat12(user.endtime);
+                flag=2;
+            }
+             console.log(JSON.stringify(user))
             var options = { jsonValue: user, exclude:exclude,isDebug: false};
             //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".register-form").initForm(options);
 
             //查询附件信息
-            console.log("id="+id)
             demandfilequery({id:id});
 
             //角色赋值

@@ -377,16 +377,18 @@ var UserEdit = function() {
             if ($('.register-form').validate().form()) {
                 var user = $('.register-form').getFormData();
                 //时间替换
-                user.expectedsttime = (user.expectedsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计开始时间
-                user.expectedentime = (user.expectedentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计结束时间
+                user.expectedsttime = dateTimeFormatstring(user.expectedsttime); //预计开始时间
+                user.expectedentime = dateTimeFormatstring(user.expectedentime); //预计结束时间
             }
             //判断时间
             if(!user.expectedentime==""){
                 if(user.expectedsttime==""){
                     alert("请选择预期开始时间");
+                    return false;
                 }
                 if(user.expectedsttime>=user.expectedentime){
                     alert("预期开始时间不能大于预期结束时间");
+                    return false;
                 }
             }
             if($("input[name=edittype]").val() == USERADD){//新增提交
@@ -451,9 +453,9 @@ var UserEdit = function() {
             if ($('.feedback-form').validate().form()) {
                 var user = $('.feedback-form').getFormData();
                 //时间替换
-                user.actualsttime = (user.actualsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际开始时间
-                user.actualentime = (user.actualentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际结束
-                user.feedbacktime = (user.feedbacktime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //添加时间
+                user.actualsttime = dateTimeFormatstring(user.actualsttime); //实际开始时间
+                user.actualentime = dateTimeFormatstring(user.actualentime); //实际结束
+                user.feedbacktime = dateTimeFormatstring(user.feedbacktime); //添加时间
             }
             //判断时间
             if(!user.actualentime==""){
@@ -495,6 +497,7 @@ var UserEdit = function() {
             $('#edit_user').modal('show');
         });
         /*——————————点击编辑任务————————————*/
+        var flag=1;
         $('#user_table').on('click', '#op_edit', function (e) {
             e.preventDefault();
             //清除校验错误信息
@@ -513,7 +516,13 @@ var UserEdit = function() {
                     user = userList[i];
                 }
             }
-          //  console.log(JSON.stringify(user))
+            if(flag==1){
+                user.expectedsttime=dateTimeFormat12(user.expectedsttime);
+                user.expectedentime=dateTimeFormat12(user.expectedentime);
+                flag=2;
+            }
+
+            console.log(JSON.stringify(user))
              var options = { jsonValue: user, exclude:exclude,isDebug: false};
           //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".register-form").initForm(options);
@@ -559,6 +568,7 @@ var UserEdit = function() {
                     user.taskid = userList[i].id;
                 }
             }
+            console.log(JSON.stringify(user))
             var options = { jsonValue: user, exclude:exclude,isDebug: false};
             //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".feedback-form").initForm(options);
