@@ -197,6 +197,14 @@ var UserTable = function () {
                 }
             ],
             fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                var status = aData.status;
+                if(status=="未开始"){
+                    $('td:eq(8)',nRow).css("color", "green").css("text-align", "center");
+                }else if(status=="进行中"){
+                    $('td:eq(8)',nRow).css("color", "blue").css("text-align", "center");
+                }else if(status=="已结束"){
+
+                }
                 $('td:eq(1),td:eq(5),td:eq(6),td:eq(7)', nRow).attr('style', 'text-align: center;');//td内容居中显示
             }
         });
@@ -339,12 +347,18 @@ var UserEdit = function() {
 
             }
             //判断时间
+            if(user.starttime>=user.endtime){
+                alert("预期开始时间不能大于预期结束时间");
+                return false;
+            }
             if(!user.actualentime==""){
                 if(user.actualsttime==""){
                     alert("请选择实际开始时间");
+                    return false;
                 }
                 if(user.actualsttime>=user.actualentime){
                     alert("实际开始时间不能大于实际结束时间");
+                    return false;
                 }
             }
             if($("input[name=edittype]").val() == USERADD){//新增提交
@@ -389,6 +403,26 @@ var UserEdit = function() {
                 var user = $('.addtask-form').getFormData();
                 user.demandid=task_id_fj
 
+            }
+            //时间替换
+            user.expectedsttime = (user.expectedsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计开始时间
+            user.expectedentime = (user.expectedentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //预计结束时间
+            user.actualsttime = (user.actualsttime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际开始时间
+            user.actualentime = (user.actualentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际结束
+            //判断时间
+            if(user.expectedsttime>=user.expectedentime){
+                alert("预期开始时间不能大于预期结束时间");
+                return false;
+            }
+            if(!user.actualentime==""){
+                if(user.actualsttime==""){
+                    alert("请选择实际开始时间");
+                    return false;
+                }
+                if(user.actualsttime>=user.actualentime){
+                    alert("实际开始时间不能大于实际结束时间");
+                    return false;
+                }
             }
             $("#loading_edit").modal("show");
             taskadd_fj(user);

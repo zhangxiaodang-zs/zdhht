@@ -228,9 +228,9 @@ var UserTable = function () {
                 var status = aData.status;
                 if(status=="未开始"){
                     //$(nRow).css("color", "green");
-                    $('td:eq(10)',nRow).css("color", "green");
+                    $('td:eq(10)',nRow).css("color", "green").css("text-align", "center");
                 }else if(status=="进行中"){
-                    $('td:eq(10)',nRow).css("color", "blue");
+                    $('td:eq(10)',nRow).css("color", "blue").css("text-align", "center");
                 }else if(status=="已结束"){
 
                 }
@@ -375,15 +375,23 @@ var UserEdit = function() {
                 user.actualentime = (user.actualentime).replace(/-/g,'').replace(/:/g,'').replace(/ /g,''); //实际结束
             }
             //判断时间
+            if(user.expectedsttime>=user.expectedentime){
+                alert("预期开始时间不能大于预期结束时间");
+                return false;
+            }
             if(!user.actualentime==""){
                 if(user.actualsttime==""){
                     alert("请选择实际开始时间");
+                    return false;
                 }
                 if(user.actualsttime>=user.actualentime){
                     alert("实际开始时间不能大于实际结束时间");
+                    return false;
                 }
             }
 
+            console.log("user:"+JSON.stringify(user))
+            return false;
             if($("input[name=edittype]").val() == USERADD){//新增提交
                 $("#loading_edit").modal("show");
                 project_Add(user);
@@ -596,6 +604,7 @@ function getOrganDataEnd(flg, result, callback){
     if(flg){
         if (result && result.retcode == SUCCESS) {
             var organList = result.response.userlist;
+            console.log(organList)
             ProjectSelectBuild(organList, $("#organtreequery, #organtree"));//common.js中生成
             ProjectSelectBuild(organList, $("#principaltreequery"));
         }

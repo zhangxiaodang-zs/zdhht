@@ -547,6 +547,7 @@ var UserEdit = function() {
             $(".feedback-form").find(".has-error").removeClass("has-error");
             $(".modal-title").text("添加反馈信息");
             // var exclude = ["rolename", "organid"];
+
             var exclude = [""];
             // var userid = $(this).parents("td").siblings().eq(1).text();
             var row = $(this).parents('tr')[0];
