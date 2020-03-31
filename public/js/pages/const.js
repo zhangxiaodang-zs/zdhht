@@ -11,22 +11,21 @@
 //     "gramtuWebUrl": hostIp + "8002/gramtu/web/"                       // web端URL
 // };
 
-var hostIp = "http://47.75.53.10";
-
-var regulateSucc = {
-    "uploadFolder" : "8001/home/yfdev/src/ywt_web",                       // 上传文件所在文件夹
-    "loginUrl" : hostIp + "/zsdev/ac/web/",                     // 登录URL   "/gramtu/ac/web/"  /ntocc/ntocc-ac/web/
-    "userHostUrl" : hostIp + "/zsdev/ac/web/front/",              // 用户相关URL（无车运平台系统管理）   "/gramtu/ac/web/front/"  /ntocc/ntocc-ac/api/web/
-    "businessUrl": hostIp + "/zsdev/web/web/front/"            //无车运平台（基础数据管理）相关
-};
-
-// var hostIp = "http://192.168.10.14:";
+// var hostIp = "http://47.75.53.10";
 // var regulateSucc = {
-//     "uploadFolder" : "D:/gramtu",                       // 上传文件所在文件夹
-//     "loginUrl" : hostIp + "8001/zsdev/ac/web/",                     // 登录URL   "/gramtu/ac/web/"  /ntocc/ntocc-ac/web/
-//     "userHostUrl" : hostIp + "8001/zsdev/ac/web/front/",              // 用户相关URL（无车运平台系统管理）   "/gramtu/ac/web/front/"  /ntocc/ntocc-ac/api/web/
-//     "businessUrl": hostIp+"8002/zsdev/web/web/front/"            //无车运平台（基础数据管理）相关
+//     "uploadFolder" : "8001/home/yfdev/src/ywt_web",                       // 上传文件所在文件夹
+//     "loginUrl" : hostIp + "/zsdev/ac/web/",                     // 登录URL   "/gramtu/ac/web/"  /ntocc/ntocc-ac/web/
+//     "userHostUrl" : hostIp + "/zsdev/ac/web/front/",              // 用户相关URL（无车运平台系统管理）   "/gramtu/ac/web/front/"  /ntocc/ntocc-ac/api/web/
+//     "businessUrl": hostIp + "/zsdev/web/web/front/"            //无车运平台（基础数据管理）相关
 // };
+
+var hostIp = "http://192.168.10.14:";
+var regulateSucc = {
+    "uploadFolder" : "D:/gramtu",                       // 上传文件所在文件夹
+    "loginUrl" : hostIp + "8001/zsdev/ac/web/",                     // 登录URL   "/gramtu/ac/web/"  /ntocc/ntocc-ac/web/
+    "userHostUrl" : hostIp + "8001/zsdev/ac/web/front/",              // 用户相关URL（无车运平台系统管理）   "/gramtu/ac/web/front/"  /ntocc/ntocc-ac/api/web/
+    "businessUrl": hostIp+"8002/zsdev/web/web/front/"            //无车运平台（基础数据管理）相关
+};
 
 
 const SUCCESS = "0000";

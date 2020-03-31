@@ -105,6 +105,7 @@ var UserTable = function () {
                 organ = organ.length > 0 ? organ[0].id : "";
                 var da = {
                     demandname: formData.demandname,
+                    projectname: formData.projectname,
                     principal: formData.principal,
                     organid: organ,
                     status:formData.status,
@@ -394,7 +395,8 @@ var UserEdit = function() {
            // console.log("点击了取消")
             $("#thelist").html(' ');
         })
-        /*——————————分解需求确定按钮————————————*/
+
+        //分解需求确定按钮
         $('#addtask-btn').click(function() {
             var task_id_fj = localStorage.getItem('task_id_fj');
             btnDisable($('#addtask-form'));
@@ -424,6 +426,15 @@ var UserEdit = function() {
                     return false;
                 }
             }
+            if(user.taskname==""){
+                alert("任务名称必填")
+                return false;
+            }
+            if(user.taskcontent==""){
+                alert("任务简介必填")
+                return false;
+            }
+            console.log(JSON.stringify(user))
             $("#loading_edit").modal("show");
             taskadd_fj(user);
         });
@@ -459,7 +470,6 @@ var UserEdit = function() {
             $('#edit_user').modal('show');
         });
         //编辑用户  点击编辑按钮
-        var flag=1;
         $('#user_table').on('click', '#op_edit', function (e) {
             e.preventDefault();
             //清除校验错误信息
@@ -477,11 +487,6 @@ var UserEdit = function() {
                 if(id == userList[i].id){
                     user = userList[i];
                 }
-            }
-            if(flag==1){
-                user.starttime=dateTimeFormat12(user.starttime);
-                user.endtime=dateTimeFormat12(user.endtime);
-                flag=2;
             }
              console.log(JSON.stringify(user))
             var options = { jsonValue: user, exclude:exclude,isDebug: false};
@@ -526,15 +531,16 @@ var UserEdit = function() {
             var row = $(this).parents('tr')[0];
             var id = $("#user_table").dataTable().fnGetData(row).id;
             var user = new Object();
-            // console.log("userList:"+JSON.stringify(userList))
+
             for(var i=0; i < userList.length; i++){
                 if(id == userList[i].id){
                     user = userList[i];
                 }
             }
+             console.log("user:"+JSON.stringify(user))
             var options = { jsonValue: user, exclude:exclude,isDebug: false};
             //  var options = { jsonValue: user, exclude:"", isDebug: false};
-            $(".register-form").initForm(options);
+            $(".addtask-form").initForm(options);
             //角色赋值
             // $("#rolename").val((user.roleid||"").split(",")).select2(
             //     {

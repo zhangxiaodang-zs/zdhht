@@ -40,8 +40,8 @@ var ComponentsDateTimePickers = function () {
             });
             var date = getNowFormatDate()+" "+getNowFormatTime();
             // $("input[name='actualentime']").datepicker("setDate","");
-            $("input[name='actualsttime']").val(date);
-            $("input[name='actualentime']").val(date);
+            // $("input[name='actualsttime']").val(date);
+            // $("input[name='actualentime']").val(date);
             $("input[name='expectedsttime']").val(date);
             $("input[name='expectedentime']").val(date);
             $("input[name='feedbacktime']").val(date);
@@ -110,8 +110,10 @@ var UserTable = function () {
                 var da = {
                     taskname: formData.taskname,
                     principal: formData.principal,
+                    projectname: formData.projectname,
+                    demandname: formData.demandname,
                     organid: organ,
-                    mobile:formData.mobile,
+                    status:formData.status,
                     currentpage: (data.start / data.length) + 1,
                     pagesize: data.length == -1 ? "": data.length,
                     startindex: data.start,
@@ -182,7 +184,9 @@ var UserTable = function () {
                 {
                     "targets":[6],
                     "render": function(data, type, row, meta) {
-                         if(data.length==14){
+                        if(data==undefined){
+                            return ' ';
+                        }else if(data.length==14){
                             return dateTimeFormat12(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
@@ -196,7 +200,9 @@ var UserTable = function () {
                 {
                     "targets":[7],
                     "render": function(data, type, row, meta) {
-                        if(data.length==14){
+                        if(data==undefined){
+                            return ' ';
+                        }else if(data.length==14){
                             return dateTimeFormat12(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
@@ -523,8 +529,7 @@ var UserEdit = function() {
             $("input[name=edittype]").val(USERADD);
             $('#edit_user').modal('show');
         });
-        /*——————————点击编辑任务————————————*/
-        var flag=1;
+        //点击编辑任务
         $('#user_table').on('click', '#op_edit', function (e) {
             e.preventDefault();
             //清除校验错误信息
@@ -554,8 +559,8 @@ var UserEdit = function() {
             //         width:null
             //     }
             // );
-            $("input[name=expectedsttime]").val(dateTimeFormat12(user.expectedsttime));
-            $("input[name=expectedentime]").val(dateTimeFormat12(user.expectedentime));
+            $("input[name=expectedsttime]").val(user.expectedsttime);
+            $("input[name=expectedentime]").val(user.expectedentime);
             //清空机构输入框
             //clearSelectCheck($("#organtree"));
             //机构框赋值
@@ -567,7 +572,7 @@ var UserEdit = function() {
             $('#edit_user').modal('show');
         });
 
-        /*——————————点击反馈按钮————————————*/
+       //点击反馈按钮
         $('#user_table').on('click', '#feedback', function (e) {
             e.preventDefault();
             //清除校验错误信息
@@ -587,10 +592,15 @@ var UserEdit = function() {
                     user.taskid = userList[i].id;
                 }
             }
+            // user.actualsttime = dateTimeFormat12(user.actualsttime); //实际开始时间
+            // user.actualentime = dateTimeFormat12(user.actualentime); //实际开始时间
+            // $("input[name=actualsttime]").val(dateTimeFormat(user.actualsttime));
+            // $("input[name=actualentime]").val(dateTimeFormat(user.actualentime));
+            $("input[name=taskname]").val(user.taskname);
             console.log(JSON.stringify(user))
             var options = { jsonValue: user, exclude:exclude,isDebug: false};
             //  var options = { jsonValue: user, exclude:"", isDebug: false};
-            $(".feedback-form").initForm(options);
+           // $(".feedback-form").initForm(options);
             $(".feedback-form").find("input[name=id]").attr("readonly", true);
             $("input[name=edittype]").val(USEREDIT);
 

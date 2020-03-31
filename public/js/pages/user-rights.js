@@ -75,6 +75,7 @@ function demandDataGet(data, callback){
 }
 //任务列表
 function taskquery(data, callback){
+    console.log(JSON.stringify(data))
     App.blockUI({target: '#lay-out',boxed: true});
     if(data == null){
         data = { pagesize: "50", startindex: "0"}
@@ -87,7 +88,7 @@ function taskquery(data, callback){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-           // console.info("taskquery:" + JSON.stringify(result));
+            console.info("taskquery:" + JSON.stringify(result));
             getUserDataEnd(true, result, callback);
         },
         error: function (errorMsg) {
@@ -296,7 +297,7 @@ function taskadd_fj(data){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-           // console.info("userAdd:" + JSON.stringify(result));
+            console.info("userAdd:" + JSON.stringify(result));
             userInfoEditEnd(true, result, taskadd_fj);
         },
         error: function (errorMsg) {
