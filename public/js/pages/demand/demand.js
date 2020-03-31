@@ -205,7 +205,7 @@ var UserTable = function () {
                 }else if(status=="已结束"){
                     $('td:eq(8)',nRow).css("color", "#ccc").css("text-align", "center");
                 }
-                $('td:eq(1),td:eq(5),td:eq(6),td:eq(7)', nRow).attr('style', 'text-align: center;');//td内容居中显示
+                $('td:eq(1),td:eq(6),td:eq(7)', nRow).attr('style', 'text-align: center;');//td内容居中显示
             }
         });
         //table.draw( false );
