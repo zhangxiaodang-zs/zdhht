@@ -36,8 +36,8 @@ var ComponentsDateTimePickers = function () {
             });
             var date = getNowFormatDate()+" "+getNowFormatTime();
            // $("input[name='starttime']").datetimepicker("setStartDate",date);
-            $("input[name='starttime']").val(date);
-            $("input[name='endtime']").val(date);
+           //  $("input[name='starttime']").val(date);
+           //  $("input[name='endtime']").val(date);
             $("input[name='expectedsttime']").val(date);
             $("input[name='expectedentime']").val(date);
         }
@@ -261,10 +261,10 @@ var UserEdit = function() {
                 principal: {
                     required: true
                 },
-                starttime: {
+                expectedsttime: {
                     required: true
                 },
-                endtime: {
+                expectedentime: {
                     required: true
                 },
                 demandcontent: {
@@ -279,11 +279,11 @@ var UserEdit = function() {
                 principal: {
                     required: "需求负责人必须输入"
                 },
-                starttime: {
-                    required: "时间必须输入"
+                expectedsttime: {
+                    required: "预期时间必须输入"
                 },
-                endtime: {
-                    required: "时间必须输入"
+                expectedentime: {
+                    required: "预期时间必须输入"
                 },
                 demandcontent: {
                     required: "需求必须输入"
@@ -341,23 +341,24 @@ var UserEdit = function() {
                 user.projectUpload = JSON.parse(projectUpload1);
                 console.log(JSON.stringify(user))
                 //时间替换
-                user.starttime = dateTimeFormatstring(user.starttime); //预计开始时间
-                user.endtime = dateTimeFormatstring(user.endtime); //预计结束时间
-                user.actualsttime = dateTimeFormatstring(user.actualsttime); //实际开始时间
-                user.actualentime = dateTimeFormatstring(user.actualentime); //实际结束
+
+                user.expectedsttime = dateTimeFormatstring(user.expectedsttime);
+                user.expectedentime = dateTimeFormatstring(user.expectedentime);
+                user.starttime = dateTimeFormatstring(user.starttime);
+                user.endtime = dateTimeFormatstring(user.endtime);
 
             }
             //判断时间
-            if(user.starttime>=user.endtime){
+            if(user.expectedsttime>=user.expectedentime){
                 alert("预期开始时间不能大于预期结束时间");
                 return false;
             }
-            if(!user.actualentime==""){
-                if(user.actualsttime==""){
+            if(!user.endtime==""){
+                if(user.starttime==""){
                     alert("请选择实际开始时间");
                     return false;
                 }
-                if(user.actualsttime>=user.actualentime){
+                if(user.starttime>=user.endtime){
                     alert("实际开始时间不能大于实际结束时间");
                     return false;
                 }
@@ -409,19 +410,19 @@ var UserEdit = function() {
             //时间替换
             user.expectedsttime = dateTimeFormatstring(user.expectedsttime); //预计开始时间
             user.expectedentime = dateTimeFormatstring(user.expectedentime); //预计结束时间
-            user.actualsttime = dateTimeFormatstring(user.actualsttime); //实际开始时间
-            user.actualentime = dateTimeFormatstring(user.actualentime); //实际结束
+            user.starttime = dateTimeFormatstring(user.starttime); //实际开始时间
+            user.endtime = dateTimeFormatstring(user.endtime); //实际结束
             //判断时间
             if(user.expectedsttime>=user.expectedentime){
                 alert("预期开始时间不能大于预期结束时间");
                 return false;
             }
-            if(!user.actualentime==""){
-                if(user.actualsttime==""){
+            if(!user.endtime==""){
+                if(user.starttime==""){
                     alert("请选择实际开始时间");
                     return false;
                 }
-                if(user.actualsttime>=user.actualentime){
+                if(user.starttime>=user.endtime){
                     alert("实际开始时间不能大于实际结束时间");
                     return false;
                 }
@@ -492,9 +493,28 @@ var UserEdit = function() {
             var options = { jsonValue: user, exclude:exclude,isDebug: false};
             //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".register-form").initForm(options);
+
+            // $("input[name=expectedsttime]").datetimepicker('update', dateTimeFormat12(user.expectedsttime));
+            // $("input[name=expectedentime]").datetimepicker('update', dateTimeFormat12(user.expectedentime));
+          // if( $("input[name=expectedsttime]").val()){
+          //     $("input[name=expectedsttime]").datetimepicker('update', dateTimeFormat12(user.expectedsttime));
+          // }
+          // if( $("input[name=expectedentime]").val()){
+          //     $("input[name=expectedentime]").datetimepicker('update', dateTimeFormat12(user.expectedentime));
+          //}
+            var date = getNowFormatDate()+" "+getNowFormatTime();
+            $("input[name=expectedsttime]").datetimepicker('update', date);
+            $("input[name=expectedentime]").datetimepicker('update', date);
             //更新日期时间选择器
-            $('#starttime').datetimepicker('update', dateTimeFormat12(user.starttime));
-            $('#endtime').datetimepicker('update', dateTimeFormat12(user.endtime));
+            if($("input[name=starttime]").val()){
+                $("input[name=starttime]").datetimepicker('update', dateTimeFormat12(user.starttime));
+            }
+             if($("input[name=endtime]").val()){
+                 $("input[name=endtime]").datetimepicker('update', dateTimeFormat12(user.endtime));
+             }
+
+
+
             //查询附件信息
             demandfilequery({id:id});
 
@@ -543,6 +563,14 @@ var UserEdit = function() {
             var options = { jsonValue: user, exclude:exclude,isDebug: false};
             //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".addtask-form").initForm(options);
+            //更新日期时间选择器
+            console.log("值："+$("input[name=starttime]").val())
+            if($("#starttime").val()){
+                $("#starttime").datetimepicker('update', dateTimeFormat12(user.starttime));
+            }
+            if($("#endtime").val()){
+                $("#endtime").datetimepicker('update', dateTimeFormat12(user.endtime));
+            }
             //角色赋值
             // $("#rolename").val((user.roleid||"").split(",")).select2(
             //     {

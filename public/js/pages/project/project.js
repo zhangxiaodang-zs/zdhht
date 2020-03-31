@@ -478,12 +478,17 @@ var UserEdit = function() {
             //更新日期时间选择器
             $('#expectedsttime').datetimepicker('update', dateTimeFormat12(user.expectedsttime));
             $('#expectedentime').datetimepicker('update', dateTimeFormat12(user.expectedentime));
-            if($('#actualsttime').val()){
-                $('#actualsttime').datetimepicker('update', dateTimeFormat12(user.actualsttime));
-            }
-            if($('#actualentime').val()){
-                $('#actualentime').datetimepicker('update', dateTimeFormat12(user.actualentime));
-            }
+            console.log($('#actualsttime').val())
+            var date = getNowFormatDate()+" "+getNowFormatTime();
+            $('#actualsttime').datetimepicker('update',date);
+            $('#actualentime').datetimepicker('update',date);
+            // if($('#actualsttime').val()){
+            //     console.log("存在")
+            //     $('#actualsttime').datetimepicker('update', dateTimeFormat12(user.actualsttime));
+            // }
+            // if($('#actualentime').val()){
+            //     $('#actualentime').datetimepicker('update', dateTimeFormat12(user.actualentime));
+            // }
 
 
 
