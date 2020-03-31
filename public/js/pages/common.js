@@ -92,6 +92,7 @@ function dateTimeFormat(datetime){
         datetime.substr(6, 2) + " " + datetime.substr(8, 2) + ":" +
         datetime.substr(10, 2) + ":" + datetime.substr(12, 2);
 }
+
 function dateTimeFormat12(datetime){
     if(datetime == "" || datetime.length < 12) return datetime;
     return datetime.substr(0, 4) + "-" + datetime.substr(4, 2) + "-" +
@@ -523,7 +524,7 @@ function taskTreeDataMake(organList, data){
 
 
 
-/*———————————————————————————项目 需求 任务关联————————————————————————————*/
+/*———————————————————————————项目 需求关联————————————————————————————*/
 function projectNameSelectBuild(projectList, id){
     var data = [];
     projectListTreeDataMake(projectList, data);
@@ -560,7 +561,7 @@ function projectListTreeDataMake(projectList, data){
     for(var i=0; i < projectList.length; i++){
         var el = {
             text: projectList[i].projectname,
-            id: projectList[i].projectid,
+             id: projectList[i].projectid,
             "state": {
                 "selected": false,
                 "opened": true
@@ -571,6 +572,61 @@ function projectListTreeDataMake(projectList, data){
             el.children = [];
             data.push(el);
             projectListTreeDataMake(projectList[i].projectlist, el.children);
+        }else{
+            el.icon = "fa fa-file-text-o icon-state-warning icon-lg";
+            data.push(el);
+        }
+    }
+}
+
+/*———————————————————————————需求 任务关联————————————————————————————*/
+function demandNameSelectBuild(demandList, id){
+    var data = [];
+    demandListTreeDataMake(demandList, data);
+    if(id.jstree(true)) {
+        id.jstree(true).settings.core.data = data;
+        id.jstree(true).refresh();
+    }else {
+        id.jstree({
+            "core": {
+                "themes": {
+                    "responsive": false
+                },
+                "data": data
+            },
+
+            "types": {
+                "default": {//默认图标
+                    "icon": "fa fa-folder icon-state-warning icon-lg"
+                },
+                "file": {
+                    "icon": "fa fa-file icon-state-warning icon-lg"
+                }
+            },
+            "plugins": ["wholerow", "checkbox", "types"],
+            "checkbox": {
+                "keep_selected_style": false,//是否默认选中
+                "three_state": false//父子级别级联选择
+            }
+        })
+    }
+}
+
+function demandListTreeDataMake(demandList, data){
+    for(var i=0; i < demandList.length; i++){
+        var el = {
+            text: demandList[i].demandname,
+            id: demandList[i].id,
+            "state": {
+                "selected": false,
+                "opened": true
+            }
+        };
+        if(demandList[i].hasOwnProperty("projectlist") && demandList[i].demandList != ""){
+            el.icon = "fa fa-folder icon-state-warning icon-lg";
+            el.children = [];
+            data.push(el);
+            projectListTreeDataMake(demandList[i].demandList, el.children);
         }else{
             el.icon = "fa fa-file-text-o icon-state-warning icon-lg";
             data.push(el);

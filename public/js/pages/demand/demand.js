@@ -444,7 +444,6 @@ var UserEdit = function() {
 
         //新增需求
         $('#op_add').click(function() {
-            console.log("点击")
             //清除校验错误信息
             validator.resetForm();
             $(".register-form").find(".has-error").removeClass("has-error");
@@ -489,31 +488,20 @@ var UserEdit = function() {
                     user = userList[i];
                 }
             }
-             console.log(JSON.stringify(user))
+            // console.log(JSON.stringify(user))
             var options = { jsonValue: user, exclude:exclude,isDebug: false};
             //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".register-form").initForm(options);
 
-            // $("input[name=expectedsttime]").datetimepicker('update', dateTimeFormat12(user.expectedsttime));
-            // $("input[name=expectedentime]").datetimepicker('update', dateTimeFormat12(user.expectedentime));
-          // if( $("input[name=expectedsttime]").val()){
-          //     $("input[name=expectedsttime]").datetimepicker('update', dateTimeFormat12(user.expectedsttime));
-          // }
-          // if( $("input[name=expectedentime]").val()){
-          //     $("input[name=expectedentime]").datetimepicker('update', dateTimeFormat12(user.expectedentime));
-          //}
-            var date = getNowFormatDate()+" "+getNowFormatTime();
-            $("input[name=expectedsttime]").datetimepicker('update', date);
-            $("input[name=expectedentime]").datetimepicker('update', date);
             //更新日期时间选择器
+            $("input[name=expectedsttime]").datetimepicker('update', dateTimeFormat12(user.expectedsttime));
+            $("input[name=expectedentime]").datetimepicker('update', dateTimeFormat12(user.expectedentime));
             if($("input[name=starttime]").val()){
                 $("input[name=starttime]").datetimepicker('update', dateTimeFormat12(user.starttime));
             }
              if($("input[name=endtime]").val()){
                  $("input[name=endtime]").datetimepicker('update', dateTimeFormat12(user.endtime));
              }
-
-
 
             //查询附件信息
             demandfilequery({id:id});
@@ -564,7 +552,8 @@ var UserEdit = function() {
             //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".addtask-form").initForm(options);
             //更新日期时间选择器
-            console.log("值："+$("input[name=starttime]").val())
+            $("input[name=expectedsttime]").datetimepicker('update', dateTimeFormat12(user.expectedsttime));
+            $("input[name=expectedentime]").datetimepicker('update', dateTimeFormat12(user.expectedentime));
             if($("#starttime").val()){
                 $("#starttime").datetimepicker('update', dateTimeFormat12(user.starttime));
             }

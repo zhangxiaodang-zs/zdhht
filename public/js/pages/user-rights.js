@@ -63,8 +63,7 @@ function demandDataGet(data, callback){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-           // console.log("获取成功")
-           // console.info("userDataGet:" + JSON.stringify(result));
+          // console.info("userDataGet:" + JSON.stringify(result));
             getUserDataEnd(true, result, callback);
         },
         error: function (errorMsg) {
@@ -88,7 +87,7 @@ function taskquery(data, callback){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-            console.info("taskquery:" + JSON.stringify(result));
+           // console.info("taskquery:" + JSON.stringify(result));
             getUserDataEnd(true, result, callback);
         },
         error: function (errorMsg) {
@@ -164,7 +163,7 @@ function userqueryDataGet(data, callback){
         }
     });
 }
-//获取需求列表
+//获取任务列表
 function demandqueryDataGet(data, callback){
     App.blockUI({target: '#lay-out',boxed: true});
     data = {}
@@ -176,7 +175,7 @@ function demandqueryDataGet(data, callback){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-           // console.info("demandDataGet:" + JSON.stringify(result));
+            //console.info("demandDataGet:" + JSON.stringify(result));
             getDemandDataEnd(true, result, callback);
         },
         error: function (errorMsg) {
@@ -217,7 +216,7 @@ function project_Add(data){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-            console.info("userAdd:" + JSON.stringify(result));
+            //console.info("userAdd:" + JSON.stringify(result));
             userInfoEditEnd(true, result, USERADD);
         },
         error: function (errorMsg) {
@@ -483,7 +482,7 @@ function demandfilequery(data){
         dataType: "json",        //返回数据形式为json
         success: function (result) {
             $("#thelist div").remove();
-            console.info("查询结果:" + JSON.stringify(result.response.projectUpload));
+          //  console.info("查询结果:" + JSON.stringify(result.response.projectUpload));
             // userInfoEditEnd(true, result, USERDELETE);
             var projectUpload_list=result.response.projectUpload;
             for (var i = 0; i < projectUpload_list.length; i++){

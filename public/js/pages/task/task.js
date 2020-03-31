@@ -550,8 +550,8 @@ var UserEdit = function() {
           //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".register-form").initForm(options);
             //更新日期时间选择器
-            $('#expectedsttime').datetimepicker('update', dateTimeFormat12(user.expectedsttime));
-            $('#expectedentime').datetimepicker('update', dateTimeFormat12(user.expectedentime));
+            $("input[name=expectedsttime]").datetimepicker('update', dateTimeFormat12(user.expectedsttime));
+            $("input[name=expectedentime]").datetimepicker('update', dateTimeFormat12(user.expectedentime));
             //角色赋值
             // $("#rolename").val((user.roleid||"").split(",")).select2(
             //     {
@@ -598,14 +598,17 @@ var UserEdit = function() {
             //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".feedback-form").initForm(options);
             //更新日期时间选择器
-            $('#expectedsttime1').datetimepicker('update', dateTimeFormat12(user.expectedsttime));
-            $('#expectedentime1').datetimepicker('update', dateTimeFormat12(user.expectedentime));
-            if($('#actualsttime1').val()){
-                $('#actualsttime1').datetimepicker('update', dateTimeFormat12(user.actualsttime));
+            //更新日期时间选择器
+            $("input[name=expectedsttime]").datetimepicker('update', dateTimeFormat12(user.expectedsttime));
+            $("input[name=expectedentime]").datetimepicker('update', dateTimeFormat12(user.expectedentime));
+            console.log($("#actualsttime").val())
+            if($("#actualsttime").val()){
+                $("#actualsttime").datetimepicker('update', dateTimeFormat12(user.actualsttime));
             }
-            if($('#actualentime1').val()){
-                $('#actualentime1').datetimepicker('update', dateTimeFormat12(user.actualentime));
+            if($("#actualentime").val()){
+                $("#actualentime").datetimepicker('update', dateTimeFormat12(user.actualentime));
             }
+
             $(".feedback-form").find("input[name=id]").attr("readonly", true);
             $("input[name=edittype]").val(USEREDIT);
 
@@ -733,10 +736,11 @@ function getDemandDataEnd(flg, result, callback){
     if(flg){
         if (result && result.retcode == SUCCESS) {
             var demandList = result.response.demandlist;
-            projectNameSelectBuild(demandList, $("#demandtree"));
+            demandNameSelectBuild(demandList, $("#demandtree"));
         }
     }
 }
+
 
 
 function userInfoEditEnd(flg, result, type){
@@ -826,6 +830,8 @@ $('#demandtree').on('select_node.jstree', function(e,data) {
     });
     $('#demand').val(data.node.text);
     $('#demandid').val(data.node.id);
+    console.log( $('#demand').val())
+    console.log($('#demandid').val())
     $(this).hide();
 });
 
