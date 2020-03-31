@@ -36,8 +36,8 @@ var ComponentsDateTimePickers = function () {
                 timeFormat: 'HH:mm:ss' //格式化时间
             });
             var date = getNowFormatDate()+" "+getNowFormatTime();
-            $("input[name='expectedsttime']").val(date);
-            $("input[name='expectedentime']").val(date);
+             $("input[name='expectedsttime']").val(date);
+             $("input[name='expectedentime']").val(date);
 
 
         }
@@ -452,7 +452,6 @@ var UserEdit = function() {
             $('#edit_user').modal('show');
         });
         //编辑用户  点击编辑按钮   edittype=1
-        var flag=1;
         $('#user_table').on('click', '#op_edit', function (e) {
             e.preventDefault();
             //清除校验错误信息
@@ -471,18 +470,22 @@ var UserEdit = function() {
                     user = userList[i];
                 }
             }
-            if(flag==1){
-                // user.expectedsttime=dateTimeFormat12(user.expectedsttime);
-                // user.expectedentime=dateTimeFormat12(user.expectedentime);
-                // user.actualsttime=dateTimeFormat12(user.actualsttime);
-                // user.actualentime=dateTimeFormat12(user.actualentime);
-                flag=2;
-            }
 
             console.log(JSON.stringify(user))
              var options = { jsonValue: user, exclude:exclude,isDebug: false};
           //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".register-form").initForm(options);
+            //更新日期时间选择器
+            $('#expectedsttime').datetimepicker('update', dateTimeFormat12(user.expectedsttime));
+            $('#expectedentime').datetimepicker('update', dateTimeFormat12(user.expectedentime));
+            if($('#actualsttime').val()){
+                $('#actualsttime').datetimepicker('update', dateTimeFormat12(user.actualsttime));
+            }
+            if($('#actualentime').val()){
+                $('#actualentime').datetimepicker('update', dateTimeFormat12(user.actualentime));
+            }
+
+
 
             //查询附件信息
             var projectid = $("#user_table").dataTable().fnGetData(row).projectid;

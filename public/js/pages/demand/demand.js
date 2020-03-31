@@ -492,7 +492,9 @@ var UserEdit = function() {
             var options = { jsonValue: user, exclude:exclude,isDebug: false};
             //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".register-form").initForm(options);
-
+            //更新日期时间选择器
+            $('#starttime').datetimepicker('update', dateTimeFormat12(user.starttime));
+            $('#endtime').datetimepicker('update', dateTimeFormat12(user.endtime));
             //查询附件信息
             demandfilequery({id:id});
 

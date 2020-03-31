@@ -39,9 +39,6 @@ var ComponentsDateTimePickers = function () {
                 timeFormat: 'HH:mm:ss' //格式化时间
             });
             var date = getNowFormatDate()+" "+getNowFormatTime();
-            // $("input[name='actualentime']").datepicker("setDate","");
-            // $("input[name='actualsttime']").val(date);
-            // $("input[name='actualentime']").val(date);
             $("input[name='expectedsttime']").val(date);
             $("input[name='expectedentime']").val(date);
             $("input[name='feedbacktime']").val(date);
@@ -552,6 +549,9 @@ var UserEdit = function() {
              var options = { jsonValue: user, exclude:exclude,isDebug: false};
           //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".register-form").initForm(options);
+            //更新日期时间选择器
+            $('#expectedsttime').datetimepicker('update', dateTimeFormat12(user.expectedsttime));
+            $('#expectedentime').datetimepicker('update', dateTimeFormat12(user.expectedentime));
             //角色赋值
             // $("#rolename").val((user.roleid||"").split(",")).select2(
             //     {
@@ -559,8 +559,7 @@ var UserEdit = function() {
             //         width:null
             //     }
             // );
-            $("input[name=expectedsttime]").val(user.expectedsttime);
-            $("input[name=expectedentime]").val(user.expectedentime);
+
             //清空机构输入框
             //clearSelectCheck($("#organtree"));
             //机构框赋值
@@ -592,15 +591,21 @@ var UserEdit = function() {
                     user.taskid = userList[i].id;
                 }
             }
-            // user.actualsttime = dateTimeFormat12(user.actualsttime); //实际开始时间
-            // user.actualentime = dateTimeFormat12(user.actualentime); //实际开始时间
-            // $("input[name=actualsttime]").val(dateTimeFormat(user.actualsttime));
-            // $("input[name=actualentime]").val(dateTimeFormat(user.actualentime));
+
             $("input[name=taskname]").val(user.taskname);
             console.log(JSON.stringify(user))
             var options = { jsonValue: user, exclude:exclude,isDebug: false};
             //  var options = { jsonValue: user, exclude:"", isDebug: false};
-           // $(".feedback-form").initForm(options);
+            $(".feedback-form").initForm(options);
+            //更新日期时间选择器
+            $('#expectedsttime1').datetimepicker('update', dateTimeFormat12(user.expectedsttime));
+            $('#expectedentime1').datetimepicker('update', dateTimeFormat12(user.expectedentime));
+            if($('#actualsttime1').val()){
+                $('#actualsttime1').datetimepicker('update', dateTimeFormat12(user.actualsttime));
+            }
+            if($('#actualentime1').val()){
+                $('#actualentime1').datetimepicker('update', dateTimeFormat12(user.actualentime));
+            }
             $(".feedback-form").find("input[name=id]").attr("readonly", true);
             $("input[name=edittype]").val(USEREDIT);
 
