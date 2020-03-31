@@ -230,9 +230,9 @@ var UserTable = function () {
                     //$(nRow).css("color", "green");
                     $('td:eq(10)',nRow).css("color", "green").css("text-align", "center");
                 }else if(status=="进行中"){
-                    $('td:eq(10)',nRow).css("color", "blue").css("text-align", "center");
+                    $('td:eq(10)',nRow).css("color", "#4661ad").css("text-align", "center");
                 }else if(status=="已结束"){
-
+                    $('td:eq(10)',nRow).css("color", "#ccc").css("text-align", "center");
                 }
                 $('td:eq(1),td:eq(6),td:eq(7),td:eq(8)', nRow).attr('style', 'text-align: center;');//td内容居中显示
             }
@@ -472,10 +472,10 @@ var UserEdit = function() {
                 }
             }
             if(flag==1){
-                user.expectedsttime=dateTimeFormat12(user.expectedsttime);
-                user.expectedentime=dateTimeFormat12(user.expectedentime);
-                user.actualsttime=dateTimeFormat12(user.actualsttime);
-                user.actualentime=dateTimeFormat12(user.actualentime);
+                // user.expectedsttime=dateTimeFormat12(user.expectedsttime);
+                // user.expectedentime=dateTimeFormat12(user.expectedentime);
+                // user.actualsttime=dateTimeFormat12(user.actualsttime);
+                // user.actualentime=dateTimeFormat12(user.actualentime);
                 flag=2;
             }
 
@@ -496,7 +496,8 @@ var UserEdit = function() {
             //     }
             // );
             //实际开始时间
-           // $("input[name=actualsttime]").datepicker("setDate",dateFormat(user.actualsttime, "-"));
+            // $("input[name=actualsttime]").val();
+            // $("input[name=actualentime]").val();
             //实际结束时间
            // $("input[name=actualentime]").datepicker("setDate",dateFormat(user.actualentime, "-"));
             //清空机构输入框

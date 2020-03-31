@@ -122,22 +122,19 @@ var UserTable = function () {
             columns: [//返回的json数据在这里填充，注意一定要与上面的<th>数量对应，否则排版出现扭曲
                 { "data": null},
                 { "data": null},
-                { "data": "taskname" },//项目名称
+                { "data": "projectname" },//项目名称
+                { "data": "demandname" },//需求名称
+                { "data": "taskname" },//任务名称
                 { "data": "username" },//负责人
-                { "data": "taskcontent" },//描述
+               // { "data": "taskcontent" },//描述
                 { "data": "expectedsttime" },//预期开始时间
                 { "data": "expectedentime" },//预期结束时间
                 { "data": "actualsttime" },//实际开始时间
                 { "data": "actualentime" },//实际结束时间
+                { "data": "status" },//状态
                 { "data": "id" }
             ],
             columnDefs: [
-                {
-                    "targets": [1],
-                    "render": function (data, type, row, meta) {
-                        return '<input type="checkbox" class="checkboxes" value="1" />';
-                    }
-                },
                 {
                     "targets": [0],
                     "data": null,
@@ -145,14 +142,45 @@ var UserTable = function () {
                         return meta.settings._iDisplayStart + meta.row + 1;  //行号
                     }
                 },
-                // {
-                //     "targets": [4],
-                //     "render": function (data, type, row, meta) {
-                //         return InterceptField(data,"无",40);
-                //     }
-                // },
                 {
-                    "targets":[5],
+                    "targets": [1],
+                    "render": function (data, type, row, meta) {
+                        return '<input type="checkbox" class="checkboxes" value="1" />';
+                    }
+                },
+                {
+                    "targets": [2],
+                    "render": function (data, type, row, meta) {
+                        if(data==undefined){
+                            return ' ';
+                        }else{
+                            return data;
+                        }
+
+                    }
+                },
+                {
+                    "targets": [3],
+                    "render": function (data, type, row, meta) {
+                        if(data==undefined){
+                            return ' ';
+                        }else{
+                            return data;
+                        }
+
+                    }
+                },
+                {
+                    "targets": [4],
+                    "render": function (data, type, row, meta) {
+                        var project_info;
+                        project_info = '<a href="#" data-id="'+row.id+'" id="task_info">'+data+'</a>';
+                        return project_info;
+
+                    }
+                },
+                {
+                    "targets":[6],
                     "render": function(data, type, row, meta) {
                          if(data.length==14){
                             return dateTimeFormat12(data);
@@ -166,25 +194,9 @@ var UserTable = function () {
                     }
                 },
                 {
-                    "targets":[6],
-                    "render": function(data, type, row, meta) {
-                        if(data.length==14){
-                            return dateTimeFormat12(data);
-                        }else if(data.length==12){
-                            return dateTimeFormat12(data);
-                        }else{
-                            return data;
-                        }
-
-
-                    }
-                },
-                {
                     "targets":[7],
                     "render": function(data, type, row, meta) {
-                        if(data==undefined){
-                            return ' ';
-                        }else if(data.length==14){
+                        if(data.length==14){
                             return dateTimeFormat12(data);
                         }else if(data.length==12){
                             return dateTimeFormat12(data);
@@ -212,16 +224,23 @@ var UserTable = function () {
                     }
                 },
                 {
-                    "targets": [2],
-                    "render": function (data, type, row, meta) {
-                        var project_info;
-                        project_info = '<a href="#" data-id="'+row.id+'" id="task_info">'+data+'</a>';
-                        return project_info;
+                    "targets":[9],
+                    "render": function(data, type, row, meta) {
+                        if(data==undefined){
+                            return ' ';
+                        }else if(data.length==14){
+                            return dateTimeFormat12(data);
+                        }else if(data.length==12){
+                            return dateTimeFormat12(data);
+                        }else{
+                            return data;
+                        }
+
 
                     }
                 },
                 {
-                    "targets": [9],
+                    "targets": [11],
                     "render": function (data, type, row, meta) {
                         var edit;//编辑
                         var task_info;//反馈
@@ -242,6 +261,14 @@ var UserTable = function () {
                 }
             ],
             fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                var status = aData.status;
+                if(status=="未开始"){
+                    $('td:eq(10)',nRow).css("color", "green").css("text-align", "center");
+                }else if(status=="进行中"){
+                    $('td:eq(10)',nRow).css("color", "#4661ad").css("text-align", "center");
+                }else if(status=="已结束"){
+                    $('td:eq(10)',nRow).css("color", "#ccc").css("text-align", "center");
+                }
                 $('td:eq(1),td:eq(5),td:eq(6),td:eq(7),td:eq(8),td:eq(9)', nRow).attr('style', 'text-align: center;');//td内容居中显示
             }
         });
@@ -516,12 +543,6 @@ var UserEdit = function() {
                     user = userList[i];
                 }
             }
-            if(flag==1){
-                user.expectedsttime=dateTimeFormat12(user.expectedsttime);
-                user.expectedentime=dateTimeFormat12(user.expectedentime);
-                flag=2;
-            }
-
             console.log(JSON.stringify(user))
              var options = { jsonValue: user, exclude:exclude,isDebug: false};
           //  var options = { jsonValue: user, exclude:"", isDebug: false};
@@ -533,10 +554,8 @@ var UserEdit = function() {
             //         width:null
             //     }
             // );
-            //实际开始时间
-           // $("input[name=actualsttime]").datepicker("setDate",dateFormat(user.actualsttime, "-"));
-            //实际结束时间
-           // $("input[name=actualentime]").datepicker("setDate",dateFormat(user.actualentime, "-"));
+            $("input[name=expectedsttime]").val(dateTimeFormat12(user.expectedsttime));
+            $("input[name=expectedentime]").val(dateTimeFormat12(user.expectedentime));
             //清空机构输入框
             //clearSelectCheck($("#organtree"));
             //机构框赋值
@@ -572,7 +591,6 @@ var UserEdit = function() {
             var options = { jsonValue: user, exclude:exclude,isDebug: false};
             //  var options = { jsonValue: user, exclude:"", isDebug: false};
             $(".feedback-form").initForm(options);
-
             $(".feedback-form").find("input[name=id]").attr("readonly", true);
             $("input[name=edittype]").val(USEREDIT);
 

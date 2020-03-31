@@ -87,7 +87,7 @@ function taskquery(data, callback){
         data: sendMessageEdit(DEFAULT, data),
         dataType: "json",        //返回数据形式为json
         success: function (result) {
-           // console.info("userDataGet:" + JSON.stringify(result));
+           // console.info("taskquery:" + JSON.stringify(result));
             getUserDataEnd(true, result, callback);
         },
         error: function (errorMsg) {

@@ -201,9 +201,9 @@ var UserTable = function () {
                 if(status=="未开始"){
                     $('td:eq(8)',nRow).css("color", "green").css("text-align", "center");
                 }else if(status=="进行中"){
-                    $('td:eq(8)',nRow).css("color", "blue").css("text-align", "center");
+                    $('td:eq(8)',nRow).css("color", "#4661ad").css("text-align", "center");
                 }else if(status=="已结束"){
-
+                    $('td:eq(8)',nRow).css("color", "#ccc").css("text-align", "center");
                 }
                 $('td:eq(1),td:eq(5),td:eq(6),td:eq(7)', nRow).attr('style', 'text-align: center;');//td内容居中显示
             }
